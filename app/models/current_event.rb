@@ -1,0 +1,2 @@
+class CurrentEvent < CommentableContent
+end

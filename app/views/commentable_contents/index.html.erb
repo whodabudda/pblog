@@ -1,0 +1,31 @@
+<p id="notice"><%= notice %></p>
+
+<h1> <%= @commentable_type %> </h1>
+
+<table>
+  <thead>
+    <tr>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% if ! @commentable_contents.nil?  %>
+    <% @commentable_contents.each do |commentable_content| %>
+      <tr>
+        <td><%= link_to 'Show', commentable_content %></td>
+        <td><%= link_to 'Edit', edit_commentable_content_path(commentable_content) %></td>
+        <td><%= link_to 'Destroy', commentable_content, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+      <% end %>
+    <% else %>
+      <tr>
+        <td>There is no content </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New ' + @commentable_type.to_s, new_polymorphic_path( @commentable_type.to_s.underscore) %>

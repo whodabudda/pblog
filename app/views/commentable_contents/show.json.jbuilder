@@ -1,0 +1,1 @@
+json.partial! "commentable_contents/commentable_content", commentable_content: @commentable_content

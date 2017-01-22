@@ -1,0 +1,2 @@
+class RoguesController < CommentableContentsController 
+end

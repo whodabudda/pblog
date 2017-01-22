@@ -1,0 +1,1 @@
+json.array! @commentable_contents, partial: 'commentable_contents/commentable_content', as: :commentable_content

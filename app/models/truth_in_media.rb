@@ -1,0 +1,2 @@
+class TruthInMedia < CommentableContent
+end

@@ -1,0 +1,56 @@
+
+<%@type = local_assigns[:type] %>
+<%@title = local_assigns[:title] %>
+
+<!--div class="container commentable"-->
+<table class="table table-xs table-hover table-responsive">
+  <thead>
+    <tr>
+      <th>Icon</th>
+      <th colspan="3">Extract</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% if ! @commentable_contents.nil? %>
+    <% @commentable_contents.select {|cc| cc.type == @type}.each do |cc|  %>
+    <%# @commentable_contents.each do |cc|  %>
+      <tr>
+        <td>
+          <figure class="picture_icon">
+            <%= image_tag(cc.picture.url(:thumb)) if cc.picture? %>
+            <figcaption> <%= cc.updated_at %> </figcaption>
+          </figure>
+          </td>
+        <td><%= cc.title %></td>
+      </tr>
+      <tr>
+        <td id='detail-heading' colspan="5"><%= cc.extract %></td>
+        <td> <%= link_to 'Comment', new_commentable_content_comments_path(cc, commentable_type: @type) %> </td>
+      </tr>
+      <% cc.comments.each do |c| %>
+      <tr>
+        <td>
+          <figure class="user_icon">
+            <%= image_tag(c.user.avatar.url(:thumb)) if c.user.avatar? %>
+            <figcaption> <%= c.user.email.split('@')[0] %> </figcaption>
+            <figcaption> <%= c.created_at %> </figcaption>
+          </figure>
+        </td>
+        <td colspan="5"><%= c.comment_text %></td>
+      </tr>
+      <!--
+      <tr>
+        <td id="user_icon_text"> <#%= c.user.email.split('@')[0] %></td>
+      </tr>
+      -->
+      <% end %>
+    <% end %>
+    <% else %>
+      <p>No <%=@type%> in the table</p>
+    <% end %>
+  </tbody>
+</table>
+
+<%#= link_to 'New Content', [:new ,@type.underscore] if admin_on? %>
+

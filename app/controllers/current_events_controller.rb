@@ -1,0 +1,2 @@
+class CurrentEventsController < CommentableContentsController 
+end

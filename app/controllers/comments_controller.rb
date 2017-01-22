@@ -1,0 +1,108 @@
+class CommentsController < ApplicationController
+  before_action :log_action
+  before_action :get_commentable_type, only: [:create, :new ]
+  before_action :set_commentable_content, only: [:show, :edit, :update, :destroy]
+  skip_before_action :authenticate_admin!
+  # GET /commentable_contents
+  # GET /commentable_contents.json
+#  def index
+#    @comments =  Comment.all
+#  end
+  def index
+    @comments = @commentable.comments.find(params[:commentable_id])
+  end
+
+  # GET /commentable_contents/1
+  # GET /commentable_contents/1.json
+  def show
+    @comment  = @commentable.comments.find(params[:id])
+  end
+
+  # GET /commentable_contents/new
+  def new
+    @comment = @commentable.comments.new
+  end
+
+  # GET /commentable_contents/1/edit
+  def edit
+  end
+
+
+  # blah blah
+  def commentable_types
+    ["Rogue", "CurrentEvent", "TruthInMedia","CommentableContent"]
+  end
+
+def get_commentable_type
+  resource = request.path.split('/')[1]
+  @klass   = resource.singularize.capitalize.camelize.constantize
+  Rails.logger.info  "get_commentable_type" + request.path + " extracted to #{resource} for #{@klass} "
+  id = resource.singularize.concat("_id").to_sym
+  Rails.logger.info(params[:controller] + ":id " + id.to_s + " as params:  ".concat(params[id].to_s))
+  if ! params[id].nil? and @klass.name.in? commentable_types
+    @commentable = @klass.find(params[id])
+  else
+    Rails.logger.info(params[:controller] + "Either can't get :id for the commentable content or #{@klass} not in list")
+    format.html {render :nothing  }
+  end
+end
+
+#  def get_type
+#    resource = request.path.split('/')[0]
+#    @klass   = resource.singularize.capitalize.safe_constantize
+#  end
+  # POST /commentable_contents
+  # POST /commentable_contents.json
+  def create
+    @comment = @commentable.comments.new(commentable_content_comment_params)
+
+    respond_to do |format|
+      if @comment.save
+        format.html {redirect_to welcome_home_path, notice: "Comment was successfully saved"}
+        format.json { render :show, status: :created, location: @commentable }
+      else
+        format.html { render :new }
+        format.json { render json: @commentable.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  # PATCH/PUT /commentable_contents/1
+  # PATCH/PUT /commentable_contents/1.json
+  def update
+    respond_to do |format|
+      if @comment = @commentable.comments.update(params[:comment])
+        format.html { redirect_to @commentable, notice: 'Commentable content was successfully updated.' }
+        format.json { render :show, status: :ok, location: @commentable }
+      else
+        format.html { render :edit }
+        format.json { render json: @commentable.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  def destroy
+    @comment.destroy
+    respond_to do |format|
+      format.html { redirect_to commentable_url, notice: 'Commentable content was successfully destroyed.' }
+      format.json { head :no_content }
+    end
+  end
+
+  private
+    # Use callbacks to share common setup or constraints between actions.
+    def set_commentable_content
+      @commentable = CommentableContent.comments.find(params[:commentable_id])
+    end
+
+    # Never trust parameters from the scary internet, only allow the white list through.
+    def commentable_content_comment_params
+      params.fetch(:comment, {}).permit(:comment_text,:commentable_type, :commentable_id,:user_id)
+    end
+
+   def log_action
+    Rails.logger.info "in: #{params[:controller]} : #{params[:action]}  for user: " + current_user.id.to_s
+    Rails.logger.info "params are: #{params.inspect}"
+  end
+
+end
