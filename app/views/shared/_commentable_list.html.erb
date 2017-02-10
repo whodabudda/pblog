@@ -2,6 +2,9 @@
 <%@type = local_assigns[:type] %>
 <%@title = local_assigns[:title] %>
 
+<%
+my_debug("type: #{@type} title: #{@title} commentable_contents: #{@commentable_contents.class.name} #{@commentable_contents.class.ancestors}")
+%>
 <!--div class="container commentable"-->
 <table class="table table-xs table-hover table-responsive">
   <thead>
@@ -17,11 +20,13 @@
     <%# @commentable_contents.each do |cc|  %>
       <tr>
         <td>
+        <%= link_to controller: "commentable_contents", type: @type, title: @title,action: "show_by_id", id: cc.id do %>
           <figure class="picture_icon">
-            <%= image_tag(cc.picture.url(:thumb)) if cc.picture? %>
+            <%=image_tag(cc.picture.url(:thumb))%>
             <figcaption> <%= cc.updated_at %> </figcaption>
           </figure>
-          </td>
+        <%end%> 
+        </td>
         <td><%= cc.title %></td>
       </tr>
       <tr>
@@ -53,4 +58,6 @@
 </table>
 
 <%#= link_to 'New Content', [:new ,@type.underscore] if admin_on? %>
+<%#= link_to image_tag(cc.picture.url(:thumb)), controller: "commentable_contents", type: @type, action: "show", id: cc.id %>
+<%#= link_to image_tag(cc.picture.url(:thumb)), "#{cc.type}_path(#{cc.id})" if cc.picture? %>
 

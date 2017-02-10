@@ -19,12 +19,14 @@ Rails.application.routes.draw do
 
   get 'utils/toggleAdmin'
 
+  get 'commentable_contents/show_by_type'
+  get 'commentable_contents/show_by_id'
+
   resources :commentable_contents do
   	resource :comments
   end
   
   resources :rogues, controller: 'commentable_contents', type: 'Rogue' 
-
   resources :current_events , controller: 'commentable_contents', type: 'CurrentEvent' 
   resources :truth_in_media , controller: 'commentable_contents', type: 'TruthInMedia' 
  # get :currentevent , controller: 'commentable_contents', action: 'create', type: 'CurrentEvent' 

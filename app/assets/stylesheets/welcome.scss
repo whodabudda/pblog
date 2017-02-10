@@ -93,8 +93,8 @@ body {
 
   @media (min-width: 32.1em) {
     @include make-col-span(4);
-height: calc(100vh - 75px - 50px);
-  overflow: scroll;
+    height: calc(100vh - 75px - 50px);
+    overflow: scroll;
   }
 }
 

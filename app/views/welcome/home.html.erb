@@ -2,28 +2,28 @@
     <div class="container-fluid">
       <div class="row align-items-start">
           <div class="col content-main ">
-            <h3>Rogues Gallery</h3>
+          <h3> <%= link_to "Rogues Gallery", controller: "commentable_contents", action: "show_by_type", type: "Rogue", title: "Rogues Gallery" %> </h3>
           </div>
           <div class="col content-secondary">
-            <h3>Current Events</h3>
+            <h3> <%= link_to "Current Events", controller: "commentable_contents", action: "show_by_type", type: "CurrentEvent", title: "Current Events" %> </h3>
           </div>
           <div class="col content-tertiary">
-            <h3>Truth In Media</h3>
+            <h3> <%= link_to "Truth In Media", controller: "commentable_contents", action: "show_by_type", type: "TruthInMedia", title: "Truth In Media" %> </h3>
           </div>
       </div>
-      </div>
+    </div>
     <div class="container-fluid main-container">
       <div class="row align-items-start">
       		<div class="col-xs-4 con-resize">
-            <%= render partial: "shared/commentable_list", locals: { type:  "Rogue" , title: "Rogues Gallery"} %>
+            <%= render partial: "shared/content/show_by_type", locals: { type:  "Rogue" , title: "Rogues Gallery" } %>
       		</div>
           <div class="clearfix"> </div>
           <div class="col-xs-4 con-resize">
-            <%= render partial: "shared/commentable_list", locals: { type:  "CurrentEvent", title: "Current Events" } %>
+            <%= render partial: "shared/content/show_by_type", locals: { type:  "CurrentEvent", title: "Current Events"} %>
       		</div>
           <div class="clearfix"> </div>
           <div class="col-xs-4 con-resize">
-            <%= render partial: "shared/commentable_list", locals: { type:  "TruthInMedia", title: "Truth In Media" } %>
+            <%= render partial: "shared/content/show_by_type", locals: { type:  "TruthInMedia", title: "Truth In Media"} %>
             <p> <%#= session.inspect %> </p>
       		</div>
       </div>

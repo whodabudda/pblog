@@ -11,33 +11,44 @@ module WelcomeHelper
 		end
 		return raw '<span class="navbar-text log-message pull-right" >' + @log_str + '</span>'
     end
-    def check_admin
 
+    def check_admin
       my_debug("in check_admin helper")
       if user_signed_in? 
-    	@admin = Admin.find_by(email:  current_user.email) 
+    	  @admin = Admin.find_by(email:  current_user.email) 
       	if ! @admin.nil?
+          my_debug("check_admin found admin #{@admin}" )
       		if admin_signed_in? 
       		 session[:current_admin_id] = @admin.id 
-	    	else
+	    	  else
       		 session[:current_admin_id] = 0
 	      	end
-	    else
+	      else
       		 session[:current_admin_id] = -1
       	end
       else	
       	my_debug("no current_user signed in when checking for admin")
       end
-	end
+	  end
+
     def admin_on?
- 		if  user_signed_in? and session[:current_admin_id] > 0
+    	my_debug("in admin_on? helper: user_signed_in " + (user_signed_in? ? "true" : "false"))
+    	my_debug("in admin_on? helper: current_admin_id is " + session[:current_admin_id].to_s )
+ 		  if  user_signed_in? and session[:current_admin_id] > 0
  		    return true
- 		end
- 		return false
- 	end
+ 		   end
+ 		  return false
+    end
+
     def admin_need_login?
-		return true if user_signed_in? and ! admin_signed_in?
+		  return true if user_signed_in? and ! admin_signed_in? and session[:current_admin_id] == 0
  	    return false
  	end
-
+   def link_to_if_with_block condition, options, html_options={}, &block
+     if condition
+       link_to options, html_options, &block
+     else
+       capture &block
+     end
+   end
 end
