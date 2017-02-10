@@ -1,0 +1,21 @@
+   
+<%@type = local_assigns[:type] %>
+<%@title = local_assigns[:title] %>
+
+<%
+my_debug("type: #{@type} title: #{@title} commentable_contents: #{@commentable_contents.class.name} #{@commentable_contents.class.ancestors}")
+%>
+
+<table class="table table-xs table-hover table-responsive">
+<%#= render partial: "shared/content/table_thead"%>
+<tbody>
+<% if ! @commentable_contents.nil? %>
+  <% @commentable_contents.select {|cc| cc.type == @type}.each do |cc|  %>
+  <%= render partial: "shared/content/table_content_row", locals: { cc: cc, type:  @type , title: @title} %>
+  <% cc.comments.each do |c| %>
+    <%= render partial: "shared/content/table_comment_row", locals: { c: c, type:  @type , title: @title} %>
+  <%end%>
+  <%end%>
+ <%end%>
+</tbody>
+</table>

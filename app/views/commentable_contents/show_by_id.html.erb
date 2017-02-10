@@ -1,0 +1,23 @@
+   <div class="container-fluid main-container">
+      <div class="row align-items-start">
+          <div class="col-xs-12 con-resize">
+            <table class="table table-xs table-hover table-responsive">
+            <%= render partial: "shared/content/table_thead"%>
+            <tbody>
+            <% if ! @commentable_contents.nil? %>
+              <% cc = @commentable_contents %> 
+              <%= render partial: "shared/content/table_content_row", locals: { cc: @commentable_contents, type:  @type , title: @title} %>
+              <% cc.comments.each do |c| %>
+                <%= render partial: "shared/content/table_comment_row", locals: { c: c, type:  @type , title: @title} %>
+              <%end%>
+             <%end%>
+            </tbody>
+            </table>
+          </div>
+          <p> <%#= session.inspect %> </p>
+      </div>
+    </div>
+
+
+<%= link_to 'Edit', edit_commentable_content_path(@commentable_contents) if admin_signed_in? and admin_on? %>
+<%= link_to 'Back', welcome_home_path %>

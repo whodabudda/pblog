@@ -1,0 +1,10 @@
+    <div class="container-fluid main-container">
+      <div class="row align-items-start">
+      		<div class="col-xs-12 con-resize">
+              <%= render partial: "shared/content/show_by_type", locals: { type:  @type , title: @title} %>
+            <%#= render partial: "shared/commentable_list", locals: { type:  @type , title: @title, content_link_action: "show_by_id"} %>
+      		</div>
+             <p> <%#= session.inspect %> </p>
+      </div>
+    </div>
+<%= link_to 'Back', welcome_home_path %>
