@@ -1,10 +1,11 @@
-     <tr>
-      <td>
-          <figure class="user_icon">
-            <%= image_tag(c.user.avatar.url(:thumb)) if c.user.avatar? %>
-            <figcaption> <%= c.user.email.split('@')[0] %> </figcaption>
-            <figcaption> <%= c.created_at %> </figcaption>
-          </figure>
-      </td>
-      <td colspan="5"><%= c.comment_text %></td>
-     </tr>
+	 <figure class="user-icon">
+       <%= image_tag(c.user.avatar.url(:thumb)) if c.user.avatar? %>
+       <figcaption>
+       	
+       <%= c.user.email.split('@')[0] %> 
+       <%= c.created_at %> 
+       </figcaption>
+	</figure>
+	<div class="item-text">
+	<%= c.comment_text %>
+	</div>

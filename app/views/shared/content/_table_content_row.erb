@@ -1,16 +1,26 @@
-<tr>
-	<td>
-	  <figure class="picture_icon">
-		  <%=image_tag(cc.picture.url(:thumb))%>
-		  <figcaption> Created <%= cc.updated_at %> </figcaption>
-		<%= link_to 'Add Comment', new_commentable_content_comments_path(cc, commentable_type: @type) %>
-	  </figure>
-	</td>
-	<td colspan="4">
+<div class="item-box">
+  	<figure class="picture-icon">
+	  <%=image_tag(cc.picture.url(:thumb)) %>
+		<figcaption>
 		<strong>
 		<%= link_to cc.title , controller: "commentable_contents", type: @type, title: @title,action: "show_by_id", id: cc.id %>
 		</strong>
-	</td>
-	<td>		<%= cc.extract %> </td>
-</tr>
-
+		<br/>			
+	  	Created <%= cc.updated_at %> 
+		<br/>			
+		<%= link_to 'Add Comment', new_commentable_content_comments_path(cc,commentable_type: @type) %>
+		</figcaption>
+	</figure>
+	<div class="clearfix"> </div>
+	<div class="item-text">
+		<%= cc.extract %> 
+	</div>
+	</div>
+<!--
+  	<figure class="picture_icon">
+  <figcaption> 
+  </figcaption>
+  </figure>
+<div class="topic_block">
+</div>
+-->

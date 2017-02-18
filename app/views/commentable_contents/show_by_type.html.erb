@@ -1,6 +1,6 @@
     <div class="container-fluid main-container">
-      <div class="row align-items-start">
-      		<div class="col-xs-12 con-resize">
+      <div class="row flex-row-full align-items-start">
+      		<div class="col-xs-12 con-resize-full">
               <%= render partial: "shared/content/show_by_type", locals: { type:  @type , title: @title} %>
             <%#= render partial: "shared/commentable_list", locals: { type:  @type , title: @title, content_link_action: "show_by_id"} %>
       		</div>
@@ -8,3 +8,8 @@
       </div>
     </div>
 <%= link_to 'Back', welcome_home_path %>
+
+<!--
+      		<div class="col-xs-2">
+      		</div>
+-->
