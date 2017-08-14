@@ -1,5 +1,5 @@
 class CommentableContentsController < ApplicationController
-  before_action :set_commentable_content, only: [:show_by_id,:edit, :update, :destroy]
+  before_action :set_commentable_content, only: [:show_by_id,:edit, :update, :destroy, :show]
   before_action :get_commentable_type , :log_action
 
   # GET /commentable_contents
@@ -11,9 +11,13 @@ class CommentableContentsController < ApplicationController
   # GET /commentable_contents/1
   # GET /commentable_contents/1.json
   def show_by_id
-    @type = params[:type]
-    @title = params[:title]
     @commentable_contents  = @commentable_type.find(params[:id])
+    @type = params[:type]
+    if params[:title].nil?
+      @title = @commentable_contents.title
+    else
+      @title = params[:title]
+    end
   end
   def show_by_type
     #@commentable_contents  = @commentable_type.all
@@ -31,6 +35,9 @@ class CommentableContentsController < ApplicationController
   def edit
   end
 
+  def show
+  end
+
 
 
 #  def get_type
@@ -44,7 +51,8 @@ class CommentableContentsController < ApplicationController
 
     respond_to do |format|
       if @commentable_content.save
-        format.html { redirect_to @commentable_content, notice: 'Commentable content was successfully created.' }
+        cc = @commentable_content
+        format.html { redirect_to controller: "commentable_contents", type: cc.type, title: cc.title, action: "show_by_id", id: cc.id , notice: 'Commentable content was successfully created.' }
         format.json { render :show, status: :created, location: @commentable_content }
       else
         format.html { render :new }
@@ -58,7 +66,8 @@ class CommentableContentsController < ApplicationController
   def update
     respond_to do |format|
       if @commentable_content.update(commentable_content_params)
-        format.html { redirect_to @commentable_content, notice: 'Commentable content was successfully updated.' }
+        cc = @commentable_content
+        format.html { redirect_to controller: "commentable_contents", type: cc.type, title: cc.title, action: "show_by_id", id: cc.id , notice: 'Commentable content was successfully updated.' }
         format.json { render :show, status: :ok, location: @commentable_content }
       else
         format.html { render :edit }
@@ -91,7 +100,7 @@ class CommentableContentsController < ApplicationController
     if params[:type].nil?
       @commentable_type = "CommentableContent".constantize
     elsif params[:type].in? commentable_types
-      @commentable_type = params[:type].constantize if params[:type].in? commentable_types 
+      @commentable_type = params[:type].constantize
     else
       Rails.logger.info(params[:controller] + ":commentable_type  type is not in the list ".concat(params[:type].present?.to_s))
        format.html {render :nothing  }

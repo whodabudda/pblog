@@ -30,44 +30,41 @@ ActiveRecord::Schema.define(version: 20161217211349) do
     t.index ["reset_password_token"], name: "index_admins_on_reset_password_token", unique: true, using: :btree
   end
 
-  create_table "comment", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
-    t.string   "comment",          limit: 2000, null: false
-    t.string   "commentable_type"
-    t.integer  "commentable_id"
-    t.integer  "user_id"
-    t.datetime "created_at",                    null: false
-    t.datetime "updated_at",                    null: false
-    t.index ["commentable_type", "commentable_id"], name: "index_comment_on_commentable_type_and_commentable_id", using: :btree
-    t.index ["user_id"], name: "index_comment_on_user_id", using: :btree
+  create_table "comment_reviews", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+    t.integer  "comment_id",               null: false
+    t.integer  "admin_id"
+    t.string   "review_text", limit: 2000, null: false
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
   end
 
-  create_table "commentable_content", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+  create_table "commentable_contents", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.string   "picture"
     t.string   "title",                        default: "untitled", null: false
-    t.string   "extract",        limit: 2000
-    t.binary   "content",        limit: 65535
-    t.integer  "commentable_id"
-    t.integer  "created_by_id"
+    t.string   "extract",        limit: 2000,                       null: false
+    t.binary   "content",        limit: 65535,                      null: false
+    t.integer  "created_by_id",                                     null: false
     t.integer  "modified_by_id"
-    t.string   "type"
+    t.string   "type",                                              null: false
     t.datetime "created_at",                                        null: false
     t.datetime "updated_at",                                        null: false
-    t.index ["commentable_id"], name: "index_commentable_content_on_commentable_id", using: :btree
     t.index ["created_by_id"], name: "index_commentable_content_on_created_by_id", using: :btree
     t.index ["modified_by_id"], name: "index_commentable_content_on_modified_by_id", using: :btree
   end
 
-  create_table "rogues", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
-    t.string   "picture"
-    t.string   "title",                        default: "untitled", null: false
-    t.string   "extract",        limit: 2000
-    t.binary   "bio",            limit: 65535
-    t.integer  "created_by_id",                                     null: false
-    t.integer  "modified_by_id",                                    null: false
-    t.datetime "created_at",                                        null: false
-    t.datetime "updated_at",                                        null: false
-    t.index ["created_by_id"], name: "index_rogue_on_created_by_id", using: :btree
-    t.index ["modified_by_id"], name: "index_rogue_on_modified_by_id", using: :btree
+  create_table "comments", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+    t.string   "comment_text",     limit: 10000,                  null: false
+    t.string   "commentable_type",                                null: false
+    t.integer  "commentable_id",                                  null: false
+    t.integer  "user_id",                                         null: false
+    t.datetime "created_at",                                      null: false
+    t.datetime "updated_at",                                      null: false
+    t.string   "review_status",    limit: 10,    default: "NOTR", null: false
+    t.datetime "review_dttm"
+    t.integer  "reviewd_by"
+    t.string   "commentscol",      limit: 45
+    t.index ["commentable_type", "commentable_id"], name: "index_comment_on_commentable_type_and_commentable_id", using: :btree
+    t.index ["user_id"], name: "index_comment_on_user_id", using: :btree
   end
 
   create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|

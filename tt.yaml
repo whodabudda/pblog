@@ -1,0 +1,31 @@
+--- 
+comment_review_status:
+ NOTR:
+  name: Not Reviewed
+  desc: >
+   When you submit a comment, the site administrators will review. 
+   Once approved, your comment will appear on the site.
+   Until it is reviewed and approved, it will appear as 'pending'.
+
+ RANT:
+  name: Is a Rant 
+  desc: >
+   When you submit a comment, the site administrators will review. 
+   If the admin determines the entry to be an unsupportable and-or
+   venemous spewing of rhetoric, it will be labeled a rant and 
+   relegated to the rant file.  It can be viewed under the Rants heading.
+
+ NREV:
+  name: Needs Revision
+  desc: >
+   When you submit a comment, the site administrators will review. 
+   If the admin determines that there are insufficient references 
+   to support the 'facts' or is not on topic, the entry will be given this status 
+   and held for update for 30 days.  After that time, if the entry
+   is not modified to standards, it will be re-classified as rejected.
+
+ NEJK:
+  name: Rejected 
+  desc: >
+   The entry has been rejected because the author failed to meet the 
+   documentation standards of the site. 

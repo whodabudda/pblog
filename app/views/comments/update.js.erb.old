@@ -1,0 +1,15 @@
+<% if @comment.errors.any? %>
+
+  // Create a list of errors
+  var errors = $('<ul />');
+
+  <% @comment.errors.full_messages.each do |error| %>
+    errors.append('<li><%= escape_javascript(error) %></li>');
+  <% end %>
+
+  alert(errors)
+<% else %>
+  $("#comment-row-<%=@comment.id%>").replaceWith("<%= escape_javascript("#{render :partial => 'shared/content/table_comment_row', :locals => { :c => @comment }}").html_safe %>");
+   $("#modal-window").modal("hide");
+   <% redirect_to "#home" %>
+<% end %>

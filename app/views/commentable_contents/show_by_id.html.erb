@@ -1,7 +1,6 @@
    <div class="container-fluid main-container">
       <div class="row flex-row-full align-items-start">
           <div class="col-xs-12 con-resize-full">
-            <%= render partial: "shared/content/table_thead"%>
             <% if ! @commentable_contents.nil? %>
               <% cc = @commentable_contents %> 
               <%= render partial: "shared/content/table_content_row", locals: { cc: @commentable_contents, type:  @type , title: @title} %>
@@ -12,6 +11,7 @@
           </div>
           <p> <%#= session.inspect %> </p>
       </div>
+      <%=render "shared/modal_dialog" %>
     </div>
 
 

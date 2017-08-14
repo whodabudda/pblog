@@ -1,5 +1,5 @@
 
-    <div class="container-fluid">
+    <div class="container-fluid main-headings">
       <div class="row align-items-start">
           <div class="col content-main ">
           <h3> <%= link_to "Rogues Gallery", controller: "commentable_contents", action: "show_by_type", type: "Rogue", title: "Rogues Gallery" %> </h3>
@@ -27,11 +27,5 @@
             <p> <%#= session.inspect %> </p>
       		</div>
       </div>
+      <%=render "shared/modal_dialog" %>
     </div>
-    <!--
-      <div class="row row-flex-md-left" >
-          <div class="col-md-4 flex-item Middle">
-    <div class="jumbotron jumbotron-fluid">
-    </div>
-    -->
- 

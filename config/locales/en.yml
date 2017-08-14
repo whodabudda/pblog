@@ -20,4 +20,69 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
-  hello: "Hello world"
+ hello: "Hello world"
+ comment_review_status:
+     "NOTR":
+       name: Not Reviewed
+       desc: >
+        When you submit a comment, the site administrators will review. This review
+        will determine the appropriateness of the comment. They will not judge your political, moral or
+        world view.  Thoughtful opinions are allowed, but rhetoric is not. 
+
+        Anything in the content
+        that is claimed as a 'fact' must be supported with at least one reference, and 
+        that reference must be judged to be a credible source. References will be checked.
+        The reference cannot be just another opinion or uncredentialed claim.  The bias of this site
+        credits science over faith, without appology or argument. Greater weight will be given to statistics
+        from politically unaligned sources than ones with obvious bias.  For example, the federal Office of
+        Management and Budget has credibility as an objective source.  The Heritage Foundation less so.  So
+        for example if your facts are supported purely with statistics from the Heritage Foundation, the admin 
+        may ask you for references from other sources and to reconcile the different claims, or to expunge the
+        fact.  This approach is designed to minimise the dissemination of mis-information created by propaganda
+        organizations, and to emphasize information from nonpartizan sources.
+
+        Examples of references are:
+          links to other web sites
+          subscript or superscript number in the text with footnotes or bibliography at the bottom of the comment
+          inline description of where the fact was published
+
+        References to books should include the Author, Title, and page number.
+        References to articles or research papers should include the publication name, year, issue, and title.
+
+        Once approved, your comment will appear on the site.
+
+        Until it is reviewed and approved, your comment will appear as 'pending'. 
+
+        It is possible for you to acquire a trusted status, where your comments will appear
+        immediately without the requirement for review.  
+
+     "RANT":
+       name: Is a Rant 
+       desc: >
+        If the admin determines the entry to be an unsupportable and-or
+        venemous spewing of rhetoric, it will be labeled a rant and 
+        relegated to the rant file.  It can be viewed under the Rants heading.
+
+     "NREV":
+       name: Needs Revision
+       desc: >
+        If the admin determines that there are insufficient or uncredentialed references 
+        to support the 'facts', or the comment is not on topic, the author will be asked
+        to revise, and the comment will be retained for revision  
+        afor 30 days.  After that time, if the entry
+        is not modified to standards, it will be re-classified as rejected. If you disagree
+        with the admins decision, you may appeal by selecting the 'appeal' dropdown menu. You will
+        be able to view all your appeals and responses from the admins on one page.  Only the admins and 
+        yourself will be able to see your appeals.
+
+     "REJK":
+       name: Rejected 
+       desc: >
+        The entry has been rejected because the author failed to meet the 
+        documentation standards of the site. 
+
+     "APPR":
+       name: Approved 
+       desc: >
+        The entry meets standards and is part of the site main content 
+

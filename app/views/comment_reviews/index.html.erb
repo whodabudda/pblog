@@ -1,0 +1,38 @@
+
+  <div class="container-fluid">
+   <div class="row flex-row-full align-items-start">
+    <div class="col-xs-6 con-resize-half">
+   		<%= render  "comments/form" %>
+    </div>
+    <div class="col-xs-6 con-resize-half">
+		<%@comment_reviews.each do |review| %>
+		<div class="comment-row" id="comment-row-<%=review.comment_id%>">
+		   <figure class="user-icon">
+		   		<% if review.admin_id <= 0 
+		   			theReviewer = @comment.user
+		   		else
+		   			theReviewer = Admin.find(review.admin_id)
+		   		end
+		   		%>
+		       <%= theReviewer.avatar? ? image_tag(theReviewer.avatar.url(:thumb)) : image_tag("fallback/thumb_DefaultPerson.png") %>
+		       <figcaption>
+		       	
+		       <%= theReviewer.email.split('@')[0] %> 
+		       <%= theReviewer.created_at %> 
+		       </figcaption>
+			</figure>
+			<div class="comment-text" id="comment-text<%=review.comment_id%>">
+
+			<%=raw review.review_text %> 
+		    </div>
+		  </div>
+		<%end%>
+   		<%= @comment_review = CommentReview.new
+   			@comment_review.comment_id = @comment.id
+   			@comment_id = @comment.id
+   		    render  "new" 
+   		%>
+	  </div>
+  </div>
+ </div>
+<%#= link_to "New Review", new_comment_review_path(comment_id: @comment_id),"data-turbolinks" => false  %>

@@ -1,32 +1,87 @@
-<%= form_for(:comment, url: commentable_content_comments_path ) do |f| %>
-  <% if comment.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(comment.errors.count, "error") %> prohibited this comment from being saved:</h2>
+<%@ismodal = local_assigns[:ismodal] 
+  if @ismodal.nil?
+    @ismodal = false
+  end
+%>
 
-      <ul>
-      <% comment.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
+<%
+my_debug("in comments/form partial: #{action_name}, ismodal: #{@ismodal}")
+%>
+<%= form_for @comment , remote: true, :html => { :role => "form" } do |f| %>
+  <% if @ismodal %>
+    <div class='modal-body'> </div>
+  <%end%>
+ <div class="field ">
+    <%= f.label :comment_text %><br>
+    <%#= f.text_area :comment_text, id: (admin_on? ? "admin_ckeditor" : "user_ckeditor" ),:class => 'comment-text-input ckeditor '  %>
+    <%= f.text_area :comment_text, id: :comment_text,:class => 'comment-text-input ckeditor '  %>
+  </div>
   <div class="field">
      <%= f.text_field :user_id, value: current_user.id, hidden: true,readonly: true%>
   </div>
   <div class="field">
-    <%= f.label :commentable_type %><br>
-    <%= f.text_field :commentable_type , readonly: true%>
+    <%#= f.label :commentable_type %><br>
+    <%= f.text_field :commentable_type , readonly: true, hidden: true%>
   </div>
   <div class="field">
-    <%= f.label :commentable_id %><br>
-    <%= f.text_field :commentable_id, readonly: true%>
+    <%#= f.label :commentable_id %><br>
+    <%= f.text_field :commentable_id, readonly: true, hidden: true%>
   </div>
- <div class="field">
-    <%= f.label :comment_text %><br>
-    <%= f.text_area :comment_text, id: :comment_text%>
-  </div>
+  <% if admin_on? %>
+   <div class="field ">
+   <% revoptions = Hash.new
+   (I18n.t '.comment_review_status').each do |k,v| revoptions[v[:name]] = k end
+  %>
+   <%= f.label :review_status %><br>
+   <%=f.select :review_status, options_for_select(revoptions,@comment.review_status),{}, { 
+    :data => { remote: true,
+               :url => url_for(:controller => "comments", 
+                    :action => "change_status",
+                     :id => @comment.id.to_s)
+   }}
+   %> 
+   </div>
+  <% end # admin_on%>
+  <% if @ismodal %>
+    <% @footer_message = "user id: #{current_user.id} / type: #{@type} / commentable_id: #{@comment.commentable_id}" %>
+    </div> <!-- modal-body-->
+    <div class="modal-footer">
+      <div class="container col-xs-12">
+      <div class="row justify-content-between" >
+      <div class="col-md-6">
+        <p> <%= @footer_message %> </p>
+      </div>
+      <div class="col-md-5 offset-md-1"> 
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <%= f.submit class: "btn btn-primary" %>
+      </div>
+    </div>
+    </div>
+    </div>
+  <%else%>
+    <div class="actions">
+     <%= f.submit %>
+    </div>
+    <%#= render partial: "shared/footer", locals: { footer_message: @footer_message}  %>
+  <%end%>
+<% end # form_for block%>
+<script type="text/javascript">
+CKEDITOR.replace( 'comment_text', {
+  <% if admin_on? %>
+    toolbar: 'AdminToolbar' 
+  <% else %>
+    toolbar: 'UserToolbar' 
+  <% end %>
+} );
+</script>
 
-  <div class="actions">
-    <%= f.submit %>
-  </div>
-<% end %>
+<%
+=begin
+    ,{},{}, 
+   { :data => { remote: true,
+               :url => url_for(:controller => "comments", 
+               :action => "change_status",
+               :id => @comment.id.to_s)
+   }}) 
+=end
+%>

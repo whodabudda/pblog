@@ -16,9 +16,9 @@ html {
 
 body {
   font-size: 1rem;
-  padding: 1.5rem;
   background-color: #fff;
   overflow: hidden;
+//  padding-bottom: 100px;
 }
 
 .content-main,
@@ -88,6 +88,19 @@ body {
 
   }
  }
+.con-resize-half{
+  @include make-col();
+  height: calc(100vh - 75px - 50px);
+  overflow: scroll;
+  @media (min-width: 32.1em) {
+    @include make-col-span(6);
+    height: calc(100vh - 75px - 50px);
+    overflow: scroll;
+      box-sizing: border-box;
+  border: 3px solid blue;
+
+  }
+ }
 
 
 .flex-row {
@@ -104,6 +117,7 @@ body {
   float: left;
   width: 7em;
   margin-right: 1em;
+  margin-left: 2em;
 }
 .user-icon img {
   float: left;
@@ -112,16 +126,91 @@ body {
   margin-right: 1em;
 }
 
-figcaption {
+figcap {
   max-width: 100%;
-  text-align: center;
+  text-align: bottom;
   font-style: italic;
   font-size: smaller;
   text-indent: 0;
-  margin: 0.5em;
+  margin-top: 0.5em;
   padding: 0.5em;
 }
 .item-box {
   border: thin silver solid;
-  
 }
+.content-card {
+  position: relative;
+ // height: 50vh;
+  min-height: 1px;
+  overflow: scroll;
+//  padding: 2px;
+  margin: 10px;
+}
+.comment-text-input{
+  width: 90%;
+  height: 60vh;
+}
+.author-line {
+  font-style: italic;
+  font-size: smaller;
+  float: right;
+ }
+ #modal-window {
+  position: fixed;
+ }
+
+@mixin box_sizing {
+  -moz-box-sizing:    border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing:         border-box;
+}
+
+/*
+input, textarea, select, .uneditable-input {
+  border: 1px solid #bbb;
+  width: 100%;
+  margin-bottom: 15px;
+  @include box_sizing;
+}
+
+input {
+  height: auto !important;
+}
+*/
+.field-content-extract input {
+    color: #999;
+//    font-weight: bold;
+    font-size: 14px;
+    padding: .8em;
+    border: 2px solid #999;
+    border-radius: .2em;
+    height: 5em;
+    overflow: scroll;
+}
+.main-headings {
+  margin-bottom: 2px;
+  }
+
+footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 60px; //the height to match the text and card margins
+ }
+.comment-text {
+  border: 1px solid transparent;
+  margin-bottom: 60;   //prevent text from being cut off by footer
+}
+.footer-message p{
+  color: rgba(black, 0.5);
+}
+/*
+footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 60px;
+  background-color: #f5f5f5;
+  overflow: hidden;
+}
+*/

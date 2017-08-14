@@ -1,45 +1,57 @@
-<%= form_for(commentable_content) do |f| %>
-  <% if commentable_content.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(commentable_content.errors.count, "error") %> prohibited this commentable_content from being saved:</h2>
+ <div class="container-fluid main-container">
+    <div class="row flex-row-full align-items-start">
+        <div class="col-xs-12 con-resize-full">
 
-      <ul>
-      <% commentable_content.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
+
+      <%= form_for(commentable_content) do |f| %>
+        <% if commentable_content.errors.any? %>
+          <div id="error_explanation">
+            <h2><%= pluralize(commentable_content.errors.count, "error") %> prohibited this commentable_content from being saved:</h2>
+
+            <ul>
+            <% commentable_content.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+            <% end %>
+            </ul>
+          </div>
+        <% end %>
+       <div class="field">
+          <%= f.label :picture %><br>
+          <%= f.file_field :picture %>
+        </div>
+        <div class="field">
+          <%= f.label :title %><br>
+          <%= f.text_field :title, :class => 'col-8' %>
+        </div>
+        <div class="field field-content-extract">
+          <%= f.label :extract %><br>
+          <%= f.text_area :extract, :class => 'col-8' %>
+        </div>
+        <div class="field">
+          <%= f.label :content %><br>
+          <%= f.text_area :content, :class => 'content-text-input ckeditor ' %>
+        </div>
+        <div class="field">
+          <%= f.label :type %><br>
+          <%= f.text_field :type, readonly: true%>
+        </div>
+        <% if action_name == "new" %>
+          <div class="field">
+           <%= f.text_field :created_by_id, value: current_admin.id, hidden: true,readonly: true%>
+         </div>
+        <% end %>
+        <div class="field">
+          <%= f.text_field :modified_by_id, value: current_admin.id, hidden: true,readonly: true%>
+        </div>
+
+        <div class="actions">
+          <%= f.submit %>
+        </div>
       <% end %>
-      </ul>
     </div>
-  <% end %>
- <div class="field">
-    <%= f.label :picture %><br>
-    <%= f.file_field :picture %>
   </div>
-  <div class="field">
-    <%= f.label :title %><br>
-    <%= f.text_field :title %>
-  </div>
-  <div class="field">
-    <%= f.label :extract %><br>
-    <%= f.text_field :extract %>
-  </div>
-  <div class="field">
-    <%= f.label :content %><br>
-    <%= f.text_field :content %>
-  </div>
-  <div class="field">
-    <%= f.label :type %><br>
-    <%= f.text_field :type %>
-  </div>
-  <% if action_name == "new" %>
-    <div class="field">
-     <%= f.text_field :created_by_id, value: current_admin.id, hidden: true,readonly: true%>
-   </div>
-  <% end %>
-  <div class="field">
-    <%= f.text_field :modified_by_id, value: current_admin.id, hidden: true,readonly: true%>
-  </div>
+</div>
+<script>
 
-  <div class="actions">
-    <%= f.submit %>
-  </div>
-<% end %>
+});
+</script>

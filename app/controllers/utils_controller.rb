@@ -11,4 +11,12 @@ class UtilsController < ApplicationController
   def util_params
       params.permit(:setting)
   end
+  def toggleRantsOnly
+    if @rants_only
+      @rants_only = false
+    else
+      @rants_only = true
+    end
+    redirect_to root_url
+  end
 end

@@ -23,10 +23,20 @@
 
             <li class="nav-item"> <%= link_to 'ToggleAdminOn', utils_toggleAdmin_path(:setting => "true") , :class => 'nav-link' if admin_signed_in? and ! admin_on? %> </li>
             <li class="nav-item"> <%= link_to 'ToggleAdminOff', utils_toggleAdmin_path(:setting => "false") , :class => 'nav-link' if admin_signed_in? and admin_on? %> </li>
-            <%# if admin_signed_in? and !admin_on?? %>
-            <%#end%>
+
+          <li class="nav-item btn-group">
+               <a class="dropdown-toggle nav-link" href="#" type="button" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Filters 
+                </a>
+                <div class="dropdown-menu" role="menu" aria-labelledby="navbarDropdownMenuLink">
+                    <%= link_to 'RantsOnly', welcome_toggleRantsOnly_path,:class => 'dropdown-item' %> 
+                    <%= link_to 'MyComments', welcome_myCommentsOnly_path,:class => 'dropdown-item' if user_signed_in? %> 
+                    <%= link_to 'Off', welcome_filtersOff_path,:class => 'dropdown-item' %> 
+                </div>
+            </li> 
 
             <li class="nav-item"> <%= link_to 'Log Off User', destroy_user_session_path , method: :delete , :class => 'nav-link'if user_signed_in? and ! admin_signed_in? %></li>
+            <li class="nav-item"> <%= link_to 'Account', edit_user_registration_path , :class => 'nav-link' if user_signed_in? and ! admin_signed_in? %></li>
             <li class="nav-item"> <%= link_to 'Log Off Admin', destroy_admin_session_path , method: :delete , :class => 'nav-link'if admin_signed_in? %></li>
             <% if admin_on? %>
           <li class="nav-item btn-group">
@@ -34,9 +44,9 @@
                 New Content
                 </a>
                 <div class="dropdown-menu" role="menu" aria-labelledby="navbarDropdownMenuLink">
-                    <%= link_to 'New Rogue',  [:new ,"rogue".underscore ], :class => "dropdown-item"  %>
-                    <%= link_to 'New Current Event',  [:new ,"current_event".underscore ], :class => "dropdown-item"  %>
-                    <%= link_to 'New Truth In Media', [:new ,"truth_in_media".underscore ], :class => "dropdown-item"  %>
+                    <%= link_to 'New Rogue',  [:new ,"rogue".underscore ],"data-turbolinks" => false, :class => "dropdown-item"  %>
+                    <%= link_to 'New Current Event',  [:new ,"current_event".underscore ], "data-turbolinks" => false, :class => "dropdown-item"  %>
+                    <%= link_to 'New Truth In Media', [:new ,"truth_in_media".underscore ],"data-turbolinks" => false, :class => "dropdown-item"  %>
             </div></li> 
             <% end %>
  

@@ -1,26 +1,32 @@
-<div class="item-box">
-  	<figure class="picture-icon">
-	  <%=image_tag(cc.picture.url(:thumb)) %>
-		<figcaption>
-		<strong>
-		<%= link_to cc.title , controller: "commentable_contents", type: @type, title: @title,action: "show_by_id", id: cc.id %>
-		</strong>
-		<br/>			
-	  	Created <%= cc.updated_at %> 
-		<br/>			
-		<%= link_to 'Add Comment', new_commentable_content_comments_path(cc,commentable_type: @type) %>
-		</figcaption>
-	</figure>
-	<div class="clearfix"> </div>
-	<div class="item-text">
-		<%= cc.extract %> 
+<% my_debug "In _table_content_row.erb partial, " + request.path 
+	# show the commentable_content (CC) topic using bootstraps card formatting
+	# if the content title is clicked on, show only that content (show_by_id)
+	# show_by_id will show the full text, which is otherwise truncated to 100 char.
+	# A user can add a comment, but only an admin can edit the CC content.
+%>
+  	<div class="card content-card">
+		<div class="card-img-top">
+  			<%=image_tag(cc.picture.url(:thumb)) %>
+  		</div>	
+	  	<h5 class="card-title">
+			<%= link_to cc.title , controller: "commentable_contents", type: @type, title: @title,action: "show_by_id", id: cc.id %>
+		</h5>
+	<div class="card-block">
+		<p class="card-text">
+			<%= cc.extract %> 
+		</p>
+		<hr>
+		<p class="card-text">
+			<%if action_name == "show_by_id" %>
+				<%= raw cc.content %>
+			<%else%>
+				<%= cc.content[0,100] + "..." %>
+			<%end%>
+		</p>
+	</div>
+	<div class="card-footer">
+		<%= link_to 'Add Comment',  new_commentable_content_comments_path(commentable_type: @type ,commentable_content_id: cc.id), remote: true, "data-turbolinks" => false , class: "card-link" if user_signed_in? %>
+		<%= link_to 'Edit Content',  edit_commentable_content_path(cc.id),"data-turbolinks" => false, class: "card-link" if admin_signed_in? and admin_on? %>
+	  	<p class="author-line"> Created <%= cc.updated_at %> </p>
 	</div>
 	</div>
-<!--
-  	<figure class="picture_icon">
-  <figcaption> 
-  </figcaption>
-  </figure>
-<div class="topic_block">
-</div>
--->

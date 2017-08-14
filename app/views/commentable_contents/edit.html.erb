@@ -4,3 +4,17 @@
 
 <%= link_to 'Show', @commentable_content %> |
 <%= link_to 'Back', commentable_contents_path %>
+<script type="text/javascript">
+$(document).ready(function(){
+	CKEDITOR.replace( 'content-text-input', {
+  <% if admin_on? %>
+    toolbar: 'AdminToolbar' 
+  <% else %>
+    toolbar: 'UserToolbar' 
+  <% end %>
+} );
+
+
+});
+
+</script>

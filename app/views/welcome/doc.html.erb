@@ -1,21 +1,24 @@
-<h1>Welcome#doc</h1>
-<p>Find me in app/views/welcome/doc.html.erb</p>
-<div class="container">
-  <div class="row align-items-start">
-    <div class="col content-main con-resize">
-      One of three columns
-    </div>
-    <div class="col content-secondary con-resize">
-      One of three columns
-    </div>
-    <div class="col content-tertiary con-resize">
-      One of three columns
-    </div>
-  </div>
-  <div class="row align-items-end">
-    <div class="col content-main con-resize">Here is main content</div>
-    <div class="col content-secondary con-resize">Here is secondary content...</div>
-    <div class="col content-tertiary con-resize">Here is tertiary content...</div>
+<h1>Whodabudda Blog Doc</h1>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-xs-12 con-resize-full">
+    <h2> The available status's for commenting are as follows </h2>
+     <%  
+         #
+         #The review status can also be translated using 
+         #rails I18n.t :key, scope: [:comma separated scope names]
+         #  ex:  I18n.t :name, scope: [:comment_review_status, :NOTR]
+         #or
+         #rails I18n.t 'dot.separated.scope.names'
+         # ex: show NOTR:  I18n.t 'comment_review_status.NOTR.name'
+         # 
+         data = YAML::load(File.open("config/locales/en.yml"))
+         data["en"]["comment_review_status"].each do |k|
+     %>
+   <h4> <%= k[1]["name"] %> </h4>
+   <p> <%= k[1]["desc"] %> </p>
+   <%end%>
+   </div>
   </div>
 </div>
-
+<p>Find me in app/views/welcome/doc.html.erb</p>

@@ -1,0 +1,3 @@
+class CommentReview < ApplicationRecord
+
+end

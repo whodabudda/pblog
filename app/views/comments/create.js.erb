@@ -1,0 +1,2 @@
+$('#pblogModal').modal('toggle');
+$('#comments').append("<%= escape_javascript("#{render :partial => 'shared/content/table_comment_row', :locals => { :c => @comment }}").html_safe %>");

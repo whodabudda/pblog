@@ -1,16 +1,22 @@
    
 <%@type = local_assigns[:type] %>
 <%@title = local_assigns[:title] %>
-
 <%
-my_debug("type: #{@type} title: #{@title} commentable_contents: #{@commentable_contents.class.name} #{@commentable_contents.class.ancestors}")
+my_debug("type: #{@type} title: #{@title} rants_only: #{@rants_only}  commentable_contents: #{@commentable_contents.class.name} #{@commentable_contents.class.ancestors}")
 %>
 
+<% 
+	# loop through the collection of commentable_contents, filtering them to show only one type.
+	# Each type is displayed in its own scrollable column, along with its comments.
+	# the select statement blows up if contents are nil, so check for nil first.
+%>
 <% if ! @commentable_contents.nil? %>
   <% @commentable_contents.select {|cc| cc.type == @type}.each do |cc|  %>
   <%= render partial: "shared/content/table_content_row", locals: { cc: cc, type:  @type , title: @title} %>
-  <% cc.comments.each do |c| %>
-    <%= render partial: "shared/content/table_comment_row", locals: { c: c, type:  @type , title: @title} %>
-  <%end%>
-  <%end%>
- <%end%>
+  <div id="comments">
+ 	<%cc.comments.order(created_at: :desc).each do |c| %>
+ 	 	  <%= render partial: "shared/content/table_comment_row", locals: { c: c, type:  @type , title: @title} %>
+	<%end #end do each comment%>
+  </div>
+  <%end #end commentable_contents select%>
+ <%end #end if commentable_contents nil%>
