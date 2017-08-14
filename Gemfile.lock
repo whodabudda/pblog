@@ -55,6 +55,19 @@ GEM
       i18n
       rake (>= 10.0.0)
       sshkit (>= 1.9.0)
+    capistrano-bundler (1.2.0)
+      capistrano (~> 3.1)
+      sshkit (~> 1.2)
+    capistrano-rails (1.3.0)
+      capistrano (~> 3.1)
+      capistrano-bundler (~> 1.1)
+    capistrano-rvm (0.1.2)
+      capistrano (~> 3.0)
+      sshkit (~> 1.2)
+    capistrano3-puma (3.1.1)
+      capistrano (~> 3.7)
+      capistrano-bundler
+      puma (~> 3.4)
     carrierwave (0.11.2)
       activemodel (>= 3.2.0)
       activesupport (>= 3.2.0)
@@ -205,6 +218,9 @@ DEPENDENCIES
   bootstrap (~> 4.0.0.alpha6)
   byebug
   capistrano
+  capistrano-rails
+  capistrano-rvm
+  capistrano3-puma
   carrierwave
   ckeditor_rails
   coffee-rails (~> 4.2)
