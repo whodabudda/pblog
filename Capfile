@@ -1,8 +1,12 @@
-# Load DSL and set up stages
-require "capistrano/setup"
+# run this command to deploy to production
+# bundle exec cap production deploy --trace
 
-# Include default deployment tasks
-require "capistrano/deploy"
+# Load DSL and set up stages
+require 'capistrano/setup'
+require 'capistrano/deploy'
+require 'capistrano/rails'
+require 'capistrano/rvm'
+require 'capistrano/bundler'
 
 # Load the SCM plugin appropriate to your project:
 #
@@ -28,9 +32,9 @@ install_plugin Capistrano::SCM::Git
 #
 # require "capistrano/rbenv"
 # require "capistrano/chruby"
-require "capistrano/rvm"
-require "capistrano/bundler"
 require "capistrano/puma"
+# Default puma tasks
+install_plugin Capistrano::Puma  
 require 'capistrano/rails/assets'
 require 'capistrano/rails/migrations'
 # require "capistrano/passenger"

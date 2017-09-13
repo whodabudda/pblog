@@ -218,6 +218,7 @@ DEPENDENCIES
   bootstrap (~> 4.0.0.alpha6)
   byebug
   capistrano
+  capistrano-bundler (>= 1.1.0)
   capistrano-rails
   capistrano-rvm
   capistrano3-puma

@@ -21,5 +21,7 @@
 .byebug_history
 # Ignore files with paswrdz.
 /config/local_env.yml
+/config/secrets.yml
 /config/database.yml
 /config/environments/production.rb
+/config/application.rb

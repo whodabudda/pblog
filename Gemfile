@@ -17,6 +17,7 @@ group :development do
     gem 'capistrano-rvm'
     gem 'capistrano-rails'
     gem 'capistrano3-puma'
+    gem 'capistrano-bundler', '>= 1.1.0'
 end
 ########################
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'

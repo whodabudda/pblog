@@ -44,7 +44,8 @@
   set :ssh_options, {
     keys: %w(/home/whodabudda/.ssh/id_rsa),
     forward_agent: false,
-    auth_methods: %w(publickey password)
+    auth_methods: %w(publickey password),
+    port: 7822
   }
 #
 # The server-based syntax can be used to override options:
