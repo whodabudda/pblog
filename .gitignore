@@ -6,6 +6,10 @@
 
 # Ignore bundler config.
 /.bundle
+/vendor/bundle
+rerun.txt
+.rvmrc
+
 
 # Ignore the default SQLite database.
 /db/*.sqlite3

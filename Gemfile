@@ -18,6 +18,7 @@ group :development do
     gem 'capistrano-rails'
     gem 'capistrano3-puma'
     gem 'capistrano-bundler', '>= 1.1.0'
+    gem 'capistrano-faster-assets'
 end
 ########################
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
