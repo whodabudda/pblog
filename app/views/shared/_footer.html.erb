@@ -9,25 +9,30 @@
     @footer_message += " RANTS "  if session[:rants_only] 
     @footer_message += " AUTHOR" if session[:mycomments_only]
 %>
-<footer class="bg-faded mt-4">
+<footer class="bg-faded mt-4 fixed-bottom">
     <div class="container-fluid py-3">
         <div class="row">
             <div class="col-md-3">
-			   <small> WhodaBuddaBlog for discriminating partizans </small>
+               <small> WhodaBuddaBlog for discriminating partizans </small>
 			</div>
             <div class="footer-message col-md-3">
 			    <p><%= @footer_message %></p>
             </div>
-            <div class="col-md-3"></div>
             <div class="col-md-3">
-		      <%= link_to "Footer Link ",   '#' %>
-		      <a href="#">Footer href</a>
+		      <%#= link_to "Footer Link ",   '#' %>
+		      <!--a href="#">Footer href</a-->
            </div>
+            <div class="col-md-3 text-right small align-self-end">©2017 Whodabudda, Inc.</div>
         </div>
+        <!--
         <div class="row">
-            <div class="col-md-6"></div>
+            <div class="col-md-6">
+               <small> <%#= @view_renderer.lookup_context.find_template(@virtual_path).identifier %>  </small>
+               <small> <%#= request.url %>  </small>
+            </div>
             <div class="col-md-3"></div>
             <div class="col-md-3 text-right small align-self-end">©2017 Whodabudda, Inc.</div>
         </div>
+        -->
     </div>
 </footer>

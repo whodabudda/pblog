@@ -1,7 +1,11 @@
 <h1>Whodabudda Blog Doc</h1>
-<div class="container-fluid">
+<!--div class="container-fluid">
   <div class="row">
-    <div class="col-xs-12 con-resize-full">
+    <div class="yaml-display"-->
+    <section id="container">
+      
+    <article>
+      
     <h2> The available status's for commenting are as follows </h2>
      <%  
          #
@@ -15,10 +19,13 @@
          data = YAML::load(File.open("config/locales/en.yml"))
          data["en"]["comment_review_status"].each do |k|
      %>
-   <h4> <%= k[1]["name"] %> </h4>
-   <p> <%= k[1]["desc"] %> </p>
+       <h4> <%= k[1]["name"] %> </h4>
+       <p> <%= simple_format(k[1]["desc"]).html_safe %> </p>
    <%end%>
+    </article>
+    </section>
+<!--
    </div>
   </div>
 </div>
-<p>Find me in app/views/welcome/doc.html.erb</p>
+-->

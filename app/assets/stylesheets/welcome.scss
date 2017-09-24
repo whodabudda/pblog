@@ -9,23 +9,48 @@ $grid-columns: 12;
 }
 
 html {
+//  position: absolute;
+  min-height: 100%;
   font-size: 16px;
   font-family: "Helvetica Neue", sans-serif;
   margin: 0;
+//  overflow: hidden;
 }
 
 body {
+ // position: relative;
+  min-height: 100%;
   font-size: 1rem;
   background-color: #fff;
-  overflow: hidden;
-//  padding-bottom: 100px;
+  padding-top: 1px; 
+//  margin-bottom: 60px; 
+//  overflow: auto;
+}
+#container {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #bbb;
+    height: 100%;
+    
+//    width: 50%;
+//    background-color: red;
 }
 
-.content-main,
-.content-secondary,
-.content-tertiary {
-  background: #eee;
-  border: 1px solid #ddd;
+#container article {
+    flex: 1 1 auto;
+    overflow-y: auto;
+    min-height: 0px;
+    margin-bottom: 60px; 
+}
+.yaml-display {
+//  height: calc(100vh - 75px - 30px);
+//  border: 1px solid #bbb;
+//  margin-bottom: 5px;
+//  width: 100%;
+    -webkit-flex: 1 1 auto;
+    position: fixed;
+    overflow-y: auto;
+    min-height:100px;
 }
 
 // Grid system
@@ -46,6 +71,7 @@ body {
 {
   width: percentage(($columns / $grid-columns));
 }
+
 @mixin make-container($gutter: $grid-gutter-width)
 {
   margin-right: auto;
@@ -54,11 +80,21 @@ body {
   padding-right: ($gutter / 2);
 }
 
+.main-headings {
+  margin-bottom: 2px;
+}
 
 .main-container{
   @include make-container();
 }
  
+.content-main,
+.content-secondary,
+.content-tertiary {
+  background: #eee;
+  border: 1px solid #ddd;
+}
+
 .con-resize {
   @include make-col();
   height: calc(100vh - 75px - 50px);
@@ -77,15 +113,15 @@ body {
 }
 .con-resize-full {
   @include make-col();
-  height: calc(100vh - 75px - 50px);
+  height: calc(100vh - 75px - 70px);
   overflow: scroll;
+  margin: 10px 10px 60px 10px;
   @media (min-width: 32.1em) {
     @include make-col-span(8);
-    height: calc(100vh - 75px - 50px);
+//    height: calc(100vh - 75px - 50px);
     overflow: scroll;
-      box-sizing: border-box;
-  border: 3px solid blue;
-
+    box-sizing: border-box;
+    border: 3px solid blue;
   }
  }
 .con-resize-half{
@@ -96,9 +132,8 @@ body {
     @include make-col-span(6);
     height: calc(100vh - 75px - 50px);
     overflow: scroll;
-      box-sizing: border-box;
-  border: 3px solid blue;
-
+    box-sizing: border-box;
+    border: 3px solid blue;
   }
  }
 
@@ -144,7 +179,7 @@ figcap {
   min-height: 1px;
   overflow: scroll;
 //  padding: 2px;
-  margin: 10px;
+  margin: 10px 10px 60px 10px;
 }
 .comment-text-input{
   width: 90%;
@@ -166,12 +201,6 @@ figcap {
 }
 
 /*
-input, textarea, select, .uneditable-input {
-  border: 1px solid #bbb;
-  width: 100%;
-  margin-bottom: 15px;
-  @include box_sizing;
-}
 
 input {
   height: auto !important;
@@ -187,30 +216,15 @@ input {
     height: 5em;
     overflow: scroll;
 }
-.main-headings {
-  margin-bottom: 2px;
-  }
 
-footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  height: 60px; //the height to match the text and card margins
- }
 .comment-text {
   border: 1px solid transparent;
   margin-bottom: 60;   //prevent text from being cut off by footer
 }
+
+footer {
+  max-height: 5%;
+}
 .footer-message p{
   color: rgba(black, 0.5);
 }
-/*
-footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  height: 60px;
-  background-color: #f5f5f5;
-  overflow: hidden;
-}
-*/

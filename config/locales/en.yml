@@ -42,9 +42,11 @@ en:
         organizations, and to emphasize information from nonpartizan sources.
 
         Examples of references are:
-          links to other web sites
-          subscript or superscript number in the text with footnotes or bibliography at the bottom of the comment
-          inline description of where the fact was published
+        <ul>
+        <li>  links to other web sites </li>
+        <li>  subscript or superscript number in the text with footnotes or bibliography at the bottom of the comment </li>
+        <li>  inline description of where the fact was published </li>
+        </ul>
 
         References to books should include the Author, Title, and page number.
         References to articles or research papers should include the publication name, year, issue, and title.
@@ -86,3 +88,10 @@ en:
        desc: >
         The entry meets standards and is part of the site main content 
 
+ about_page_text:
+     "P1":
+       name: The Mission
+       desc: >
+        The Internet is crowded with opinion,  much of it unsupportable by fact.  The whodabudda 
+        blog attempts to be a place where opinion is welcome and is documented with references to
+        facts and figures that give the opinion credibility.        
