@@ -18,7 +18,7 @@
 		<hr>
 		<p class="card-text">
 			<%if action_name == "show_by_id" %>
-				<%= raw cc.content %>
+				<%= raw cc.content.force_encoding("UTF-8") %>
 			<%else%>
 				<%= cc.content[0,100] + "..." %>
 			<%end%>

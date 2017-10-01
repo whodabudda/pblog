@@ -2,7 +2,7 @@
     <div class="row flex-row-full align-items-start">
         <div class="col-xs-12 con-resize-full">
 
-
+        <%commentable_content.content.force_encoding("UTF-8") %>
       <%= form_for(commentable_content) do |f| %>
         <% if commentable_content.errors.any? %>
           <div id="error_explanation">

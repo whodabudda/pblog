@@ -1,5 +1,7 @@
 CKEDITOR.editorConfig = function( config )
 {
+config.entities = false;
+config.entities_latin = false;
 config.toolbar_AdminToolbar = [
 	{ name: 'document', items : [ 'Source','-','Save','NewPage','DocProps','Preview','Print','-','Templates' ] },
 	{ name: 'clipboard', items : [ 'Cut','Copy','Paste','PasteText','PasteFromWord','-','Undo','Redo' ] },

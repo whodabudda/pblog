@@ -1,0 +1,56 @@
+    <title>Number guessing game</title>
+
+    <style>
+      html {
+        font-family: sans-serif;
+      }
+      body {
+        width: 50%;
+        max-width: 800px;
+        min-width: 480px;
+        margin: 0 auto;
+      }
+      .lastResult {
+        color: white;
+        padding: 3px;
+      }
+    </style>
+      <h1>Number guessing game</h1>
+
+      <p>We have selected a random number between 1 and 100. See if you can guess it in 10 turns or less. We'll tell you if your guess was too high or too low.</p>
+
+<div class="form" id="guessForm">
+  <label for="guessField">Enter a guess: </label><input type="text" id="guessField" class="guessField">
+  <input type="submit" id="guessSubmit" value="Submit guess" class="guessSubmit">
+</div>
+
+<div class="resultParas">
+  <p class="guesses"></p>
+  <p class="lastResult"></p>
+  <p class="lowOrHi"></p>
+</div>
+
+
+<script>
+  // Your JavaScript goes here
+  document.getElementById("guessSubmit").addEventListener("click",tryToGuess);
+  var theNumber = Math.floor((Math.random() * 100) + 1); 
+  function myFunc() {
+  	alert("ok, got it");
+  }
+
+  function tryToGuess() {
+	var x = document.getElementsByClassName("guesses");
+  	var guess = document.getElementById("guessField").value;
+	x[0].innerHTML += (" " + guess);
+  	if (guess < theNumber) {
+  		document.getElementsByClassName("lowOrHi")[0].innerHTML = "Too Low";
+  	}
+  	else if (guess > theNumber) {
+  		document.getElementsByClassName("lowOrHi")[0].innerHTML = "Too Hi";
+  	}
+  	else { 
+  		document.getElementsByClassName("lowOrHi")[0].innerHTML = "You Guessed it: " + theNumber;
+	}
+	}
+</script>
