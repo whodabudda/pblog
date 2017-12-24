@@ -27,6 +27,7 @@ class CommentsController < ApplicationController
 
     respond_to do |format|
       if @comment.save
+        AdminEventMailer.notify_all_admins("Comment was Saved","New Comment Notification").deliver_later
         format.html {redirect_to welcome_home_path, notice: "Comment was successfully saved"}
         format.json { render :show, status: :created, location: @comment}
         format.js

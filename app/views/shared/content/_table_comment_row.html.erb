@@ -12,17 +12,34 @@
  if( @author_only and show_cc)
   show_cc = ((user_signed_in? and c.user_id == current_user.id) or admin_on?) 
  end
+  userName = ""
+          if c.user.alias.start_with?("user_alias_") 
+            userName = c.user.email.split('@')[0] 
+          else 
+            userName = c.user.alias 
+          end 
 
  my_debug("type: #{@type} title: #{@title} rants_only: #{@rants_only}  commentable_contents: #{@commentable_contents.class.name} #{@commentable_contents.class.ancestors}")
  return  if ! show_cc 
 %>
 <div class="comment-row" id="comment-row-<%=c.id%>">
    <figure class="user-icon">
-       <%= c.user.avatar? ? image_tag(c.user.avatar.url(:thumb)) : image_tag("fallback/thumb_DefaultPerson.png") %>
+       <% 
+          if c.user.avatar? 
+       %>
+       <%= link_to image_tag(c.user.avatar.url(:thumb)),controller: "utils", action: "modal_image_resize", remote: true, image_name: c.user.avatar.url,image_title: userName, "data-turbolinks" => false  %> 
+       <% else %>
+         <%=  image_tag("fallback/thumb_DefaultPerson.png") %>
+        <%  end %>
        <figcaption>
        	
-       <%= c.user.email.split('@')[0] %> 
+       <p class="figcap">  
+        <%=
+        userName
+        %>
+       <br/>
        <%= c.created_at %> 
+     </p>
        <% if ((user_signed_in? and c.user_id == current_user.id)  and c.review_status != "RANT") or admin_on? %>
         <div class="dropdown">
          <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"  aria-haspopup="true" aria-expanded="false">
@@ -32,7 +49,7 @@
           <%= link_to "Edit", edit_comment_path(c.id,commentable_type: @type),"data-turbolinks" => false ,  remote: true,class: "dropdown-item"  %>
           <%= link_to "Review", comment_reviews_path(comment_id: c.id),"data-turbolinks" => false , class: "dropdown-item"  %>
         </div>
-      </div>
+        </div>
       <%end%>
        </figcaption>
 	</figure>
@@ -48,9 +65,19 @@
 </div>
 
 <!--
- <%#= link_to "Edit", new_comment_path(c.id),  {:remote => true, 'data-toggle' =>  "modal", 'data-target' => '#modal-window'} if user_signed_in? and  c.user_id == current_user.id  %>dd
+ <%#= link_to "Edit", new_comment_path(c.id),  {:remote => true, 'data-toggle' =>  "modal", 'data-target' => '#modal-window'} if user_signed_in? and  c.user_id == current_user.id  %>
  <div id="modal-window" class="modal hide fade" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content"></div>
   </div>
+           <ul class="enlarge">
+            <li><img src=<%#=c.user.avatar.url(:thumb)%> "/><span><img src=<%#=c.user.avatar.url%> top="0px" left="0px" height="auto" width="100%" /> </span></li>
+          </ul>
+       <img src=<%=c.user.avatar.url%> class="grow"" />
+      <%#=    image_tag(c.user.avatar.url, class: "imgfull", size: "500x600" )%>
+      <%#=    image_tag(c.user.avatar.url,{class="img-responsive" alt="image" width="100%" height="auto"})  %>
+-->
+<!--  Do not remove this file.  Even though it is empty of content, it is needed because of
+  the way Rails does ajax requests.   The file named modal_image_resize.js.erb  must have 
+  this file as a companion that is called after the js is executed
 -->

@@ -6,7 +6,8 @@
 %>
   	<div class="card content-card">
 		<div class="card-img-top">
-  			<%=image_tag(cc.picture.url(:thumb)) %>
+			<%= link_to image_tag(cc.picture.url(:thumb)),controller: "utils", action: "modal_image_resize", remote: true, image_name: cc.picture.url,image_title: cc.title, "data-turbolinks" => false  %> 
+  			<%#=image_tag(cc.picture.url(:thumb)) %>
   		</div>	
 	  	<h5 class="card-title">
 			<%= link_to cc.title , controller: "commentable_contents", type: @type, title: @title,action: "show_by_id", id: cc.id %>
@@ -25,8 +26,9 @@
 		</p>
 	</div>
 	<div class="card-footer">
+	  	<p class="author-line"> Created by <%= User.find(cc.created_by_id).alias + " on " + cc.updated_at.strftime("%Y-%m-%d %H:%M") %> </p>
 		<%= link_to 'Add Comment',  new_commentable_content_comments_path(commentable_type: @type ,commentable_content_id: cc.id), remote: true, "data-turbolinks" => false , class: "card-link" if user_signed_in? %>
 		<%= link_to 'Edit Content',  edit_commentable_content_path(cc.id),"data-turbolinks" => false, class: "card-link" if admin_signed_in? and admin_on? %>
-	  	<p class="author-line"> Created <%= cc.updated_at %> </p>
-	</div>
-	</div>
+	  	<%= social_share_button_tag(cc.title,:allow_sites => %w(twitter facebook google_plus google_bookmark delicious pinterest email linkedin reddit )) %>
+		</div>
+		</div>

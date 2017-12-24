@@ -10,3 +10,28 @@ from form
       </ul>
     </div>
   <% end %>
+
+
+  $(document).ready(function() {
+
+  $(".closed-box").mouseenter(function() {
+      $(".open-box").show();
+      $(".closed-box").hide();
+      $(this).hide();
+  });
+
+  $(".open-box").mouseout(function() {
+    $(".closed-box").show();
+    $(".open-box").hide();
+    $(this).hide();
+  });
+});
+
+//$('#myModal').html('<%= j render partial: "shared/utils/modal_image_resize", locals: { image_name: @image_name } %>');
+//Show the dynamic pblogModal
+// Render the edit form
+//$('.modal-body-image').html('<%= j render partial: "shared/utils/image_resize", locals: { image_name: @image_name  } %>');
+//$('#ImageModal').modal("show");
+// Add the pblogModal title
+//$("#pblogModalLongTitle").replaceWith("<%= escape_javascript("#{render :partial => 'shared/content/table_comment_row', :locals => { :c => @comment }}").html_safe %>");
+//$('#pblogModal h5').html("<i class='glyphicon glyphicon-pencil modal-title' id='pblogModalLongTitle'></i> Image Title");

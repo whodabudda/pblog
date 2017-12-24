@@ -9,7 +9,7 @@ class UtilsController < ApplicationController
       redirect_to root_url
   end
   def util_params
-      params.permit(:setting)
+      params.permit(:setting,:image_name)
   end
   def toggleRantsOnly
     if @rants_only
@@ -19,4 +19,11 @@ class UtilsController < ApplicationController
     end
     redirect_to root_url
   end
+  def modal_image_resize
+    @image_name = params[:image_name]
+    @image_title = params[:image_title]
+    respond_to do |format|               
+     format.js
+    end        
+  end 
 end

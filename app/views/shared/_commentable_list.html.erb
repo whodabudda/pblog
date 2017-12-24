@@ -38,7 +38,15 @@ my_debug("type: #{@type} title: #{@title} commentable_contents: #{@commentable_c
         <td>
           <figure class="user_icon">
             <%= image_tag(c.user.avatar.url(:thumb)) if c.user.avatar? %>
-            <figcaption> <%= c.user.email.split('@')[0] %> </figcaption>
+            <figcaption> 
+              <%= 
+                if c.user.alias.start_with?("user_alias_") 
+                    c.user.email.split('@')[0] 
+                else 
+                    c.user.alias 
+                end 
+               %> 
+            </figcaption>
             <figcaption> <%= c.created_at %> </figcaption>
           </figure>
         </td>

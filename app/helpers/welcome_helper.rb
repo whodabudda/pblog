@@ -32,7 +32,8 @@ module WelcomeHelper
       #go to the admin table and check if the user is also an admin.
       #In theory, this will only be done the first time a user logs in.
       if user_signed_in? 
-    	  @admin = Admin.find_by(email:  current_user.email) 
+    	  #@admin = Admin.find_by(email:  current_user.email) 
+        @admin = Admin.find(current_user.id) 
       	if ! @admin.nil?
           my_debug("check_admin found admin #{@admin}" )
           #the user is an admin.  session variable is set to let the

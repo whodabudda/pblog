@@ -1,0 +1,9 @@
+//
+// This js is used for enlarging images.  For example, either the image for the article, or the 
+// avatar for the user.
+// Change the title to match either the article title or the name of the user
+//
+$("#pblogModalLongTitle").text('<%= escape_javascript("#{@image_title}").html_safe %>');
+
+$('.modal-body-placeholder').html('<%= j render partial: "shared/utils/image_resize", locals: { image_name: @image_name } %>');
+$('#pblogModal').modal("show");

@@ -7,6 +7,7 @@ Rails.application.routes.draw do
 
   get 'utils/toggleAdmin'
   get 'utils/toggleRantsOnly'
+  get 'utils/modal_image_resize'
   get 'welcome/toggleRantsOnly'
   get 'welcome/myCommentsOnly'
   get 'welcome/filtersOff'

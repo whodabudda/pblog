@@ -7,9 +7,11 @@ class SessionsController < Devise::SessionsController
   # end
 
   # POST /resource/sign_in
-  # def create
-  #   super
-  # end
+   def create
+     super
+     Analytics.alias(previous_id: cookies[:ajs_anonymous_id] ,user_id: current_user.id )
+     Analytics.identify(user_id: current_user.id )
+   end
 
   # DELETE /resource/sign_out
    def destroy
