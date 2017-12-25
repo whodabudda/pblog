@@ -39,7 +39,7 @@
         if(user_signed_in?)
           Analytics.page(user_id: current_user.id, name: action_name  )
         else
-          Analytics.page(anonymous_id: cookies[:ajs_anonymous_id] ,name: action_name )
+          Analytics.page(anonymous_id: session.id ,name: action_name )
         end
         %>
       <div id="modal-holder"></div>

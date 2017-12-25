@@ -29,7 +29,7 @@
        %>
        <%= link_to image_tag(c.user.avatar.url(:thumb)),controller: "utils", action: "modal_image_resize", remote: true, image_name: c.user.avatar.url,image_title: userName, "data-turbolinks" => false  %> 
        <% else %>
-         <%=  image_tag("fallback/thumb_DefaultPerson.png") %>
+         <%=  image_tag( asset_path('fallback/thumb_DefaultPerson.png')) %>
         <%  end %>
        <figcaption>
        	
