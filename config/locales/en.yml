@@ -71,7 +71,7 @@ en:
         If the admin determines that there are insufficient or uncredentialed references 
         to support the 'facts', or the comment is not on topic, the author will be asked
         to revise, and the comment will be retained for revision  
-        afor 30 days.  After that time, if the entry
+        for 30 days.  After that time, if the entry
         is not modified to standards, it will be re-classified as rejected. If you disagree
         with the admins decision, you may appeal by selecting the 'appeal' dropdown menu. You will
         be able to view all your appeals and responses from the admins on one page.  Only the admins and 
@@ -95,3 +95,16 @@ en:
         The Internet is crowded with opinion,  much of it unsupportable by fact.  The whodabudda 
         blog attempts to be a place where opinion is welcome and is documented with references to
         facts and figures that give the opinion credibility.        
+     "P2":
+       name: Contributing
+       desc: >
+        If you would like to submit an Article, to be posted for others to comment upon, please email
+        your article to: whodabudda@gmail.com.   
+        The Article should conform to the standards outlined on the Doc tab.
+     "P3":
+       name: Being an Administrator
+       desc: >
+        Administrators can create Articles without prior review.  They can review comments and assign a 
+        status to those comments.  Administrators essentially control the quality of site content.  As such,
+        anyone who wants to be an admin of this site will go through a vetting process.   If you are interested,
+        please send an email to whodabudda@gmail.com to start the process.

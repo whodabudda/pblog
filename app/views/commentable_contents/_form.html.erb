@@ -2,8 +2,8 @@
     <div class="row flex-row-full align-items-start">
         <div class="col-xs-12 con-resize-full">
 
-        <%commentable_content.content.force_encoding("UTF-8") %>
-      <%= form_for(commentable_content) do |f| %>
+      <%commentable_content.content.force_encoding("UTF-8") %>
+      <%= form_for(commentable_content ) do |f| %>
         <% if commentable_content.errors.any? %>
           <div id="error_explanation">
             <h2><%= pluralize(commentable_content.errors.count, "error") %> prohibited this commentable_content from being saved:</h2>
@@ -15,10 +15,14 @@
             </ul>
           </div>
         <% end %>
-       <div class="field">
-          <%= f.label :picture %><br>
-          <%= f.file_field :picture %>
-        </div>
+         <div class="field">
+           <%= f.label :picture,  class: "custom-file-upload"  do %>
+              <%= image_tag(commentable_content.picture.url(:thumb)) %>
+             <span> <%= File.basename(commentable_content.picture.to_s) %> </span>
+             <%= f.file_field :picture  %>
+           <%end%>
+           <%#= f.label :picture_url, File.basename(commentable_content.picture.to_s) %>
+         </div>
         <div class="field">
           <%= f.label :title %><br>
           <%= f.text_field :title, :class => 'col-8' %>

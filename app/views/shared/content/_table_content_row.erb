@@ -18,10 +18,12 @@
 		</p>
 		<hr>
 		<p class="card-text">
+			<!-- sanitize removes unwanted tags -->
 			<%if action_name == "show_by_id" %>
-				<%= raw cc.content.force_encoding("UTF-8") %>
+				<%= sanitize cc.content %>
+				<%#= raw cc.content.force_encoding("UTF-8") %>
 			<%else%>
-				<%= cc.content[0,100] + "..." %>
+				<%= sanitize cc.content[0,100] + "..." %>
 			<%end%>
 		</p>
 	</div>

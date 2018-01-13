@@ -277,6 +277,16 @@ footer {
   height: 100%;
   width: 100%;
 }
+// remove File Not Selected from input tag text
+input[type='file'] {
+  display: none;
+}
+.custom-file-upload {
+    border: 1px solid #ccc;
+    display: inline-block;
+    padding: 6px 12px;
+    cursor: pointer;
+}
 
-
-
+#current_event_picture{ margin-left: 40px; margin-right: 10px;}
+#current_event_picture_url{ margin-left: 40px;}
