@@ -1,5 +1,5 @@
 <h1>Editing Commentable Content</h1>
-
+<%@commentable_content.content.force_encoding("UTF-8") %>
 <%= render 'form', commentable_content: @commentable_content %>
 
 <%= link_to 'Show', @commentable_content %> |
