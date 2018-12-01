@@ -1,0 +1,36 @@
+# file is part of systemd, place in: /etc/systemd/system
+[Unit]
+Description=Puma HTTP Forking Server
+After=network.target
+
+[Service]
+# Background process configuration (use with --daemon in ExecStart)
+Type=forking
+
+# Preferably configure a non-privileged user
+User=whodabudda
+
+# The path to the puma application root
+EnvironmentFile=/home/whodabudda/pblog/pblog-prod-puma.conf
+WorkingDirectory=/home/whodabudda/pblog/current
+
+# The command to start Puma
+ExecStart=/usr/share/rvm/bin/rvm ruby-2.3.1@rails5001 do bundle exec puma -C /home/whodabudda/pblog/shared/puma.rb --daemon
+
+# The command to stop Puma
+ExecStop=/usr/share/rvm/bin/rvm ruby-2.3.1@rails5001 do bundle exec pumactl -S /home/whodabudda/pblog/shared/tmp/pids/puma.state -F /home/whodabudda/pblog/shared/puma.rb stop
+
+# Path to PID file so that systemd knows which is the master process
+PIDFile=/home/whodabudda/pblog/shared/tmp/pids/puma.pid
+
+# Should systemd restart puma?
+# Use "no" (the default) to ensure no interference when using
+# stop/start/restart via `pumactl`.  The "on-failure" setting might
+# work better for this purpose, but you must test it.
+# Use "always" if only `systemctl` is used for start/stop/restart, and
+# reconsider if you actually need the forking config.
+Restart=no
+
+[Install]
+WantedBy=multi-user.target
+
