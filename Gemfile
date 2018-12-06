@@ -1,13 +1,31 @@
 source 'https://rubygems.org'
 
-#ppk
+#
+#11/19/2018 ppk added comments
+#
+#gems added by ppk
+#
+#devise for user login
+#
 gem 'devise'
+#
+#bootstrap is twitter library for organization of content in views
+#
 gem 'bootstrap', '~> 4.0.0.alpha6'
+#
+#tether needed for bootstrap
+#
 source 'https://rails-assets.org' do
   gem 'rails-assets-tether', '>= 1.3.3'
 end
+#
+#carrierwave and mini_magick for file uploads, as in image files for user profiles
+#
 gem 'carrierwave'
 gem 'mini_magick'
+#
+#Three gems for providing editors with the ability to embed images in the content
+#
 gem 'ckeditor_rails'
 gem 'jquery-oembed-rails'
 gem 'tinymce-rails'
@@ -22,7 +40,8 @@ group :development do
 end
 gem 'social-share-button'
 gem 'analytics-ruby', require: "segment"
-########################
+######################## end of gems added by ppk
+
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.0.0', '>= 5.0.0.1'
 # Use sqlite3 as the database for Active Record
