@@ -1,0 +1,39 @@
+<% my_debug "In _table_content_row.erb partial, " + request.path 
+	# show the commentable_content (CC) topic using bootstraps card formatting
+	# if the content title is clicked on, show only that content (show_by_id)
+	# show_by_id will show the full text, which is otherwise truncated to 100 char.
+	# A user can add a comment, but only an admin can edit the CC content.
+%>
+  	<div class="card flex-row flex-wrap">
+		<div class="card-header border-0">
+			<%= link_to image_tag(cc.picture.url, width: 200,class: "img-flex"),controller: "utils", action: "modal_image_resize", remote: true, image_name: cc.picture.url,image_title: cc.title, "data-turbolinks" => false  %> 
+  			<%#=image_tag(cc.picture.url(:thumb)) %>
+  		</div>	
+	 <div class="card-block px-2">
+	  	<h5 class="card-title">
+			<%= link_to cc.title , controller: "commentable_contents", type: @type, title: @title,action: "show_by_id", id: cc.id %>
+		</h5>
+		<p class="card-text">
+			<%= cc.extract %> 
+		</p>
+	  	<p class="author-line"> Created by <%= User.find(cc.created_by_id).alias + " on " + cc.created_at.strftime("%Y-%m-%d %H:%M") %> </p>
+		<hr>
+		<p class="card-text">
+			<!-- sanitize removes unwanted tags -->
+			<%if action_name == "show_by_id" %>
+				<%= sanitize cc.content %>
+				<%#= raw cc.content.force_encoding("UTF-8") %>
+			<%#else%>
+				<%#= sanitize cc.content[0,100] + "..." %>
+			<%end%>
+		</p>
+	 </div>
+     <div class="w-100"></div>
+     <div class="card-footer w-100 text-muted">
+	  	<p class="author-line"> Updated <%= cc.updated_at.strftime("%Y-%m-%d %H:%M") %> </p>
+		<%= link_to 'Add Comment',  new_commentable_content_comments_path(commentable_type: @type ,commentable_content_id: cc.id), remote: true, "data-turbolinks" => false , class: "card-link" if user_signed_in? %>
+		<%= link_to 'Edit Content',  edit_commentable_content_path(cc.id),"data-turbolinks" => false, class: "card-link" if admin_signed_in? and admin_on? %>
+	  	<%= social_share_button_tag(cc.title,:allow_sites => %w(twitter facebook email reddit )) %>
+	  	<%#= social_share_button_tag(cc.title,:allow_sites => %w(twitter facebook google_plus google_bookmark delicious pinterest email linkedin reddit )) %>
+	 </div>
+	</div>

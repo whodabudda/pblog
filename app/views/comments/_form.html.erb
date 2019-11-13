@@ -14,7 +14,8 @@ my_debug("in comments/form partial: #{action_name}, ismodal: #{@ismodal}")
  <div class="field ">
     <%= f.label :comment_text %><br>
     <%#= f.text_area :comment_text, id: (admin_on? ? "admin_ckeditor" : "user_ckeditor" ),:class => 'comment-text-input ckeditor '  %>
-    <%= f.text_area :comment_text, id: :comment_text,:class => 'comment-text-input ckeditor '  %>
+    <%= f.text_area :comment_text, :class => 'comment-text-input editor',:id => 'editor' %>
+    <%#= f.text_area :comment_text, id: :comment_text,:class => 'comment-text-input',:id => 'editor'  %>
   </div>
   <div class="field">
      <%= f.text_field :user_id, value: current_user.id, hidden: true,readonly: true%>
@@ -64,24 +65,30 @@ my_debug("in comments/form partial: #{action_name}, ismodal: #{@ismodal}")
     </div>
     <%#= render partial: "shared/footer", locals: { footer_message: @footer_message}  %>
   <%end%>
-<% end # form_for block%>
-<script type="text/javascript">
-CKEDITOR.replace( 'comment_text', {
-  <% if admin_on? %>
-    toolbar: 'AdminToolbar' 
-  <% else %>
-    toolbar: 'UserToolbar' 
-  <% end %>
-} );
-</script>
+<% end %>
 
-<%
-=begin
-    ,{},{}, 
-   { :data => { remote: true,
-               :url => url_for(:controller => "comments", 
-               :action => "change_status",
-               :id => @comment.id.to_s)
-   }}) 
-=end
-%>
+<%#= javascript_packs_with_chunks_tag 'ckeditor','data-turbolinks-track': 'reload' %>
+<%#= javascript_pack_tag 'ckeditor', 'data-turbolinks-track': 'reload' %>
+
+<script type="module">
+//window.MyClassicEditor = MyClassicEditor;
+//import MyClassicEditor from 'pblog/app/javascript/packs/ckeditor/myck_classic_editor'; 
+ MyClassicEditor
+    .create( document.querySelector( '#editor' ) )
+    .then( editor => {
+        console.log( editor );
+    } )
+    .catch( error => {
+        console.error( error );
+   } );
+
+/*
+CKEDITOR.replace( 'comment_text', {
+  <%# if admin_on? %>
+    toolbar: 'AdminToolbar' 
+  <%# else %>
+    toolbar: 'UserToolbar' 
+  <%# end %>
+} );
+*/
+</script>

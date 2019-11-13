@@ -178,26 +178,14 @@ Recompress, remove unused cruft:
 
 $ git gc
 
-A
-A
-A
-A
-A
-A
-A
-A
-A
-A
-A
-A
-A
-A
-A
-A
-A
-A
-A
-A
-A
 
+MYSQL:  if you have to reset a pw:
+
+   1. go to:  https://www.dailycred.com/article/bcrypt-calculator
+
+   2. create a hash for a new password
+
+   3. update the database with the new hash
+
+ 
 

@@ -6,7 +6,7 @@ class UtilsController < ApplicationController
    		else
        		 session[:current_admin_id] = 0
   		end 
-      redirect_to root_url
+      redirect_back(fallback_location: root_path)
   end
   def util_params
       params.permit(:setting,:image_name)
@@ -17,7 +17,8 @@ class UtilsController < ApplicationController
     else
       @rants_only = true
     end
-    redirect_to root_url
+    redirect_to (:back)
+    #redirect_to root_url
   end
   def modal_image_resize
     @image_name = params[:image_name]

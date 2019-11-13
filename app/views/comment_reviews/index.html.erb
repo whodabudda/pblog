@@ -1,11 +1,16 @@
 
-  <div class="container-fluid">
-   <div class="row flex-row-full align-items-start">
-    <div class="col-xs-6 con-resize-half">
+  <div class="row justify-content-start">
+<% if false %>
+    <div class="col-5">
    		<%= render  "comments/form" %>
     </div>
-    <div class="col-xs-6 con-resize-half">
-		<%@comment_reviews.each do |review| %>
+<% end %>
+
+    <div class="col">
+
+    	<% if ! ( @comment_reviews.nil? and @comment_reviews.blank?) %>
+    	<%#  comment comment %>
+		<% @comment_reviews.each do |review| %>
 		<div class="comment-row" id="comment-row-<%=review.comment_id%>">
 		   <figure class="user-icon">
 		   		<% if review.admin_id <= 0 
@@ -26,13 +31,17 @@
 			<%=raw review.review_text %> 
 		    </div>
 		  </div>
-		<%end%>
+		<% end %>
+		<% end %> 
+	  </div>
+  </div>
+   <div class="row justify-content-center">
+    <div class="col px-5">
    		<%= @comment_review = CommentReview.new
    			@comment_review.comment_id = @comment.id
    			@comment_id = @comment.id
    		    render  "new" 
    		%>
-	  </div>
+    </div>
   </div>
- </div>
 <%#= link_to "New Review", new_comment_review_path(comment_id: @comment_id),"data-turbolinks" => false  %>

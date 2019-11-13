@@ -1,0 +1,154 @@
+window.vapidPublicKey = new Uint8Array(<%= Base64.urlsafe_decode64(ENV['VAPID_PUBLIC_DEV']).bytes %>);
+//alert('vapidPublicKey: ' + 'added text ' + vapidPublicKey);
+//Your application javascript uses the navigator.serviceWorker.pushManager to subscribe to push //notifications, passing the VAPID public key to the subscription settings.
+
+// application.js
+// When serviceWorker is supported, installed, and activated,
+// subscribe the pushManager property with the vapidPublicKey
+
+
+// Let's check if the browser supports notifications
+if (!("Notification" in window)) {
+  console.error("This browser does not support desktop notification");
+}
+
+// Let's check whether notification permissions have already been granted
+else if (Notification.permission === "granted") {
+  console.log("Permission to receive notifications has been granted");
+}
+
+// Otherwise, we need to ask the user for permission
+else if (Notification.permission !== 'denied') {
+  Notification.requestPermission(function (permission) {
+    // If the user accepts, let's create a notification
+    if (permission === "granted") {
+      console.log("Permission to receive notifications has been granted");
+    }
+  });
+}
+// application.js
+// Send the subscription and message from the client for the backend
+// to set up a push notification
+// $("#user_options_save").on("click", (e) => {
+//   e.preventDefault();
+
+//   console.log('[user_options_save event] Fired! event');
+//   alert('[user_options_save event] Fired! event on click');
+//   // navigator.serviceWorker.ready.then((serviceWorkerRegistration) => {
+//   //   serviceWorkerRegistration.pushManager
+//   //   .subscribe({
+//   //     userVisibleOnly: true,
+//   //     applicationServerKey: window.vapidPublicKey
+//   //   });
+//   // });
+
+//   // navigator.serviceWorker.ready
+//   // .then((serviceWorkerRegistration) => {
+//   //   serviceWorkerRegistration.pushManager.getSubscription()
+//   //   .then((subscription) => {
+//   //     console.log('[webpush-button event] obtained subscription:', subscription);
+//   //     $.post("/user_optionsd", { subscription: subscription.toJSON(), message: "You clicked a button!" });
+//   //   });
+//   // });
+// });
+
+// $(function() {
+//   $('#user_options_save').on("submit",function(e) {
+//     e.preventDefault(); // cancel the actual submit
+
+//      do what you want with the form 
+
+//     // Should be triggered on form submit
+
+//     alert('[user_options_save event] Fired! event on submit', e);
+//   });
+// });
+ $(document).on('ajax:before', function(event) {
+    console.log('[jquery ajax:before]');
+    //alert('jquery ajax:before');
+  });
+$( document ).ajaxStart(function() {
+    console.log('[jquery ajaxStart]');
+    //alert('jquery ajaxStart entered');
+});
+
+$(document).on('ajax:beforesend', function(event) {
+  var detail = event.detail;
+  var data = detail[0], status = detail[1], xhr = detail[2];
+  console.log('[jquery ajax:beforesend]');
+  //alert('jquery ajax:beforesend', detail);
+});
+$( document ).ajaxSend(function( event, request, settings ) {
+    console.log('[jquery ajaxSend]');
+    //alert('[jquery ajaxSend]');
+});
+$( document ).ajaxSuccess(function( event, request, settings ) {
+    //alert('[jquery ajaxSuccess]');
+   console.log('[jquery  ajaxSuccess]',  event , request , settings);
+});
+document.addEventListener('ajax:before', function(event) {
+  var detail = event.detail;
+  console.log('ajax:before non-jquery: ' , event);
+  //alert('ajax:before non-jquery ');
+});
+document.addEventListener('ajax:beforeSend', function(event) {
+  var detail = event.detail;
+  var data = detail[0], status = detail[1], xhr = detail[2];
+  console.log('ajax:beforeSend non-jquery  detail: ' , data);
+  //alert('ajax:beforeSend non-jquery input', detail,xhr);
+});
+document.addEventListener('ajax:send', function(event) {
+  var detail = event.detail;
+  var data = detail[0], status = detail[1], xhr = detail[2];
+  console.log('ajax:send non-jquery  detail: ' ,data);
+  //alert('ajax:send non-jquery input', detail,xhr);
+});
+document.addEventListener('ajax:success', function(event) {
+  var detail = event.detail;
+  var data = detail[0], status = detail[1], xhr = detail[2];
+  console.log('ajax:success non-jquery  input',data);
+  //alert('ajax:success non-jquery input', detail,xhr);
+});
+document.addEventListener('ajax:complete', function(event) {
+  var detail = event.detail;
+  var data = detail[0], status = detail[1], xhr = detail[2];
+  console.log('ajax:complete non-jquery  data: ', data);
+  //alert('ajax:complete non-jquery input', detail,xhr);
+});
+
+
+// document.getElementById("webpush-checkbox").addEventListener('ajax:beforesend', function(event) {
+//   var detail = event.detail;
+//   var data = detail[0], status = detail[1], xhr = detail[2];
+//   console.log('ajax:beforesend non-jquery  input', detail,xhr);
+//   alert('ajax:beforesend non-jquery input', detail,xhr);
+// });
+// document."webpush-checkbox".addEventListener('ajax:beforesend', function(event) {
+//   var detail = event.detail;
+//   var data = detail[0], status = detail[1], xhr = detail[2];
+//   console.log('ajax:beforesend non-jquery  checkbox', detail,xhr);
+//   alert('ajax:beforesend  non-jquery checkbox', detail,xhr);
+// });
+
+// $(function() {
+//   // $('#webpush-checkbox').on("click",function(e) {
+
+//   //   alert('hi - you clicked the checkbox', e);
+
+//   // });
+  $('#webpush-checkbox').on('ajax:before', function(event) {
+    console.log('[jquery ajax:before with selector]');
+  });
+  $('#webpush-checkbox').on('ajax:beforeSend', function(event) {
+    console.log('[jquery ajax:beforeSend with selector]');
+  });
+  $('#webpush-checkbox').on('ajax:success', function(event) {
+   console.log('[jquery  ajax:success with selector]');
+  });
+// //   $('#webpush-checkbox').on('ajax:beforesend', function(event, xhr, settings) {
+// //   var detail = event.detail;
+// //   var data = detail[0], status = detail[1], xhr = detail[2];
+// // //  xhr.setRequestHeader('X-Awesome', 'enabled');
+// //   alert('ajax:beforesend', detail,xhr);
+// //   });
+// });

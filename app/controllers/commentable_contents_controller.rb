@@ -12,7 +12,6 @@ class CommentableContentsController < ApplicationController
   # GET /commentable_contents/1.json
   def show_by_id
     @commentable_contents  = @commentable_type.find(params[:id])
-    @type = params[:type]
     if params[:title].nil?
       @title = @commentable_contents.title
     else
@@ -38,14 +37,6 @@ class CommentableContentsController < ApplicationController
   def show
   end
 
-
-
-#  def get_type
-#    resource = request.path.split('/')[0]
-#    @klass   = resource.singularize.capitalize.safe_constantize
-#  end
-  # POST /commentable_contents
-  # POST /commentable_contents.json
   def create
     @commentable_content = CommentableContent.new(commentable_content_params)
 
@@ -88,9 +79,9 @@ class CommentableContentsController < ApplicationController
 
   private
     # Use callbacks to share common setup or constraints between actions.
-    def set_commentable_content
-      @commentable_content = CommentableContent.find(params[:id])
-    end
+  def set_commentable_content
+     @commentable_content = CommentableContent.find(params[:id])
+  end
       # blah blah
   def commentable_types
     ["Rogue", "CurrentEvent", "TruthInMedia"]
@@ -107,17 +98,17 @@ class CommentableContentsController < ApplicationController
      end
    end
 
-    def get_type
+  def get_type
        resource = request.path.split('/')[1]
        Rails.logger.info "CCC:get_type: " + request.path + " extracted to #{resource}"
-        @klass   = resource.singularize.capitalize.camelize.constantize
-    end
+       @klass   = resource.singularize.capitalize.camelize.constantize
+  end
 
     # Never trust parameters from the scary internet, only allow the white list through.
-    def commentable_content_params
+  def commentable_content_params
       params.fetch(@commentable_type.to_s.underscore.to_sym, {}).permit(:picture,:title, :extract,:content,:commentable_id,:created_by_id,:modified_by_id,:type,:id)
-    end
-   def log_action
+  end
+  def log_action
     Rails.logger.info "in: #{params[:controller]} : #{params[:action]}  for user: " + (user_signed_in? ? current_user.id.to_s : "no user logged in")
     Rails.logger.info "params are: #{params.inspect}"
   end

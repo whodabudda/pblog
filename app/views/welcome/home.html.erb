@@ -1,37 +1,38 @@
-
+<!--
     <div class="container-fluid main-headings">
       <div class="row align-items-start">
           <div class="col content-main ">
-          <h3> <%= link_to "Rogues Gallery", controller: "commentable_contents", action: "show_by_type", type: "Rogue", title: "Rogues Gallery" %> </h3>
+          <h3> <%#= link_to "Rogues Gallery", controller: "commentable_contents", action: "show_by_type", type: "Rogue", title: "Rogues Gallery" %> </h3>
           </div>
           <div class="col content-secondary">
-            <h3> <%= link_to "Current Events", controller: "commentable_contents", action: "show_by_type", type: "CurrentEvent", title: "Current Events" %> </h3>
+            <h3> <%#= link_to "Current Events", controller: "commentable_contents", action: "show_by_type", type: "CurrentEvent", title: "Current Events" %> </h3>
           </div>
           <div class="col content-tertiary">
-            <h3> <%= link_to "Truth In Media", controller: "commentable_contents", action: "show_by_type", type: "TruthInMedia", title: "Truth In Media" %> </h3>
+            <h3> <%#= link_to "Truth In Media", controller: "commentable_contents", action: "show_by_type", type: "TruthInMedia", title: "Truth In Media" %> </h3>
           </div>
       </div>
     </div>
-    <div class="container-fluid main-container">
-      <div class="row flex-row align-items-start">
-      		<div class="col-xs-4 con-resize">
-            <%= render partial: "shared/content/show_by_type", locals: { type:  "Rogue" , title: "Rogues Gallery" } %>
+-->
+    <div class="container">
+            <%= render partial: "shared/content/show_by_type" %>
+            <%#= render partial: "shared/content/show_by_type", locals: { type:  "Rogue" , title: "Rogues Gallery" } %>
+ 		</div> 
+
+<!--
+          <div class="clearfix"> </div>
+          <div class="col-xs-4 con-resize">
+            <%#= render partial: "shared/content/show_by_type", locals: { type:  "CurrentEvent", title: "Current Events"} %>
       		</div>
           <div class="clearfix"> </div>
           <div class="col-xs-4 con-resize">
-            <%= render partial: "shared/content/show_by_type", locals: { type:  "CurrentEvent", title: "Current Events"} %>
-      		</div>
-          <div class="clearfix"> </div>
-          <div class="col-xs-4 con-resize">
-            <%= render partial: "shared/content/show_by_type", locals: { type:  "TruthInMedia", title: "Truth In Media"} %>
+            <%#= render partial: "shared/content/show_by_type", locals: { type:  "TruthInMedia", title: "Truth In Media"} %>
+-->
             <!--
             <p> <%#= session.inspect %> </p>
-            -->
-      		</div>
       </div>
+            -->
       <!-- 
           Place any new modal dialog frameworks here.  They must be loaded into the DOM for any xxx.js.erb to 
           work on them.
       -->
       <%=render "shared/modal_dialog" %>
-    </div>

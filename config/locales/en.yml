@@ -27,18 +27,18 @@ en:
        desc: >
         When you submit a comment, the site administrators will review. This review
         will determine the appropriateness of the comment. They will not judge your political, moral or
-        world view.  Thoughtful opinions are allowed, but rhetoric is not. 
+        world view.  Thoughtful opinions are allowed, but rhetoric is discouraged. 
 
         Anything in the content
         that is claimed as a 'fact' must be supported with at least one reference, and 
         that reference must be judged to be a credible source. References will be checked.
         The reference cannot be just another opinion or uncredentialed claim.  The bias of this site
         credits science over faith, without appology or argument. Greater weight will be given to statistics
-        from politically unaligned sources than ones with obvious bias.  For example, the federal Office of
-        Management and Budget has credibility as an objective source.  The Heritage Foundation less so.  So
-        for example if your facts are supported purely with statistics from the Heritage Foundation, the admin 
+        from politically un-aligned sources than ones with obvious bias.  For example, the federal Office of
+        Management and Budget has credibility as an objective source.  The Heritage Foundation has a known 
+        conservative bias, so if your facts are sourced only from the Heritage Foundation, the admin 
         may ask you for references from other sources and to reconcile the different claims, or to expunge the
-        fact.  This approach is designed to minimise the dissemination of mis-information created by propaganda
+        fact.  This approach is designed to minimise the dissemination of disinformation created by propaganda
         organizations, and to emphasize information from nonpartizan sources.
 
         Examples of references are:
@@ -53,7 +53,7 @@ en:
 
         Once approved, your comment will appear on the site.
 
-        Until it is reviewed and approved, your comment will appear as 'pending'. 
+        Until it is reviewed and approved, your comment will appear as 'Not Reviewd'. 
 
         It is possible for you to acquire a trusted status, where your comments will appear
         immediately without the requirement for review.  
@@ -61,9 +61,9 @@ en:
      "RANT":
        name: Is a Rant 
        desc: >
-        If the admin determines the entry to be an unsupportable and-or
+        If the admin determines the entry to be an unsupportable and/or
         venemous spewing of rhetoric, it will be labeled a rant and 
-        relegated to the rant file.  It can be viewed under the Rants heading.
+        relegated to the rant file.  It can be viewed under the Rants filter.
 
      "NREV":
        name: Needs Revision
@@ -73,15 +73,15 @@ en:
         to revise, and the comment will be retained for revision  
         for 30 days.  After that time, if the entry
         is not modified to standards, it will be re-classified as rejected. If you disagree
-        with the admins decision, you may appeal by selecting the 'appeal' dropdown menu. You will
-        be able to view all your appeals and responses from the admins on one page.  Only the admins and 
-        yourself will be able to see your appeals.
+        with the admins decision, you may appeal by selecting 'Review' from the Action dropdown menu. You will
+        be able to view all your appeals, and responses from the admins, on one page.  Only the admins and 
+        yourself will be able to see your review history.
 
      "REJK":
        name: Rejected 
        desc: >
-        The entry has been rejected because the author failed to meet the 
-        documentation standards of the site. 
+        The entry has been rejected because the comment did not meet the 
+        documentation standards of the site, and the author did not correct the entry within 30 days.
 
      "APPR":
        name: Approved 
@@ -92,7 +92,7 @@ en:
      "P1":
        name: The Mission
        desc: >
-        The Internet is crowded with opinion,  much of it unsupportable by fact.  The whodabudda 
+        The Internet is crowded with opinion,  much of it unsupportable by fact.  The Whodabudda 
         blog attempts to be a place where opinion is welcome and is documented with references to
         facts and figures that give the opinion credibility.        
      "P2":

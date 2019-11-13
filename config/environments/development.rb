@@ -5,7 +5,6 @@ Rails.application.configure do
   # every request. This slows down response time but is perfect for development
   # since you don't have to restart the web server when you make code changes.
   config.cache_classes = false
-
   # Do not eager load code on boot.
   config.eager_load = false
 
@@ -26,10 +25,13 @@ Rails.application.configure do
     config.cache_store = :null_store
   end
 
+  # ppk added for mailcatcher
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = { :address => "localhost", :port => 1025 }
+  # end ppk mailcatcher
   # Don't care if the mailer can't send.
   config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
   config.action_mailer.raise_delivery_errors = false
-
   config.action_mailer.perform_caching = false
 
   # Print deprecation notices to the Rails logger.
@@ -53,8 +55,13 @@ Rails.application.configure do
   # routes, locales, etc. This feature depends on the listen gem.
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
   #in config/environments/production.rb
-config.to_prepare { Devise::SessionsController.force_ssl }
-config.to_prepare { Devise::RegistrationsController.force_ssl }
-config.to_prepare { Devise::PasswordsController.force_ssl }
+#config.to_prepare { Devise::SessionsController.force_ssl }
+#config.to_prepare { Devise::RegistrationsController.force_ssl }
+#config.to_prepare { Devise::PasswordsController.force_ssl }
 #
+ActiveRecord::Base.logger = ActiveSupport::Logger.new(STDOUT)
+#config.force_ssl = true 
+#ppk added for rails 6.x
+config.hosts << "localhost.com"
+config.public_file_server.enabled = true
 end

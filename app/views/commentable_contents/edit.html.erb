@@ -2,19 +2,22 @@
 <%@commentable_content.content.force_encoding("UTF-8") %>
 <%= render 'form', commentable_content: @commentable_content %>
 
-<%= link_to 'Show', @commentable_content %> |
+<%= link_to 'Show', @commentable_content %> 
 <%= link_to 'Back', commentable_contents_path %>
-<script type="text/javascript">
-$(document).ready(function(){
-	CKEDITOR.replace( 'content-text-input', {
-  <% if admin_on? %>
-    toolbar: 'AdminToolbar' 
-  <% else %>
-    toolbar: 'UserToolbar' 
-  <% end %>
-} );
+<%= javascript_packs_with_chunks_tag 'ckeditor', 'data-turbolinks-track': 'reload' %>
+<!--
+<script src="src/editor/config.js"> </script>
+-->
+<script>
+MyClassicEditor
+    .create( document.querySelector( '#editor' ) )
+		.then( editor => {
+			window.editor = editor;
+			console.log (Array.from( editor.ui.componentFactory.names() ) );
+		} )
+		.catch( err => {
+			console.error( err.stack );
+		} );
 
-
-});
-
+//console.log (ClassicEditor.builtinPlugins.map( plugin => plugin.pluginName ));
 </script>

@@ -1,0 +1,23 @@
+   console.log("entered toggle_subscription.js.erb")
+   var checkbox = <%=@user_option.notification %>;
+   var current_subscription = "<%= @user_option.subscription %>";
+   console.log("toggle_subscription.js.erb - checkbox: ", checkbox )
+   console.log("toggle_subscription.js.erb - subscription: ", current_subscription )
+
+   $('.push_test').attr("hidden" , !checkbox)
+   checkBrowserSupport.checkBrowserSupport()
+   if(!checkbox) {
+      $('.subscription_message').text('Save your options to stop receiving notifications').addClass('notifications-problem').removeClass('checked');
+   }
+   /*
+   if(checkbox) {
+      //curJSObject = JSON.parse(current_subscription);
+      if (checkNotification()) {
+        setSubscriptionValues()
+      }
+   }
+   else {
+      $('.subscription_message').text('Save your options to stop receiving notifications').addClass('notifications-problem').removeClass('checked');
+   }
+  */ 
+  

@@ -23,15 +23,35 @@ rerun.txt
 
 # Ignore Byebug command history file.
 .byebug_history
+
 # Ignore files with paswrdz.
 /config/local_env.yml
 /config/secrets.yml
 /config/database.yml
 /config/environments/production.rb
 /config/application.rb
+
+# Ignore files placed in a hold area
+app/assets/holdarea
+
 # Ignore user avatars from development
 public/uploads/user/
-# Ignore all disabled files
-*.disable
+
 # Ignore all swp files
 *.swp
+
+# Ignore all disabled files
+*.disable
+*.old
+*.disabled
+*.bak
+
+#ignore npm modules
+/node_modules
+
+/public/packs
+/public/packs-test
+/node_modules
+/yarn-error.log
+yarn-debug.log*
+.yarn-integrity

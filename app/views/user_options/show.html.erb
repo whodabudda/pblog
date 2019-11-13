@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>User:</strong>
+  <%= @user_option.user %>
+</p>
+
+<p>
+  <strong>Email:</strong>
+  <%= @user_option.email %>
+</p>
+
+<p>
+  <strong>Sms:</strong>
+  <%= @user_option.sms %>
+</p>
+
+<p>
+  <strong>Notification:</strong>
+  <%= @user_option.notification %>
+</p>
+
+<p>
+  <strong>Subscription:</strong>
+  <%= @user_option.subscription %>
+</p>
+
+<%= link_to 'Edit', edit_user_option_path(@user_option) %> |
+<%= link_to 'Back', user_options_path %>

@@ -1,0 +1,14 @@
+
+
+{  
+   "name":"Whodabudda Blog",
+       "short_name":"pblog",
+       "start_url":"/",
+       "icons":[  
+            {  
+                     "src":"/images/44px-Wiki_letter_w.svg.png",
+                     "sizes":"192x192",
+                     "type":"image/png" 
+      }      
+   ]
+}

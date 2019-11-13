@@ -12,10 +12,17 @@ class CommentReviewsController < ApplicationController
 
   def create
      @comment_review = CommentReview.new(review_params)
-
+     @comment = Comment.find(@comment_review.comment_id)
+     @cc = CommentableContent.find(@comment.commentable_id)
     respond_to do |format|
       if @comment_review.save!
-        format.html {redirect_to comment_reviews_path(comment_id: @comment_review.comment_id), notice: "Comment Review was successfully saved"}
+        #format.html {redirect_to comment_reviews_path(comment_id: @comment_review.comment_id), notice: "Comment Review was successfully saved"}
+        AdminEventMailer.notify_all_admins("New Review was saved for Article: #{@cc.title} \
+                 Comment Id: #{@comment.id}" \
+                 ,"New Review Notification").deliver_later
+        format.html { redirect_to controller: "commentable_contents", title: @cc.title, action: "show_by_id", id: @cc.id , notice: 'Comment Review was successfully saved.' }
+        #format.html {redirect_to controller: comment_reviews, action: index , protocol: '//' ,notice: "Comment Review was successfully saved"}
+        #format.html {redirect_to @cc, notice: "Comment Review was successfully saved"}
         format.json { render :show, status: :created, location: @comment_review}
         format.js
       else
@@ -37,7 +44,9 @@ class CommentReviewsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def get_reviews
+      Rails.logger.info "in: #{params[:controller]} : get_reviews" 
       @comment_reviews = CommentReview.where('comment_id = ?', params[:comment_id])
+      Rails.logger.info "There are: " + @comment_reviews.count.to_s + " records in comment_reviews"
     end
     def get_review
       @comment_review = CommentReview.find(params[:id])
@@ -51,6 +60,7 @@ class CommentReviewsController < ApplicationController
    def log_action
     Rails.logger.info "in: #{params[:controller]} : #{params[:action]}  for user: " + current_user.id.to_s
     Rails.logger.info "params are: #{params.inspect}"
+    Rails.logger.info "comment_id is: #{params[:comment_id]} "
   end
 
 end

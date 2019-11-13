@@ -1,7 +1,7 @@
 <h1>About the Whodabudda Blog</h1>
-<div class="container-fluid">
+<div class="container">
   <div class="row">
-    <div class="col-xs-12 yaml_display">
+    <div class="col-10 justify-content-center m-5">
      <%  
          #
          #The review status can also be translated using 
@@ -20,6 +20,7 @@
      <p> <%#= cookies[:ajs_anonymous_id] %> </p>
      <p> <%#= action_name %> </p>
      <p> <%#= session.inspect %> </p>
+     <p> <%#= request.headers.env.reject { |key| key.to_s.include?('.') } %> </p>
    </div>
   </div>
 </div>

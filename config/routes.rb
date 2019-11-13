@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   get 'welcome/about'
 
   get 'welcome/doc'
+  get 'welcome/cktest'
 
   get 'utils/toggleAdmin'
   get 'utils/toggleRantsOnly'
@@ -16,12 +17,14 @@ Rails.application.routes.draw do
   get 'commentable_contents/show_by_id'
   get "comments/new_comment/:id" => 'comments#new_comment', :as => :new_comment
   get "comments/change_status/:id" => 'comments#change_status', :as => :change_status
+  get "user_options/toggle_subscription/:id" => 'user_options#toggle_subscription', :as => :toggle_subscription
+  get "user_options/send_push_notification" => 'user_options#send_push_notification', :as => :send_push_notification
   resources :comment_reviews
   resources :comments
   resources :commentable_contents do
   	resource :comments
   end
-  
+  resources :user_options
   resources :rogues, controller: 'commentable_contents', type: 'Rogue' 
   resources :current_events , controller: 'commentable_contents', type: 'CurrentEvent' 
   resources :truth_in_media , controller: 'commentable_contents', type: 'TruthInMedia' 

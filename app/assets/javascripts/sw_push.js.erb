@@ -1,0 +1,52 @@
+
+//actions are global so they can be used across functions
+//but only assigned in the push event, which must happen before the 
+//notificationclick event
+var actions;
+self.addEventListener("push", (event) => {
+
+  let evt = event.data && event.data.json();
+  console.log("The evt content: ", evt);
+  console.log("This is a new 11 serviceworker");
+  let title = (evt.title);
+  let body = (evt.body);
+  let icon = (evt.icon);
+  let tag = "push-notification-tag";
+  actions = (evt.actions);
+  console.log("actions are: ", actions);
+  console.log("action name: ", actions[0].action);
+  event.waitUntil(
+    self.registration.showNotification(title, { body, icon, tag, actions })
+  )
+});
+
+self.addEventListener('notificationclick', function(event) {
+  console.log("notificationclick event: ", event);
+  console.log("notificationclick actions[0].action: ", actions[0].action);
+  console.log("notificationclick event.action: ", event.action);
+  console.log("notificationclick actions[0].article_url: ", actions[0].article_url);
+  if (!event.action) {
+    // Was a normal notification click
+    // Since firefox does not support actions, if the user clicks the notif,
+    // we will assume he is interested in reading the article. Otherwise the ttl
+    // will remove the notification.
+    console.log('Notification Click for article: ', actions[0].article_url) ;
+  	const promiseChain = clients.openWindow(actions[0].article_url);
+	event.waitUntil(promiseChain);
+    return;
+  }
+
+  switch (event.action) {
+  	//This has not been tested on localhost since we can't seem to get chrome
+  	//to acknowledge a local certificate
+    case 'launch-action':
+    	console.log('User ❤️️\'s articles.' , actions[0].article_url);
+      	const promiseChain = clients.openWindow(actions[0].article_url);
+	  	event.waitUntil(promiseChain);
+      	break;
+    default:
+      console.log(`Unknown action clicked: '${event.action}'`);
+      break;
+  }
+  return;
+});

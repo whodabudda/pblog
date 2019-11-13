@@ -1,0 +1,52 @@
+<%= form_with model: @user_option, local: true, id: "user_options_form" do |form| %>
+  <% if user_option.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(user_option.errors.count, "error") %> prohibited this user_option from being saved:</h2>
+
+      <ul>
+      <% user_option.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <% my_debug("notification value: #{@user_option.notification}") %>
+  <div class="field">
+    <%= form.label :user_id %>
+    <%= form.text_field :user_id %>
+  </div>
+
+  <div class="field">
+    <%= form.label :email %>
+    <%= form.check_box :email %>
+  </div>
+
+  <div class="field">
+    <%= form.label :sms %>
+    <%= form.check_box :sms %>
+  </div>
+
+  <div class="field webpush-checkbox">
+    <%= form.label :notification %>
+    <%#= form.check_box :notification, :onevent => 'AjaxEventFunction', :id => 'webpush-checkbox', data: { url: edit_user_option_path, remote: true, method: :get, action: "jquery:ajax:beforeSend->edit"} %> 
+    <%= form.check_box :notification,:id => 'webpush-checkbox', data: { :url => url_for(:controller => "user_options", :action => "toggle_subscription", :id => @user_option.user_id ), remote: true, turbolinks: false,  autocomplete: "off"} %><span></span> 
+  </div>
+  <div class="field">
+    <span class="subscription_message"></span>
+    <%= form.label :subscription, :hidden => 'true' %>
+    <%= form.text_area :subscription , :id => 'webpush-subscription' , :hidden =>'true' %>
+  </div>
+  <div class="field">
+    <span class="browser"></span>
+    <%= form.label :browser, :hidden => 'true' %>
+    <%= form.text_area :browser , value: browser.name, :id => 'webpush-subscription' , :hidden =>'true' %>
+  </div>
+
+  <div class="actions" >
+    <%= form.submit %>
+  </div>
+    <%# hidden_field_tag "webpush[notification]", false %>
+
+<% end %>
+<%#=javascript_include_tag 'user_options_form' %>
+

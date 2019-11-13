@@ -18,7 +18,7 @@ my_debug("in comment_review form partial: #{action_name}, ismodal: #{@ismodal}")
   <%end%>
  <div class="field ">
     <%= f.label :review_text %><br>
-    <%= f.text_area :review_text, id: :review_text,:class => 'review-text-input ckeditor '  %>
+    <%= f.text_area :review_text, :id => 'editor', :class => 'review-text-input editor'  %>
   </div>
 
   <div class="field">
@@ -50,15 +50,30 @@ my_debug("in comment_review form partial: #{action_name}, ismodal: #{@ismodal}")
     <%#= render partial: "shared/footer", locals: { footer_message: @footer_message} if footer %>
   <%end%>
 <% end # form_for block%>
-<script type="text/javascript">
-CKEDITOR.replace( 'review_text', {
-  <% if admin_on? %>
-    toolbar: 'AdminToolbar' 
-  <% else %>
-    toolbar: 'UserToolbar' 
-  <% end %>
-} );
+<%= javascript_packs_with_chunks_tag 'ckeditor','data-turbolinks-track': 'reload' %>
+<%#= javascript_pack_tag 'ckeditor', 'data-turbolinks-track': 'reload' %>
+
+<script type="module">
+//window.MyClassicEditor = MyClassicEditor;
+//import MyClassicEditor from 'pblog/app/javascript/packs/ckeditor/myck_classic_editor'; 
+ MyClassicEditor
+    .create( document.querySelector( '#editor' ) )
+    .then( editor => {
+        console.log( editor );
+    } )
+    .catch( error => {
+        console.error( error );
+   } );
 </script>
+<!--script type="text/javascript">
+CKEDITOR.replace( 'review_text', {
+  <%# if admin_on? %>
+    toolbar: 'AdminToolbar' 
+  <%# else %>
+    toolbar: 'UserToolbar' 
+  <%# end %>
+} );
+</script-->
 <%
 =begin
     ,{},{}, 

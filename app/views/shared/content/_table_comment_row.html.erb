@@ -22,8 +22,8 @@
  my_debug("type: #{@type} title: #{@title} rants_only: #{@rants_only}  commentable_contents: #{@commentable_contents.class.name} #{@commentable_contents.class.ancestors}")
  return  if ! show_cc 
 %>
-<div class="comment-row" id="comment-row-<%=c.id%>">
-   <figure class="user-icon">
+<div class="m-3 comment-row" id="comment-row-<%=c.id%>">
+   <figure class="media user-icon">
        <% 
           if c.user.avatar? 
        %>
@@ -31,7 +31,8 @@
        <% else %>
          <%=  image_tag( asset_path('fallback/thumb_DefaultPerson.png')) %>
         <%  end %>
-       <figcaption>
+
+       <figcaption class="media-body">
        	
        <p class="figcap">  
         <%=
@@ -63,7 +64,6 @@
   <hr>
 	</div>
 </div>
-
 <!--
  <%#= link_to "Edit", new_comment_path(c.id),  {:remote => true, 'data-toggle' =>  "modal", 'data-target' => '#modal-window'} if user_signed_in? and  c.user_id == current_user.id  %>
  <div id="modal-window" class="modal hide fade" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">

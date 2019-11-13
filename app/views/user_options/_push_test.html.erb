@@ -1,0 +1,4 @@
+<% my_debug("subscription length: #{ @user_option.subscription.length}, notification: #{@user_option.notification}") %>
+<% if @user_option.notification && @user_option.subscription.length > 100 %>
+<%= link_to 'Send Test Notification', :controller => "user_options", :action => "send_push_notification", params: {:id => @user_option.id, :user_id => @user_option.user_id,:subscription => @user_option.subscription},remote: true %> 
+<% end %>

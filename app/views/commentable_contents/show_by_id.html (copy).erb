@@ -1,0 +1,23 @@
+      <div class="row">
+          <div class="col-xs-12">
+            <% if ! @commentable_contents.nil? %>
+              <% cc = @commentable_contents %> 
+              <%= render partial: "shared/content/table_content_row", locals: { cc: @commentable_contents, type:  @type , title: @title} %>
+          </div>
+      </div>
+      <div class="row">
+          <div class="col-2"> </div>
+          <div class="col-7"> 
+              <% cc.comments.each do |c| %>
+                <%= render partial: "shared/content/table_comment_row", locals: { c: c, type:  @type , title: @title} %>
+            </div>
+          </div>
+          <div class="col-3"> </div>
+             <%end%>
+          <p> <%#= session.inspect %> </p>
+          <%end%>
+      <%=render "shared/modal_dialog" %>
+
+
+<%= link_to 'Edit', edit_commentable_content_path(@commentable_contents) if admin_signed_in? and admin_on? %>
+<%= link_to 'Back', welcome_home_path %>

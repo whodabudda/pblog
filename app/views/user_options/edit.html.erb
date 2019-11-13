@@ -1,0 +1,61 @@
+<h2>Editing User Option</h2>
+<p>Device Info: <%= browser.device %> </p>
+<p>Device Info: <%= browser.device.id %> </p>
+<p>Device Info: <%= browser.device.name %> </p>
+
+<%= render 'form', user_option: @user_option %>
+<%#= render 'push_test', user_option: @user_option %>
+<% my_debug("subscription length: #{ @user_option.subscription.length}, notification: #{@user_option.notification}") %>
+<br>
+<!-- 
+The link_to helper takes 4 parameters, (name, url with options, html options, block)
+any html options must be added as the 3rd parameter (array index #2)
+-->
+<%# if @user_option.notification && @user_option.subscription.length > 100 %>
+<div class='push_test'>
+<%= link_to 'Send Test Notification',  send_push_notification_path( params: { :id => @user_option.id, :user_id => @user_option.user_id,:subscription => @user_option.subscription}), remote: true , class: "test"%> 
+</div>
+<%# end %>
+
+<%= link_to 'Show', @user_option if admin_signed_in? and admin_on?%> 
+<%= link_to 'Back', welcome_home_path %>
+
+<script type="module">
+  //checkBrowserSupport is exported and made global with the expose-loader module
+  checkBrowserSupport.checkBrowserSupport();   // to show messages on if push notification is available
+</script>
+
+<!-- <script type="text/javascript">
+	alert("Im in the edit");
+document.addEventListener('ajax:before', function(event) {
+  var detail = event.detail;
+  var data = detail[0], status = detail[1], xhr = detail[2];
+  console.log('ajax:before non-jquery  input', data);
+  alert('ajax:before non-jquery input', detail,xhr);
+});
+document.addEventListener('ajax:beforesend', function(event) {
+  var detail = event.detail;
+  var data = detail[0], status = detail[1], xhr = detail[2];
+  console.log('ajax:beforesend non-jquery  input', detail,xhr);
+  alert('ajax:beforesend non-jquery input', detail,xhr);
+});
+document.addEventListener('ajax:send', function(event) {
+  var detail = event.detail;
+  var data = detail[0], status = detail[1], xhr = detail[2];
+  console.log('ajax:send non-jquery  input', detail,xhr);
+  alert('ajax:send non-jquery input', detail,xhr);
+});
+document.addEventListener('ajax:success', function(event) {
+  var detail = event.detail;
+  var data = detail[0], status = detail[1], xhr = detail[2];
+  console.log('ajax:success non-jquery  input', detail,xhr);
+  alert('ajax:success non-jquery input', detail,xhr);
+});
+document.addEventListener('ajax:complete', function(event) {
+  var detail = event.detail;
+  var data = detail[0], status = detail[1], xhr = detail[2];
+  console.log('ajax:complete non-jquery  input', detail,xhr);
+  alert('ajax:complete non-jquery input', detail,xhr);
+});
+</script>
+ -->

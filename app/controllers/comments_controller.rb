@@ -13,13 +13,15 @@ class CommentsController < ApplicationController
   def new
     @comment = Comment.new
     @comment.commentable_id = params[:commentable_content_id]
-    @comment.commentable_type = params[:commentable_type]
-    @type = params[:commentable_type]
+    @comment.commentable_type = CommentableContent.find(params[:commentable_content_id]).type
+    @type = @comment.commentable_type
+    #render :layout => false
   end
 
   def edit
     @comment
     @type = params[:commentable_type]
+    #render :layout => false
   end
 
   def create

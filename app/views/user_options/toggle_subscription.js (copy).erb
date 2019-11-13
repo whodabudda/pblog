@@ -1,0 +1,53 @@
+  //alert("hello from toggle_subscription ");
+    checkNotification();
+    var current_subscription = "<%= @user_option.subscription %>";
+   current_subscription = decodeHtml(current_subscription);
+   console.log('current subscription ', current_subscription);
+   curJSObject = JSON.parse(current_subscription);
+   var checkbox = <%=@user_option.notification %>;
+   console.log('current subscription endpoint', curJSObject.endpoint);
+   console.log('current subscription keys p256dh', curJSObject.keys.p256dh);
+   console.log('current subscription keys auth', curJSObject.keys.auth);
+ 
+   console.log('checkbox:', checkbox);
+  navigator.serviceWorker.ready
+  .then((serviceWorkerRegistration) => {
+    serviceWorkerRegistration.pushManager.getSubscription()
+    .then(function(subscription) {
+
+      if(subscription) {
+        console.log('[Existing getSubscription() endpoint]:', subscription.endpoint );
+        return subscription;
+     };
+      serviceWorkerRegistration.pushManager.subscribe({
+        userVisibleOnly: true
+       });
+      if(subscription) {
+        console.log('[New Subscription endpoint]', subscription.endpoint );
+        return subscription;
+      };
+      console.log('toggle_subscription.js.erb error: subscription is null');
+      return false;
+    })
+    .then((subscription) => {
+        subJSObject = JSON.parse(JSON.stringify(subscription));
+        console.log('subscription endpoint', subJSObject.endpoint)
+        console.log('subscription keys p256dh', subJSObject.keys.p256dh);
+        console.log('subscription keys auth', subJSObject.keys.auth);
+        if(checkbox) {
+          document.getElementById("webpush-subscription").value = JSON.stringify(subscription);
+        } else {
+          document.getElementById("webpush-subscription").value = "no subscription";
+        };
+     })
+    .catch(error => {
+      console.log('errors obtaining subscription :' );
+      document.getElementById("webpush-subscription").value = "Error obtaining subscription";
+    });
+  });
+  
+function decodeHtml(html) {
+    var txt = document.createElement("textarea");
+    txt.innerHTML = html;
+    return txt.value;
+}
