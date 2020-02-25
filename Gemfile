@@ -11,7 +11,7 @@ gem 'devise'
 #
 #bootstrap is twitter library for organization of content in views
 #
-gem 'bootstrap', '~> 4.0.0.alpha6'
+gem 'bootstrap', '~> 4.3.1'
 #
 #tether needed for bootstrap
 #
