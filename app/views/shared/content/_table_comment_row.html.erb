@@ -19,7 +19,6 @@
             userName = c.user.alias 
           end 
 
- my_debug("type: #{@type} title: #{@title} rants_only: #{@rants_only}  commentable_contents: #{@commentable_contents.class.name} #{@commentable_contents.class.ancestors}")
  return  if ! show_cc 
 %>
 <div class="m-3 comment-row" id="comment-row-<%=c.id%>">
@@ -41,13 +40,17 @@
        <br/>
        <%= c.created_at %> 
      </p>
+      <!--
+      if the comment belongs to the current user and is not a rant, show the dropdown for edit/review actions.
+      Allow review messages any time, however do not allow editing after the comment has been published (i.e. APPR)
+      -->
        <% if ((user_signed_in? and c.user_id == current_user.id)  and c.review_status != "RANT") or admin_on? %>
         <div class="dropdown">
          <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"  aria-haspopup="true" aria-expanded="false">
           Action 
         </button>
         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-          <%= link_to "Edit", edit_comment_path(c.id,commentable_type: @type),"data-turbolinks" => false ,  remote: true,class: "dropdown-item"  %>
+          <%= link_to "Edit", edit_comment_path(c.id),"data-turbolinks" => false ,  remote: true,class: "dropdown-item" if c.review_status != 'APPR' or admin_on? %>
           <%= link_to "Review", comment_reviews_path(comment_id: c.id),"data-turbolinks" => false , class: "dropdown-item"  %>
         </div>
         </div>
@@ -55,8 +58,9 @@
        </figcaption>
 	</figure>
 	<div class="comment-text" id="comment-text<%=c.id%>">
-
-	<% if c.review_status == 'APPR' || @rants_only%>
+  <!-- Only show the comment text if it approved, or it is a rand and RANTS filter is on, or user is an administrator
+  -->
+	<% if c.review_status == 'APPR' || (c.review_status == 'RANT' && @rants_only) || admin_on? %>
   <%= raw c.comment_text %>
   <% else %>
   <%=  I18n.t "comment_review_status.#{c.review_status}.name" %>

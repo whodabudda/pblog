@@ -1,9 +1,8 @@
 
-<%@type = local_assigns[:type] %>
 <%@title = local_assigns[:title] %>
 
 <%
-my_debug("type: #{@type} title: #{@title} commentable_contents: #{@commentable_contents.class.name} #{@commentable_contents.class.ancestors}")
+my_debug("title: #{@title} commentable_contents: #{@commentable_contents.class.name} #{@commentable_contents.class.ancestors}")
 %>
 <!--div class="container commentable"-->
 <table class="table table-xs table-hover table-responsive">
@@ -16,11 +15,11 @@ my_debug("type: #{@type} title: #{@title} commentable_contents: #{@commentable_c
 
   <tbody>
     <% if ! @commentable_contents.nil? %>
-    <% @commentable_contents.select {|cc| cc.type == @type}.each do |cc|  %>
+    <% @commentable_contents.select {|cc|}.each do |cc|  %>
     <%# @commentable_contents.each do |cc|  %>
       <tr>
         <td>
-        <%= link_to controller: "commentable_contents", type: @type, title: @title,action: "show_by_id", id: cc.id do %>
+        <%= link_to controller: "commentable_contents", title: @title,action: "show_by_id", id: cc.id do %>
           <figure class="picture_icon">
             <%=image_tag(cc.picture.url(:thumb))%>
             <figcaption> <%= cc.updated_at %> </figcaption>
@@ -31,7 +30,7 @@ my_debug("type: #{@type} title: #{@title} commentable_contents: #{@commentable_c
       </tr>
       <tr>
         <td id='detail-heading' colspan="5"><%= cc.extract %></td>
-        <td> <%= link_to 'Comment', new_commentable_content_comments_path(cc, commentable_type: @type) %> </td>
+        <td> <%= link_to 'Comment', new_commentable_content_comments_path(cc) %> </td>
       </tr>
       <% cc.comments.each do |c| %>
       <tr>
@@ -59,8 +58,6 @@ my_debug("type: #{@type} title: #{@title} commentable_contents: #{@commentable_c
       -->
       <% end %>
     <% end %>
-    <% else %>
-      <p>No <%=@type%> in the table</p>
     <% end %>
   </tbody>
 </table>

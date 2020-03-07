@@ -1,0 +1,25 @@
+<div class="container">
+  	<div class="row">
+  	    <div class="col-sm-3 mx-3">
+			<%= image_tag attachments[@filename].url, size: "200" %>
+	  	<p class="author-line"> Updated <%= @article.updated_at.strftime("%Y-%m-%d %H:%M") %> </p>
+			<%#=image_tag(@article.picture.url(:thumb)) %>
+  		<!--div class="col-8 col-sm-6 text-justify" -->
+		</div> 
+  	    <div class="col-sm-6 mx-3">
+  	    	<div class="content-title-author">
+			  	<h3>
+					<%= link_to @article.title , controller: "commentable_contents", action: "show_by_id", id: @article.id %>
+				</h3>
+			  	<span class="author-line"> Created by </span> 
+			  	<span class="author"> <%= User.find(@article.created_by_id).alias %> </span>
+			  	<span class="author-line">  on <%= @article.created_at.strftime("%Y-%m-%d %H:%M") %> </span>
+			</div> <!--end of div content-title-author-->
+			<br>
+			<p class="d-sm-flex">
+				<%= @article.extract %> 
+			</p>
+		  	<hr>
+  		</div> <!--end of div col-sm-6 mx-3-->
+   	</div> <!--end of row-->
+</div><!--end of container-->

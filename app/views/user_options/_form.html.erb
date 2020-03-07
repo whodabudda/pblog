@@ -10,18 +10,26 @@
       </ul>
     </div>
   <% end %>
+ <p class="field-note">
+  Note: These options are currently used only for new content, i.e. if you enable the box, you will receive a notification in either email or a browser form <i><b>only</b></i> when a new Article is posted.  These settings do not affect how we communicaate about reviews or changes in the status of your comments.  We hope to provide more fine-grained communication preferences in the near future.
+</p>
+ 
   <% my_debug("notification value: #{@user_option.notification}") %>
-  <div class="field">
+  <% my_debug("notification value: #{@user_option.subscription}") %>
+  <div class="field" hidden="true">
     <%= form.label :user_id %>
     <%= form.text_field :user_id %>
   </div>
 
-  <div class="field">
+  <div class="field email-checkbox">
     <%= form.label :email %>
-    <%= form.check_box :email %>
+    <%#= form.check_box :email %>
+    <%= form.check_box :email,:id => 'email-checkbox', data: { :url => url_for(:controller => "user_options", :action => "toggle_email", :id => @user_option.user_id ), remote: true, turbolinks: false,  autocomplete: "off"} %><span></span> 
+  </div>
+  <div class="field">
   </div>
 
-  <div class="field">
+  <div class="field" hidden="true" >
     <%= form.label :sms %>
     <%= form.check_box :sms %>
   </div>
@@ -33,13 +41,13 @@
   </div>
   <div class="field">
     <span class="subscription_message"></span>
-    <%= form.label :subscription, :hidden => 'true' %>
-    <%= form.text_area :subscription , :id => 'webpush-subscription' , :hidden =>'true' %>
+    <%= form.label :subscription , :hidden => true %>
+    <%= form.text_area :subscription , :id => 'webpush-subscription', :hidden => true  %>
   </div>
   <div class="field">
     <span class="browser"></span>
-    <%= form.label :browser, :hidden => 'true' %>
-    <%= form.text_area :browser , value: browser.name, :id => 'webpush-subscription' , :hidden =>'true' %>
+    <%= form.label :browser, :hidden => true  %>
+    <%= form.text_area :browser , value: browser.name, :id => 'webpush-browser', :hidden => true %>
   </div>
 
   <div class="actions" >

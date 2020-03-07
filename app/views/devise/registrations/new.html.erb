@@ -1,20 +1,30 @@
 <h2>Sign up</h2>
 
 <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-  <%= devise_error_messages! %>
+  <%= render "devise/shared/error_messages", resource: resource %>
 
-  <div class="field">
-       <%= f.label :avatar %><br>
-       <%= f.file_field :avatar %>
-  </div>
+     <div class="field">
+      <%#= defined? :avatar ? image_tag(:avatar.url(:thumb)) : image_tag("fallback/thumb_DefaultPerson.png") %>
+      <%= f.label :avatar do %>
+        Avatar: 
+        <%= image_tag(resource.avatar.url(:thumb)) %>
+        <%end%>
+        <br />
+      <%= f.file_field :avatar , :hint => image_tag(resource.avatar.url(:thumb))%>
+   </div>
 
   <div class="field">
     <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true %>
-  </div>
- <div class="field">
-    <%= f.label :alias %><br />
-    <%= f.text_field :alias, autofocus: true %>
+    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+    <p class="field-note">
+      Your email is your login, since it is (should be) unique.  <br>
+      Your account will not be active until it is verified through your email.<br>
+      We never show your email on the site, so no one but you will see it.<br>
+      We never share your account information with anyone.<br>
+      We <strong>will</strong> however use your email to communicate with you about any comments
+      you write.
+    </p>
+
   </div>
 
   <div class="field">
@@ -22,12 +32,16 @@
     <% if @minimum_password_length %>
     <em>(<%= @minimum_password_length %> characters minimum)</em>
     <% end %><br />
-    <%= f.password_field :password, autocomplete: "off" %>
+    <%= f.password_field :password, autocomplete: "new-password" %>
+   <p class="field-note">
+      Encrypted before stored. No one ever sees it in the clear, even the administrators.
+    </p>
+
   </div>
 
   <div class="field">
     <%= f.label :password_confirmation %><br />
-    <%= f.password_field :password_confirmation, autocomplete: "off" %>
+    <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
   </div>
 
   <div class="actions">

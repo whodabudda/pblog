@@ -1,17 +1,8 @@
 
-  <div class="row justify-content-start">
-<% if false %>
-    <div class="col-5">
-   		<%= render  "comments/form" %>
-    </div>
-<% end %>
-
-    <div class="col">
-
     	<% if ! ( @comment_reviews.nil? and @comment_reviews.blank?) %>
-    	<%#  comment comment %>
 		<% @comment_reviews.each do |review| %>
-		<div class="comment-row" id="comment-row-<%=review.comment_id%>">
+  <div class="row justify-content-start">
+    <div class="col-12 p-3 ">
 		   <figure class="user-icon">
 		   		<% if review.admin_id <= 0 
 		   			theReviewer = @comment.user
@@ -21,20 +12,23 @@
 		   		%>
 		       <%= theReviewer.avatar? ? image_tag(theReviewer.avatar.url(:thumb)) : image_tag("fallback/thumb_DefaultPerson.png") %>
 		       <figcaption>
-		       	
-		       <%= theReviewer.email.split('@')[0] %> 
+		       	<%# 11/13/19 added alias to admin and removed email name from list
+		       	    so admins and users can have different alias's 
+		       	    plus we don't want to disclose the email name on the view %>
+		       <%#= theReviewer.email.split('@')[0] %>  
+		       <div class="author-line">
+		       <%= theReviewer.alias %> 
 		       <%= theReviewer.created_at %> 
+		   </div>
 		       </figcaption>
 			</figure>
-			<div class="comment-text" id="comment-text<%=review.comment_id%>">
-
+			<div class="review-text" id="review-text<%=review.comment_id%>">
 			<%=raw review.review_text %> 
 		    </div>
-		  </div>
-		<% end %>
-		<% end %> 
-	  </div>
+	</div>
   </div>
+		<% end %>
+		<% end # if we have comment_reviews %> 
    <div class="row justify-content-center">
     <div class="col px-5">
    		<%= @comment_review = CommentReview.new

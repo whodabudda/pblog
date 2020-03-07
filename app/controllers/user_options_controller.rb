@@ -1,7 +1,9 @@
 class UserOptionsController < ApplicationController
-  before_action :set_user_option, only: [:show, :edit, :update, :destroy,:toggle_subscription]
-  skip_before_action :authenticate_admin!
-  before_action :show_params, only: [:send_push_notification]
+  before_action :authenticate_admin!,only: [:index]
+  before_action :authenticate_user! , except: [:index]
+  before_action :set_user_option, only: [:show, :edit, :update, :destroy,:toggle_subscription,:toggle_email,:send_test_push_notification]
+  before_action :show_params, only: [:send_test_push_notification]
+  before_action :set_delivery_method
   # GET /user_options
   # GET /user_options.json
   def index
@@ -22,6 +24,17 @@ class UserOptionsController < ApplicationController
   def edit
     @user_option
   end
+  def toggle_email
+    if !(params.dig(:user_option,:email).nil?)
+      @user_option.email = params.dig(:user_option,:email)
+    else
+      @user_option.email = false
+    end      
+    respond_to do |format|
+     format.js { render 'toggle_email.js.erb', layout: false }
+    end
+  end
+
   def toggle_subscription
     @user_option
     #
@@ -40,8 +53,25 @@ class UserOptionsController < ApplicationController
     end
   end
 
-  def send_push_notification
-    Webpush.payload_send webpush_params
+  def send_test_email_notification
+    @article = CommentableContent.last
+    @user = User.find(params[:user_id])
+  #  UserMailer.with(user: @user,article: @article).new_article(@delivery_method)
+    UserMailer.with(user: @user,article: @article).new_article.deliver_now
+    respond_to do |format|
+       format.js
+     end
+  end
+  def send_test_push_notification
+    #required:  subscription, title, 
+    #optional:  article(CommentableContent object)
+    #          , action, icon
+    messaging = WebPushNotification.new({
+     subscription: params[:subscription],
+            title: 'New Content at Whodabudda' ,
+            article: CommentableContent.last
+      })
+    messaging.call
     respond_to do |format|
        format.js
      end
@@ -91,6 +121,11 @@ class UserOptionsController < ApplicationController
   end
 
   private
+    #deliver_now is good for development, where deliver_later might fail (see rails doc)
+    #This creates some discomfort in that behaviour can be different between environments
+    def set_delivery_method
+        @delivery_method = (Rails.env == "production" ? 'deliver_later' : 'deliver_now')
+    end
     # Use callbacks to share common setup or constraints between actions.
     def set_user_option
       @user_option = UserOption.find_by(user_id: current_user.id, browser: browser.name)
@@ -106,46 +141,6 @@ class UserOptionsController < ApplicationController
     def show_params
       Rails.logger.info "Displaying params: #{params} "
 
-    end
-
-    def webpush_params
-      #subp = UserOption.find(1).subscription
-      #Rails.logger.info "webpush_params subp: #{subp} : #{subp.class}"   
-      subp = params[:subscription] 
-      subp = ActiveSupport::JSON.decode(subp)
-      subp = subp.deep_symbolize_keys
-      Rails.logger.info "webpush_params as hash?: #{subp} : #{subp.class}" 
-      #subp.keys.each do |key|
-      #  subp[(key.to_sym rescue key) || key] = subp.delete(key)
-      #end  
-      #subp.to_h
-      #JSON.parse(Base64.urlsafe_decode64(subp)).with_indifferent_access
-      #message = CommentableContent.find(14).extract.to_s
-      message = {
-        title: "New Content at Whodabudda",
-        body: CommentableContent.find(14).extract.to_s,
-        icon: "/assets/44px-Wiki_letter_w.png",
-        actions: [{
-          action: 'launch-action',
-          title: CommentableContent.find(14).title.to_s,
-          article_url: '/commentable_contents/show_by_id?id=14'
-        }]
-      }
-      vapid = {
-        subject: "mailto:whodabudda@gmail.com",
-        public_key: ENV['VAPID_PUBLIC_DEV'],
-       private_key: ENV['VAPID_PRIVATE_DEV']
-      }
-      endpoint = subp[:endpoint]
-      Rails.logger.info "webpush_params endpoint: #{endpoint}"   
-      p256dh = subp[:keys][:p256dh]
-      Rails.logger.info "webpush_params p256dh: #{p256dh}"   
-      auth = subp[:keys][:auth]
-      Rails.logger.info "webpush_params auth: #{auth}"  
-      #icon = '/images/44px-Wiki_letter_w.png'
-      { message: JSON.generate(message), endpoint: endpoint, p256dh: p256dh, auth: auth, api_key: "", vapid: vapid }
-  #    api_key = enpoint =~ /\.google.com\// = ENV.fetch('GOOGLE_CLOUD_MESSAGE_API_KEY') || ""
-  #    { message: message, endpoint: endpoint, p256dh: p256dh, auth: auth, api_key: api_key }
     end
 
     def fetch_subscription

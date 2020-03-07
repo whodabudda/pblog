@@ -1,9 +1,9 @@
       <% if ! @commentable_contents.nil? %>
          <% cc = @commentable_contents %> 
-           <%= render partial: "shared/content/table_content_row", locals: { cc: @commentable_contents, type:  @type , title: @title} %>
+           <%= render partial: "shared/content/table_content_row", locals: { cc: @commentable_contents, title: @title} %>
          <div id="comments_list"> <!-- comments_list needed in create.js.erb to append new comment -->
          <% cc.comments.each do |c| %>
-             <%= render partial: "shared/content/table_comment_row", locals: { c: c, type:  @type , title: @title} %>
+             <%= render partial: "shared/content/table_comment_row", locals: { c: c, title: @title} %>
           <%end # end of comments loop %>
           </div>
           <p> <%#= session.inspect %> </p>

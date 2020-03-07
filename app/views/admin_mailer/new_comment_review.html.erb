@@ -1,0 +1,22 @@
+<h1>
+	Please Review
+</h1>
+<h2>
+	<%= @user.email%>  ( <%=@user.alias%> ) has submitted a new response in the ongoing review of his/her comment regarding the article:
+	Id: <%= @comment.commentable_id %>
+	Title: <%= CommentableContent.find(@comment.commentable_id).title %>
+</h2>
+<p>
+	As the administrator assigned to review this comment, please engage with this user to bring their comment to a final status.
+</p>
+
+<h4>
+	Here is their latest correspondance for your convenience:
+</h4>
+<hr>
+<p>
+	<%= raw @comment_review.review_text %>
+</p>
+<h5>
+	Please feel free to reach out to other admins for coordination/guidance...etc.
+</h5

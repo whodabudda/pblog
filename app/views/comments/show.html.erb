@@ -1,2 +1,16 @@
 <h1>Comment#show</h1>
+<%= render 'form', comment: @comment %>
 <p>Find me in app/views/comment/show.html.erb</p>
+<script>
+MyClassicEditor
+    .create( document.querySelector( '#editor' ) )
+    .then( editor => {
+      <%if admin_on? %>
+      editor.isReadOnly = true;  //don't allow admins to edit the user's content
+      <%end%>
+        console.log( editor );
+    } )
+    .catch( error => {
+        console.error( error );
+   } );
+</script>

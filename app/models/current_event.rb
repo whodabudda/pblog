@@ -1,2 +1,0 @@
-class CurrentEvent < CommentableContent
-end

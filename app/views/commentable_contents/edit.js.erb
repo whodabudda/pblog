@@ -1,0 +1,22 @@
+// Add the pblogModal title
+$('#pblogModal h5').html("<i class='glyphicon glyphicon-pencil modal-title' id='pblogModalLongTitle'></i> Edit Article");
+ 
+// Render the edit form
+$('.modal-body-placeholder').html('<%= j render partial: "form", locals: { ismodal:  "true" } %>');
+
+//////////////////////////////////////////////////////////////////////////////////
+//Show the dynamic pblogModal
+$('#pblogModal').modal("show");
+ 
+// Set focus to the first element
+$('#pblogModal').on('shown.bs.modal', function () {
+	  $('.first_input').focus()
+ });
+ MyClassicEditor
+    .create( document.querySelector( '#editor' ) )
+    .then( editor => {
+        console.log( editor );
+    } )
+    .catch( error => {
+        console.error( error );
+   } );

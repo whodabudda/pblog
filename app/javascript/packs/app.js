@@ -21,6 +21,7 @@ import "regenerator-runtime/runtime";
 //require("jquery") may already be loaded through environment.js
 //require("tether")
 //window.$ = $;
+
 //window.jQuery = jQuery;
 import JQuery from 'jquery';
 window.$ = window.JQuery = JQuery;

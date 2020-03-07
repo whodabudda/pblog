@@ -47,9 +47,9 @@
                 New Content
                 </a>
                 <div class="dropdown-menu" role="menu" aria-labelledby="navbarDropdownMenuLink">
-                    <%= link_to 'New Rogue',  [:new ,"rogue".underscore ],"data-turbolinks" => false, :class => "dropdown-item"  %>
-                    <%= link_to 'New Current Event',  [:new ,"current_event".underscore ], "data-turbolinks" => false, :class => "dropdown-item"  %>
-                    <%= link_to 'New Truth In Media', [:new ,"truth_in_media".underscore ],"data-turbolinks" => false, :class => "dropdown-item"  %>
+                    <%= link_to 'New Article',  [:new ,"commentable_content".underscore ],"data-turbolinks" => false, :class => "dropdown-item"  %>
+                    <%#= link_to 'New Current Event',  [:new ,"current_event".underscore ], "data-turbolinks" => false, :class => "dropdown-item"  %>
+                    <%#= link_to 'New Truth In Media', [:new ,"truth_in_media".underscore ],"data-turbolinks" => false, :class => "dropdown-item"  %>
             </div></li> 
             <% end %>
           </ul>

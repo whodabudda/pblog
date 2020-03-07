@@ -6,25 +6,12 @@
       <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <!-- see if this prevents js from executing twice-->
       <meta name="turbolinks-cache-control" content="no-preview" />
-    <!-- Bootstrap CSS
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-     -->
     <title>Pblog</title>
     <%= csrf_meta_tags %>
-    <%#= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <%#= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
-    <%= stylesheet_pack_tag    'app', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <%= javascript_packs_with_chunks_tag 'app','pblog','ckeditor', 'data-turbolinks-track': 'reload' %>
-    <%#= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
-    <!--script>
-    !function(){var analytics=window.analytics=window.analytics||[];if(!analytics.initialize)if(analytics.invoked)window.console&&console.error&&console.error("Segment snippet included twice.");else{analytics.invoked=!0;analytics.methods=["trackSubmit","trackClick","trackLink","trackForm","pageview","identify","reset","group","track","ready","alias","debug","page","once","off","on"];analytics.factory=function(t){return function(){var e=Array.prototype.slice.call(arguments);e.unshift(t);analytics.push(e);return analytics}};for(var t=0;t<analytics.methods.length;t++){var e=analytics.methods[t];analytics[e]=analytics.factory(e)}analytics.load=function(t){var e=document.createElement("script");e.type="text/javascript";e.async=!0;e.src=("https:"===document.location.protocol?"https://":"http://")+"cdn.segment.com/analytics.js/v1/"+t+"/analytics.min.js";var n=document.getElementsByTagName("script")[0];n.parentNode.insertBefore(e,n)};analytics.SNIPPET_VERSION="4.0.0";
-    analytics.load("dNUnbLZCHLzEdbkY7RKWecAvMW5aPcWr");
-    analytics.page();
-    }}();
-    </script-->
 
-  <!-- SementRubyDev write key:  NWrab8JF5GlNuxs67uXRpbE4OnY8qfXN  -->
-   <%# Analytics.track( event: 'Page Rendered', properties: { location: 'header', type: 'page' } ) %>
+    <%= stylesheet_packs_with_chunks_tag 'app', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_packs_with_chunks_tag 'app','pblog','ckeditor', 'data-turbolinks-track': 'reload' %>
+ 
     <link rel="manifest" href="/manifest.json" />
     <meta name="apple-mobile-web-app-capable" content="yes">
   </head>
@@ -52,36 +39,13 @@
         end
         %>
 
-
-    <!-- Bootstrap CSS
-    <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script> 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-     -->
-
       <div id="modal-holder"></div>
 
     <script>
     $(document).ready(function () {
         $('.dropdown-toggle').dropdown();
     });
-
-    // $("#webpush-button").on("click", (e) => {
-    //   e.preventDefault();
-    //   console.log('[webpush-button event] Fired! event');
-    //   navigator.serviceWorker.ready
-    //   .then((serviceWorkerRegistration) => {
-    //     serviceWorkerRegistration.pushManager.getSubscription()
-    //     .then((subscription) => {
-    //       console.log('[webpush-button event] obtained subscription:', subscription);
-    //       $.post("/push", { subscription: subscription.toJSON(), message: "You clicked a button!" });
-    //     });
-    //   });
-    // });
-
-
     </script>
   </body>
  </html>
-<!--div class="devise-form border-form-div center con-resize-half" -->
-<!--div class="devise-form border-form-div" style="height: calc(100vh - 75px - 50px); overflow: scroll;"  -->
+

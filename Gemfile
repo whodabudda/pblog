@@ -8,6 +8,11 @@ gem 'serviceworker-rails'   # for serviceworker cacheing.  Not doing this yet.
 gem 'browser'               # get browser name
 
 gem 'webpacker' , :git => "git://github.com/rails/webpacker.git"            # new with rails 6.x
+gem 'rubocop'               # check code integrity
+gem 'redis'		    #this is the redis ruby client ie: redis.rb on github
+gem 'redis-namespace'	    #needed to namespace the sidekiq instances
+gem 'sidekiq'		    #sidekiq can run in systemd user space. redis runs in system space
+gem 'sidekiq-status'	    #separate gem to keep track of sidekiq jobs
 #
 #11/19/2018 ppk added comments
 #
@@ -15,7 +20,8 @@ gem 'webpacker' , :git => "git://github.com/rails/webpacker.git"            # ne
 #
 #devise for user login
 #
-gem 'devise'
+gem "devise", ">= 4.7.1"
+#gem 'devise'
 #
 #bootstrap is twitter library for organization of content in views
 #
@@ -60,7 +66,9 @@ gem 'rails', '~> 6.0'
 gem 'mysql2'
 gem 'sqlite3'
 # Use Puma as the app server
-gem 'puma', '~> 3.0'
+# security issue requires > 3.12.2
+gem "puma", ">= 3.12.2"
+#gem 'puma', '~> 3.0'
 # Use SCSS for stylesheets
 #ppk removed for webpack: gem 'sass-rails', '~> 5.0'
 gem 'sassc-rails'
@@ -70,13 +78,15 @@ gem 'sassc-rails'
 #ppk removed for webpack: gem 'coffee-rails', '~> 4.2'
 # See https://github.com/rails/execjs#readme for more supported runtimes
 # gem 'therubyracer', platforms: :ruby
-
 # Use jquery as the JavaScript library
 #ppk removed for webpack: gem 'jquery-rails'
+
 # Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
 gem 'turbolinks', '~> 5'
+
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.5'
+
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 3.0'
 # Use ActiveModel has_secure_password
@@ -101,3 +111,10 @@ end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
+
+gem "actionview", ">= 5.0.7.2"
+gem "activejob", ">= 5.0.7.1"
+
+
+
+

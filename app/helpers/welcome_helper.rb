@@ -3,9 +3,9 @@ module WelcomeHelper
 		@log_str = ""
 		
 		if user_signed_in? and ! admin_signed_in?
-		  @log_str = 'Welcome User: '.concat current_user.email.to_str 
+		  @log_str = 'Welcome User: '.concat current_user.alias.to_str 
 		elsif admin_signed_in?
-		  @log_str = 'Welcome Admin: '.concat current_admin.email.to_str 
+		  @log_str = 'Welcome Admin: '.concat current_admin.alias.to_str 
 		else
 		  @log_str = link_to('Please Sign-Up or sign-In', new_user_session_path, class: "nav-link")
 		end
@@ -17,6 +17,14 @@ module WelcomeHelper
       #admin is the top login.  If already signed in, can stop.
       if admin_signed_in?
         my_debug("Admin already signed in" )
+        #
+        #This can happen if the admin was directed to the site through an email
+        #link, and did not sign in as a user first.  Set current_admin_id to 
+        #this admin's id
+        if session[:current_admin_id].nil?
+          my_debug("Setting session current_admin_id to #{current_admin.id.to_s}" )
+          session[:current_admin_id] = current_admin.id
+        end
         return
       end
       #admin is not signed in.  Check the next level, user.
@@ -42,7 +50,7 @@ module WelcomeHelper
           # nil == No user logged in.
           # -1  == not an admin
           #  0  == is an admin, but not toggled on
-          # > 0 == is a toggled on admin
+          # > 0 == is a toggled on admin with this admin.id
           #
           session[:current_admin_id] = 0
 	      else
@@ -50,14 +58,14 @@ module WelcomeHelper
       		 session[:current_admin_id] = -1
       	end
       else	
-      	my_debug("no current_user signed in when checking for admin")
+      	my_debug("no current_user signed in when checking for admin.")
       end
 	  end
 
     def admin_on?
     	my_debug("in admin_on? helper: user_signed_in " + (user_signed_in? ? "true" : "false"))
-    	my_debug("in admin_on? helper: current_admin_id is " + session[:current_admin_id].to_s )
- 		  if  admin_signed_in? and session[:current_admin_id] > 0
+    	my_debug("in admin_on? helper: current_admin_id is " + (admin_signed_in? ? session[:current_admin_id].to_s : "false") )
+ 		  if  !session[:current_admin_id].nil? and admin_signed_in? and session[:current_admin_id] > 0
         my_debug("admin_on? returning true ")
  		    return true
  		   end

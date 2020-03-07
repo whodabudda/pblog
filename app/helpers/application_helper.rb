@@ -27,4 +27,8 @@ module ApplicationHelper
 		ActiveRecord::Base.logger.level = lvl 
 		my_debug("logger.level is now: " + config.logger_level?.to_s)
 	end
+    def delivery_method
+        Rails.env == "production" ? 'deliver_later' : 'deliver_now'
+    end
+
 end

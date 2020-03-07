@@ -30,11 +30,12 @@ module Pblog
 		# PPK 09/09/2019 These paths will be ignored when redirecting the user to last visited page
 		# Devise routes need to always be here, so that a redirect loop does not occur
 		# after signing in
-		config.ignored_paths = %W(/users/sign_in /users/sign_up /users/password /users/sign_out /users/confirm_password /admins/sign_in /admins/sign_up /admins/password /admins/sign_out /admins/confirm_password)
+		config.ignored_paths = %W(/users/sign_in /users/sign_up /users/password /users/sign_out /users/confirm_password /users/password/edit /users/password/new /admins/sign_in /admins/sign_up /admins/password/edit /admins/password /admins/sign_out /admins/confirm_password)
 	end
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
-
-  end
+	config.autoload_paths += %W(#{config.root}/lib/classes)  #ppk 12/07/19 auto include custom classes
+	config.active_job.queue_adapter = :sidekiq  #ppk 12/21/2019  added sidekiq gem
+  end  
 end

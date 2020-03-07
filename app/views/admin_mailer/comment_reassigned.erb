@@ -1,0 +1,24 @@
+<h1>
+	Please Be Advised
+</h1>
+<hr>
+<h2>
+	<%= Admin.find(@comment.reviewed_by).email%>  has taken Admin responsibilities for the comment previously assigned to you.
+	<br>
+	Article Id: <%= @comment.commentable_id %>
+	<br>
+
+	Title: <%= CommentableContent.find(@comment.commentable_id).title %> 
+	<br>
+	 
+	Comment Id: <%= @comment.id %> 
+	<br>
+	 
+	Comment Author: <%= @user.alias %> 
+</h2>
+<hr>
+<p>
+	Please contact the new admin with any questions or concerns.
+	If there is a disagreement over this re-assignment that needs arbitration, please contact whodabudda@gmail.com
+</p>
+

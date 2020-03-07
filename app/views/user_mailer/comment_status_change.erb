@@ -1,0 +1,40 @@
+<h1>
+	The status of your comment is now "<%= I18n.t ".comment_review_status.#{@comment.review_status}.name" %>"
+</h1>
+<h2>
+	<%if ["NOTR", "NREV"].include?(@comment.review_status) %>
+	 You will receive a followup communication from the reviewer explaining the reasons for this change in status.
+	<%end%>
+	<%if ["REJK", "RANT"].include?(@comment.review_status) %>
+	 For reasons that should be obvious, the comment has been deemed inappropriate for this site.
+	<%end%>
+	<%if ["APPR"].include?(@comment.review_status) %>
+	 We are happy to include your comment in the discussion about the Article.  
+	 You should be able to view it now, ordered by the date it was last changed.
+	<%end%>
+</h2>
+<p>
+	<%if ["APPR"].include?(@comment.review_status) %>
+	If you need to make further changes to your comment, it will be resubmitted into the review process.  It is generally better practice to create a new comment if you have something new of substance to contribute.
+	<%end%>
+
+	<%if ["REJK", "RANT"].include?(@comment.review_status) %>
+	There is no further action needed on your part.
+	Your comment may be viewed using the available filter dropdown menu.
+	You may appeal the Admin's decision using the 'Review' option on the 'Action' button.
+	<%end%>
+
+	<%if ["NOTR", "NREV"].include?(@comment.review_status) %>
+	Please use the 'Review' option on the 'Action' button to communicate with the reviewer.
+	The history of all communications with the reviewer will appear on the Review page.
+	See the Doc page (off the top menu) to see the rules for contributing to this site.
+	<%end%>
+</p>
+
+<h5>
+	Thank you for your engagement with Whodabudda.
+</h5>
+
+
+
+

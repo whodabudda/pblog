@@ -1,0 +1,24 @@
+<h1>
+	Please Review
+</h1>
+<h2>
+	<%= @user.email%>  ( <%=@user.alias%> ) has submitted a new comment for article:
+	Id: <%= @comment.commentable_id %>
+	Title: <%= CommentableContent.find(@comment.commentable_id).title %>
+</h2>
+<p>
+	Please review the comment and assign an initial status.  The admin to assign the status will then be responsible to communicate with the user for any additional followup.
+</p>
+
+<h4>
+	Here is the <%= link_to 'comment' , controller: "comments", action: "show_admin", id: @comment.id %> for your convenience:
+
+	Id: <%= raw @comment.id %>
+</h4>
+<hr>
+<p>
+	 <%= raw @comment.comment_text %>
+</p>
+<h5>
+	Please feel free to reach out to other admins for coordination/guidance...etc.
+</h5

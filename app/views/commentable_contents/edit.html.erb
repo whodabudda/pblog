@@ -2,9 +2,9 @@
 <%@commentable_content.content.force_encoding("UTF-8") %>
 <%= render 'form', commentable_content: @commentable_content %>
 
-<%= link_to 'Show', @commentable_content %> 
-<%= link_to 'Back', commentable_contents_path %>
-<%= javascript_packs_with_chunks_tag 'ckeditor', 'data-turbolinks-track': 'reload' %>
+<%= link_to 'Cancel', url_for( :back) %> 
+<%#= link_to 'Back', commentable_contents_path %>
+<%#= javascript_packs_with_chunks_tag 'ckeditor', 'data-turbolinks-track': 'reload' %>
 <!--
 <script src="src/editor/config.js"> </script>
 -->
@@ -12,7 +12,7 @@
 MyClassicEditor
     .create( document.querySelector( '#editor' ) )
 		.then( editor => {
-			window.editor = editor;
+			//window.editor = editor;
 			console.log (Array.from( editor.ui.componentFactory.names() ) );
 		} )
 		.catch( err => {

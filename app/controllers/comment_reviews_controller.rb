@@ -13,16 +13,32 @@ class CommentReviewsController < ApplicationController
   def create
      @comment_review = CommentReview.new(review_params)
      @comment = Comment.find(@comment_review.comment_id)
+     @user = User.find(@comment.user_id)
      @cc = CommentableContent.find(@comment.commentable_id)
     respond_to do |format|
       if @comment_review.save!
-        #format.html {redirect_to comment_reviews_path(comment_id: @comment_review.comment_id), notice: "Comment Review was successfully saved"}
-        AdminEventMailer.notify_all_admins("New Review was saved for Article: #{@cc.title} \
-                 Comment Id: #{@comment.id}" \
-                 ,"New Review Notification").deliver_later
+        if @comment_review.admin_id.nil? or @comment_review.admin_id == 0
+          if @comment.reviewed_by.nil?
+             #
+             #The submitter is NOT an admin, and no admin is assigned, so send request to all
+             #Admins for one of them to take ownership,  i.e. treat it as a new comment
+             #
+             AdminMailer.with(user: @user,comment: @comment).new_comment.public_send(helpers.delivery_method)
+          else
+             #
+             #The submitter is NOT an admin, But one IS assigned, so send notice to that admin 
+             #
+             @admin = Admin.find(@comment.reviewed_by)
+             AdminMailer.with(comment_review: @comment_review,comment: @comment,admin: @admin,user: @user).new_comment_review.public_send(helpers.delivery_method)
+          end
+        else
+          #
+          #The submitter is an admin. Notify the user
+          #
+          @admin = Admin.find(@comment_review.admin_id)
+          UserMailer.with(comment_review: @comment_review,admin: @admin, comment: @comment).new_comment_review.public_send(helpers.delivery_method)
+        end
         format.html { redirect_to controller: "commentable_contents", title: @cc.title, action: "show_by_id", id: @cc.id , notice: 'Comment Review was successfully saved.' }
-        #format.html {redirect_to controller: comment_reviews, action: index , protocol: '//' ,notice: "Comment Review was successfully saved"}
-        #format.html {redirect_to @cc, notice: "Comment Review was successfully saved"}
         format.json { render :show, status: :created, location: @comment_review}
         format.js
       else
@@ -58,7 +74,7 @@ class CommentReviewsController < ApplicationController
     end
 
    def log_action
-    Rails.logger.info "in: #{params[:controller]} : #{params[:action]}  for user: " + current_user.id.to_s
+    Rails.logger.info "in: #{params[:controller]} : #{params[:action]}" + (user_signed_in? ? " user: #{current_user.id.to_s}" : "")
     Rails.logger.info "params are: #{params.inspect}"
     Rails.logger.info "comment_id is: #{params[:comment_id]} "
   end

@@ -15,7 +15,7 @@
 
 // };a
 
-
+const isNNNU = (value) => typeof value !== "undefined" && (typeof value !== "object" || !value)
 function getRegistration(swname,swscope){
 	console.log('[getRegistration] args ', arguments[0],' ', arguments[1])
 	console.log('[getRegistration] argnames ', swname, ' ',swscope)
@@ -33,41 +33,40 @@ function getRegistration(swname,swscope){
 
 // 
 
-function reconcileSubscriptions (current_subscription, subscription) {
+function reconcileSubscriptions (db_subscription, subscription) {
   	//var current_subscription = $('#webpush-subscription').val();
    	//console.log('reconcileSubscriptions: current subscription ', current_subscription);
   	//current_subscription = decodeHtml(current_subscription);
    	//console.log('reconcileSubscriptions: current subscription after decodeHtml ', current_subscription);
    	var dbJSObject; 
    	var regJSObject; 
+   	if (subscription == null) {
+		  $('.subscription_message').text('No subscription registered with browser').addClass('notifications-problem').removeClass('checkmark');
+		  return false
+	}
+   	if (!isNNNU(db_subscription) || !(db_subscription.length > 100)) {
+		$('.subscription_message').text('No previously saved subscription. Please save.').addClass('notifications-problem').removeClass('checkmark');
+		document.getElementById("webpush-subscription").value = JSON.stringify(subscription);
+	    return false;
+   	}
    	try {
-   		dbJSObject = JSON.parse(current_subscription);
-   		regJSObject = subscription;
+		dbJSObject = JSON.parse(db_subscription);
+		regJSObject = subscription;
    	}
    	catch(err){
 		$('.subscription_message').text('Error parsing stored subscription').addClass('notifications-problem').removeClass('checkmark');
 	    console.log("reconcileSubscriptions: unable to parse db subscription", JSON.stringify(dbJSObject));
-	    console.log("reconcileSubscriptions: unable to parse registered subscription", JSON.stringify(regJSObject));
 	    return false;
    	}
 
-	if(regJSObject) {
-		if( !dbJSObject.endpoint) {
-		  $('.subscription_message').text('Please save the new browser subscription.').addClass('notifications-problem').removeClass('checkmark');
-		  document.getElementById("webpush-subscription").value = JSON.stringify(regJSObject);
-		}
-		if( dbJSObject.endpoint && regJSObject.endpoint != dbJSObject.endpoint) {
-		  $('.subscription_message').text('The Browser Service subscription differs from the stored subscription.  You must save.').addClass('notifications-problem').removeClass('checkmark');
-		  document.getElementById("webpush-subscription").value = JSON.stringify(regJSObject);
-   		  console.log('reconcileSubscriptions: registered subscription endpoint', regJSObject.endpoint);
-   		  console.log('reconcileSubscriptions: DB subscription endpoint', dbJSObject.endpoint);
-   		}
-   		else {
-		  $('.subscription_message').text('Currently saved subscription is good').addClass('checkmark').removeClass('notifications-problem');
-   		}
+	if( dbJSObject.endpoint && regJSObject.endpoint != dbJSObject.endpoint) {
+	  $('.subscription_message').text('You have a new subscription. Please save before leaving this page.').addClass('notifications-problem').removeClass('checkmark');
+	  document.getElementById("webpush-subscription").value = JSON.stringify(regJSObject);
+	  console.log('reconcileSubscriptions: registered subscription endpoint', regJSObject.endpoint);
+	  console.log('reconcileSubscriptions: DB subscription endpoint', dbJSObject.endpoint);
 	}
 	else {
-		  $('.subscription_message').text('No subscription registered with browser').addClass('notifications-problem').removeClass('checkmark');
+	  $('.subscription_message').text('Currently saved subscription is good').addClass('checkmark').removeClass('notifications-problem');
 	}
 	return true;
 }
@@ -114,20 +113,20 @@ return return_val;
 
 function setSubscriptionValues () {
 	if (checkNotification()) {
-  		var current_db_subscription = $('#webpush-subscription').val();
+  		var current_db_subscription;
+  		current_db_subscription = $('#webpush-subscription').val();
   		var current_reg_subscription;
 		getRegisteredSubscription()
 		.then(function(subscription){
 			current_reg_subscription = subscription;
+			console.log('[setSubscriptionValues]current_db_subscription ', JSON.stringify(current_db_subscription));
+			console.log('[setSubscriptionValues]current_reg_subscription ', JSON.stringify(current_reg_subscription));
+	  		if(!current_reg_subscription) {
+	  			current_reg_subscription = getNewSubscription();
+	  		}
+	  		//if((current_db_subscription.length > 100) && current_reg_subscription ) {
 
-		console.log('[setSubscriptionValues]current_db_subscription ', JSON.stringify(current_db_subscription));
-		console.log('[setSubscriptionValues]current_reg_subscription ', JSON.stringify(current_reg_subscription));
-  		if((current_db_subscription.length > 100) && current_reg_subscription ) {
 			reconcileSubscriptions(current_db_subscription,current_reg_subscription);
-		}
-  		if(!current_reg_subscription) {
-  			current_reg_subscription = getNewSubscription();
-  		}
 		})
 	}
 }

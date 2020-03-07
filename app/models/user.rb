@@ -6,5 +6,6 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :trackable, :lockable, :confirmable
 
   has_many :comments
+  has_many :user_options
  
 end

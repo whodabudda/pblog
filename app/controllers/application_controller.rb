@@ -16,10 +16,10 @@ class ApplicationController < ActionController::Base
    devise_parameter_sanitizer.permit(:sign_up) { |u| u.permit(:email, :password, :password_confirmation, :avatar, :alias) } 
    devise_parameter_sanitizer.permit(:sign_in) { |u| u.permit(:email) }
    devise_parameter_sanitizer.permit(:account_update) { |u| u.permit( :email, :password, :password_confirmation, :current_password, :avatar, :alias)}
+   devise_parameter_sanitizer.permit(:update) { |u| u.permit( :email, :password, :password_confirmation, :current_password, :avatar, :alias)}
 
   end
   def log_action
-    Rails.logger.info "in: #{params[:controller]} : #{params[:action]}  for user: " + current_duser.id.to_s
     Rails.logger.info "params are: #{params.inspect}"
   end
   def show_args(*args)
@@ -37,6 +37,14 @@ class ApplicationController < ActionController::Base
     root_path
    end
   end 
+  
+  def set_current_user_timezone
+    if user_signed_in? && !session[:local_dttm_tz].nil?
+      Time.use_zone(session[:local_dttm_tz]) { yield }
+    else  
+      yield
+    end
+  end
 
   #
   #ppk 09/09/2019 Devise will call this to find path to redirect to after sign in

@@ -9,7 +9,7 @@ class UtilsController < ApplicationController
       redirect_back(fallback_location: root_path)
   end
   def util_params
-      params.permit(:setting,:image_name)
+      params.permit(:setting,:image_name,:local_dttm)
   end
   def toggleRantsOnly
     if @rants_only
@@ -27,4 +27,4 @@ class UtilsController < ApplicationController
      format.js
     end        
   end 
-end
+ end

@@ -1,3 +1,10 @@
+<!--
+partial form for editing a comment.
+Can update:
+Comment Text: if the Comment belongs to the user and is not signed in as an Admin.
+Comment Status: if the user is an Admin
+Admin id:  if an Admin reviewer has not yet been assigned, or if the current Admin is different than the one previously assigned.
+-->
 <%@ismodal = local_assigns[:ismodal] 
   if @ismodal.nil?
     @ismodal = false
@@ -11,40 +18,67 @@ my_debug("in comments/form partial: #{action_name}, ismodal: #{@ismodal}")
   <% if @ismodal %>
     <div class='modal-body'> </div>
   <%end%>
- <div class="field ">
+  <!--
+    If Admin, and Comment had previously been reviewed by a different admin, show warning
+  -->
+  <%if (((!@comment.reviewed_by.nil?) and (admin_on?) and (@comment.reviewed_by != current_admin.id))) %>
+   <p class="alert alert-danger"> If you change the status on this comment, you will transfer admin responsibility for this comment to yourself. Current admin is <%= Admin.find(@comment.reviewed_by).email%></p> 
+  <%end%>
+  <!--
+    Admins are not allowed to change the Comment itself, only the status.  The comment text is shown for the admins reference.
+  -->
+ <div class="field">
     <%= f.label :comment_text %><br>
-    <%#= f.text_area :comment_text, id: (admin_on? ? "admin_ckeditor" : "user_ckeditor" ),:class => 'comment-text-input ckeditor '  %>
-    <%= f.text_area :comment_text, :class => 'comment-text-input editor',:id => 'editor' %>
-    <%#= f.text_area :comment_text, id: :comment_text,:class => 'comment-text-input',:id => 'editor'  %>
+    <%#= f.text_area :comment_text, readonly: admin_on? ? true : false, :class => 'comment-text-input',id: admin_on? ? nil : 'editor' %>
+    <%= f.text_area :comment_text, readonly: admin_on? ? true : false, :class => 'comment-text-input',id: 'editor' %>
   </div>
   <div class="field">
-     <%= f.text_field :user_id, value: current_user.id, hidden: true,readonly: true%>
-  </div>
-  <div class="field">
-    <%#= f.label :commentable_type %><br>
-    <%= f.text_field :commentable_type , readonly: true, hidden: true%>
+     <%= f.text_field :user_id, value: current_user.id, hidden: true,readonly: true if !admin_on?%>
   </div>
   <div class="field">
     <%#= f.label :commentable_id %><br>
     <%= f.text_field :commentable_id, readonly: true, hidden: true%>
   </div>
+  <!--
+    if user is an Admin
+    Create a hash of the review status's for the drop-down menu.  These are extracted from the ../locals/en.yml file
+    Display the Status drop-down.  
+    If the comment is updated, or the status is changed, the current admin will be assigned to the comment.
+  -->
+ <div class="field ">
   <% if admin_on? %>
    <div class="field ">
    <% revoptions = Hash.new
    (I18n.t '.comment_review_status').each do |k,v| revoptions[v[:name]] = k end
   %>
+<% @confirm_line =  "Are you sure you want to transfer Admin duties for this comment to yourself?"%>
    <%= f.label :review_status %><br>
-   <%=f.select :review_status, options_for_select(revoptions,@comment.review_status),{}, { 
+   <%=f.select :review_status, options_for_select(revoptions,@comment.review_status),{}, {
     :data => { remote: true,
+                confirm: (((!@comment.reviewed_by.nil?) and (@comment.reviewed_by != current_admin.id)) ? @confirm_line : nil),
                :url => url_for(:controller => "comments", 
                     :action => "change_status",
-                     :id => @comment.id.to_s)
+                     :id => @comment.id.to_s,
+                     :reviewed_by => current_admin.id)
    }}
    %> 
    </div>
+  <div class="field">
+     <%= f.text_field :reviewed_by, value: current_admin.id, hidden: true%>
+  </div>
   <% end # admin_on%>
+ <!--
+   This partial form is usually displayed as a modal.  If so, the application layout will not be invoked, and we need to provide our own footer. 
+ --> 
   <% if @ismodal %>
-    <% @footer_message = "user id: #{current_user.id} / type: #{@type} / commentable_id: #{@comment.commentable_id}" %>
+    <% 
+     if admin_on?
+      @footer_message = "Reviewing comment for #{User.find(@comment.user_id).email}.
+        If the status is 'Needs Revision', please send a Review to the user explaining why. "
+     else
+      @footer_message = "Please send a message via the Review option when you are ready to submit your comment"
+     end
+      %>
     </div> <!-- modal-body-->
     <div class="modal-footer">
       <div class="container col-xs-12">
@@ -61,34 +95,27 @@ my_debug("in comments/form partial: #{action_name}, ismodal: #{@ismodal}")
     </div>
   <%else%>
     <div class="actions">
-     <%= f.submit %>
+     <%# don't allow admins to save or edit comments%>
+     <% if !admin_on?%>
+     <%= f.submit%>
+     <% end %>
     </div>
     <%#= render partial: "shared/footer", locals: { footer_message: @footer_message}  %>
-  <%end%>
-<% end %>
+  <%end #if modal%>
+<% end #form_for%>
 
-<%#= javascript_packs_with_chunks_tag 'ckeditor','data-turbolinks-track': 'reload' %>
-<%#= javascript_pack_tag 'ckeditor', 'data-turbolinks-track': 'reload' %>
-
+<%if false %>
 <script type="module">
-//window.MyClassicEditor = MyClassicEditor;
-//import MyClassicEditor from 'pblog/app/javascript/packs/ckeditor/myck_classic_editor'; 
  MyClassicEditor
     .create( document.querySelector( '#editor' ) )
     .then( editor => {
         console.log( editor );
     } )
     .catch( error => {
+      <%if admin_on? %>
+      editor.isReadOnly = true;
+      <%end%>
         console.error( error );
    } );
-
-/*
-CKEDITOR.replace( 'comment_text', {
-  <%# if admin_on? %>
-    toolbar: 'AdminToolbar' 
-  <%# else %>
-    toolbar: 'UserToolbar' 
-  <%# end %>
-} );
-*/
 </script>
+<%end%>

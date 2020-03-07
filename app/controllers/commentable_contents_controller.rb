@@ -1,33 +1,29 @@
 class CommentableContentsController < ApplicationController
+  before_action :authenticate_admin!, except: [:show_by_id,:index,:show]
+  skip_before_action :authenticate_user!
   before_action :set_commentable_content, only: [:show_by_id,:edit, :update, :destroy, :show]
-  before_action :get_commentable_type , :log_action
-
+  #before_action :log_action
+  around_action :set_current_user_timezone , only: [:create,:update,:show_by_id]
   # GET /commentable_contents
   # GET /commentable_contents.json
   def index
-    @commentable_contents = @commentable_type.all
+    @commentable_contents = CommentableContent.all
   end
 
   # GET /commentable_contents/1
   # GET /commentable_contents/1.json
   def show_by_id
-    @commentable_contents  = @commentable_type.find(params[:id])
+    @commentable_contents  = CommentableContent.find(params[:id])
     if params[:title].nil?
       @title = @commentable_contents.title
     else
       @title = params[:title]
     end
   end
-  def show_by_type
-    #@commentable_contents  = @commentable_type.all
-    @type = params[:type]
-    @title = params[:title]
-    @commentable_contents = @commentable_type
-  end
 
   # GET /commentable_contents/new
   def new
-    @commentable_content = @commentable_type.new
+    @commentable_content = CommentableContent.new
   end
 
   # GET /commentable_contents/1/edit
@@ -39,11 +35,15 @@ class CommentableContentsController < ApplicationController
 
   def create
     @commentable_content = CommentableContent.new(commentable_content_params)
-
+    if params[:publish] == "1"
+      @commentable_content.publish_dt = new DateTime.current
+    end
     respond_to do |format|
       if @commentable_content.save
         cc = @commentable_content
-        format.html { redirect_to controller: "commentable_contents", type: cc.type, title: cc.title, action: "show_by_id", id: cc.id , notice: 'Commentable content was successfully created.' }
+        check_job(cc)
+        @rtn_message = "Article was saved."
+        format.html { redirect_to controller: "commentable_contents", title: cc.title, action: "show_by_id", id: cc.id , notice: @rtn_message }
         format.json { render :show, status: :created, location: @commentable_content }
       else
         format.html { render :new }
@@ -55,10 +55,21 @@ class CommentableContentsController < ApplicationController
   # PATCH/PUT /commentable_contents/1
   # PATCH/PUT /commentable_contents/1.json
   def update
+    Rails.logger.info "Params[publish_dt class is: #{params[:publish].class} #{params[:publish]}"
+    Rails.logger.info " "
+    Rails.logger.info "fetched params are: #{commentable_content_params}"
     respond_to do |format|
+        if params[:publish][:publish] == "1"
+          @commentable_content.publish_dt = DateTime.current
+        end
       if @commentable_content.update(commentable_content_params)
-        cc = @commentable_content
-        format.html { redirect_to controller: "commentable_contents", type: cc.type, title: cc.title, action: "show_by_id", id: cc.id , notice: 'Commentable content was successfully updated.' }
+        @rtn_message = "Article was saved."
+        check_job(@commentable_content)
+        if @commentable_content.publish_dt.nil?
+          format.html { redirect_to edit_commentable_content_path, notice: @rtn_message }
+        else
+          format.html { redirect_to welcome_home_path , notice: @rtn_message }
+        end
         format.json { render :show, status: :ok, location: @commentable_content }
       else
         format.html { render :edit }
@@ -82,35 +93,36 @@ class CommentableContentsController < ApplicationController
   def set_commentable_content
      @commentable_content = CommentableContent.find(params[:id])
   end
-      # blah blah
-  def commentable_types
-    ["Rogue", "CurrentEvent", "TruthInMedia"]
-  end
 
-  def get_commentable_type
-    if params[:type].nil?
-      @commentable_type = "CommentableContent".constantize
-    elsif params[:type].in? commentable_types
-      @commentable_type = params[:type].constantize
+  def check_job(article)
+    #
+    # Don't allow notifications for publishing past 10 days from now.
+    # Past that, the author will probably forget its in the queue.
+    # Publish dates in the past will not have notifications sent,
+    # although it may problematic to allow changes to content after publishing.
+    # We mostly have to trust authors not to abuse this privilege.
+    # If the publish_dt is in the past, it will not be allowed to be changed in the view.
+    # In the job, if the passed in publish_dt no longer matches the database publish_dt,
+    # no notifications will be sent. This protects against sending multiple notifications
+    # when the published date is changed within its 10 day window.
+    # If the date is beyone 10 days, no notifications will be sent unless it is edited and
+    # the publish_dt set to be within 10 days.
+    Rails.logger.info "CommentableContentsController-check_job publish_dt #{article.publish_dt}"
+    if  article.publish_dt.nil?
+        @rtn_message += "No publish date set. Regular users cannot view the article"
     else
-      Rails.logger.info(params[:controller] + ":commentable_type  type is not in the list ".concat(params[:type].present?.to_s))
-       format.html {render :nothing  }
-     end
-   end
-
-  def get_type
-       resource = request.path.split('/')[1]
-       Rails.logger.info "CCC:get_type: " + request.path + " extracted to #{resource}"
-       @klass   = resource.singularize.capitalize.camelize.constantize
+        @rtn_message += "Article is now published and available to users for viewing. Notifictions will be sent."
+        PublishArticleJob.set(wait_until: article.publish_dt).perform_later( article.id, article.publish_dt)
+    end
   end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
   def commentable_content_params
-      params.fetch(@commentable_type.to_s.underscore.to_sym, {}).permit(:picture,:title, :extract,:content,:commentable_id,:created_by_id,:modified_by_id,:type,:id)
+      params.fetch(:commentable_content, {}).permit(:picture,:title, :extract,:content,:created_by_id,:modified_by_id,:id,:publish_dt)
   end
   def log_action
     Rails.logger.info "in: #{params[:controller]} : #{params[:action]}  for user: " + (user_signed_in? ? current_user.id.to_s : "no user logged in")
     Rails.logger.info "params are: #{params.inspect}"
+    Rails.logger.info "fetched params are: #{commentable_content_params}"
   end
 
 end

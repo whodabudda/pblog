@@ -1,9 +1,15 @@
 #These are some commands needed to maintain the site
 #to distribute the application to production, first check changes into source control
+
+#see the difference between two repositories. Leave off (-- file name) if you want to see all differences
+#in this example, 13cb262e06 is an old commit
+Ex: git diff 13cb262e06..one-col-blog -- app/controllers/commentable_contents_controller.rb
+
 git status to find out what files need to be added
-git add <files>  for files that are new and need to be in source control
-git commit -a -m"commit comment"
-git push origin master   #origin is the remote repo name, master the local repo.
+git rm --cached -r [folder/file]  don't add files that got added to gitignore at some time after they had been 'tracked'
+git add [-n or --dry-run, -A for 'all'] <files>  add files to 'tracking' to 'tracking'.  -A for all add/modify/delete
+git commit -a [--dry-run] -m"commit comment"
+git push [branch name(s)]  origin is the remote repo name, master the local repo.
 #now invoke capistrano to push out a new release
 bundle exec cap production deploy --trace
 # assets may need to be compiled on the production server, although the faster-assets gem
@@ -188,4 +194,4 @@ MYSQL:  if you have to reset a pw:
    3. update the database with the new hash
 
  
-
+Start up pry, from rails project root:  pry -r ./config/environment.rb

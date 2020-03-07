@@ -1,0 +1,2 @@
+ALTER TABLE `pblog_development`.`commentable_contents` 
+ADD COLUMN `publish_dt` VARCHAR(45) NULL AFTER `updated_at`;

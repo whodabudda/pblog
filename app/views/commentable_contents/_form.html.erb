@@ -36,8 +36,14 @@
           <%= f.text_area :content, :class => 'content-text-input editor',:id => 'editor' %>
         </div>
         <div class="field">
-          <%= f.label :type %><br>
-          <%= f.text_field :type, readonly: true%>
+          <% if (! commentable_content.publish_dt.nil?) && commentable_content.publish_dt < Time.current %>
+            <%= f.label :publish_dt %>
+            <%= f.text_field :publish_dt, readonly: true%>
+          <%else%>
+            <%= f.label "Publish?" %>
+             <%= check_box :publish, "publish" %>
+             <p class="inline-el-attn">(The article is available to users, and cannot be revised after publishing.) </p> 
+          <%end%>
         </div>
         <% if action_name == "new" %>
           <div class="field">
@@ -55,3 +61,15 @@
     </div>
   </div>
 </div>
+<%if false%>
+<div class="field">
+          <% if (! commentable_content.publish_dt.nil?) && commentable_content.publish_dt < Time.current
+              @readonly_publish_dt = true
+            else
+              @readonly_publish_dt = false
+            end
+          %>
+          <%= f.label :publish_dt %><br>
+          <%= f.datetime_select :publish_dt, { :order => [:year,:month, :day, :hour, :minute],:start_year => Date.today.year,:end_year => Date.today.year + 1 } ,readonly: @readonly_publish_dt%>
+        </div>
+<%end%>

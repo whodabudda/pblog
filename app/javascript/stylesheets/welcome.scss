@@ -105,6 +105,11 @@ font: bold;
   font-size: smaller;
  }
 
+.field-note {
+  font-style: italic;
+  font-size: smaller;
+ }
+
  #modal-window {
   position: fixed;
  }
@@ -188,6 +193,11 @@ input[type='file'] {
   font-size: smaller;
   color: red; 
 }
+.inline-el-attn  {
+  font-style: italic;
+  font-size: smaller;
+  color: red; 
+}
 /*
  * Override the width of the table set by Bootstrap content styles.
  * See: https://github.com/ckeditor/ckeditor5-table/issues/154.
@@ -205,4 +215,24 @@ input[type='file'] {
 }
 //$( '#modal-container' ).modal( {
 //    focus: false
-//} );
+//} );a
+.user_edit_hr {
+border-top: 5px solid black;
+width: 70%;
+height: 5px;
+margin-left: auto;
+margin-right: auto;
+}
+
+.form_label{
+  color: blue;
+  cursor: pointer;
+}
+
+.form_label:hover{
+  text-decoration: underline;
+}
+
+#user_avatar{
+  display:none;
+}

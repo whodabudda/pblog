@@ -20,6 +20,7 @@ rerun.txt
 /tmp/*
 !/log/.keep
 !/tmp/.keep
+/bkup
 
 # Ignore Byebug command history file.
 .byebug_history
@@ -36,6 +37,7 @@ app/assets/holdarea
 
 # Ignore user avatars from development
 public/uploads/user/
+public/uploads/tmp/
 
 # Ignore all swp files
 *.swp
@@ -45,13 +47,22 @@ public/uploads/user/
 *.old
 *.disabled
 *.bak
+tt.*
 
 #ignore npm modules
 /node_modules
-
 /public/packs
 /public/packs-test
 /node_modules
 /yarn-error.log
 yarn-debug.log*
 .yarn-integrity
+
+#ignore localhost maint and test files
+backup.sh
+phelp
+*.service
+pblog-prod-puma.conf
+pblog_systemd_env.conf
+puma.service
+scratchpad*

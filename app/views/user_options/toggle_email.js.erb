@@ -1,0 +1,5 @@
+   console.log("entered toggle_email.js.erb")
+   var checkbox = <%=@user_option.email %>;
+   console.log("toggle_email.js.erb - checkbox: ", checkbox )
+
+   $('.email_test').attr("hidden" , !checkbox)

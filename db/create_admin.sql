@@ -1,0 +1,1 @@
+insert into admins (id,email,encrypted_password,avatar,alias,created_at,updated_at) (select id,email,encrypted_password,avatar,alias,sysdate(),sysdate() from users where id = 3)

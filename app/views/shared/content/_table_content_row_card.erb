@@ -11,7 +11,7 @@
   		</div>	
 	 <div class="card-block px-2">
 	  	<h5 class="card-title">
-			<%= link_to cc.title , controller: "commentable_contents", type: @type, title: @title,action: "show_by_id", id: cc.id %>
+			<%= link_to cc.title , controller: "commentable_contents", title: @title,action: "show_by_id", id: cc.id %>
 		</h5>
 		<p class="card-text">
 			<%= cc.extract %> 
@@ -31,7 +31,7 @@
      <div class="w-100"></div>
      <div class="card-footer w-100 text-muted">
 	  	<p class="author-line"> Updated <%= cc.updated_at.strftime("%Y-%m-%d %H:%M") %> </p>
-		<%= link_to 'Add Comment',  new_commentable_content_comments_path(commentable_type: @type ,commentable_content_id: cc.id), remote: true, "data-turbolinks" => false , class: "card-link" if user_signed_in? %>
+		<%= link_to 'Add Comment',  new_commentable_content_comments_path(commentable_content_id: cc.id), remote: true, "data-turbolinks" => false , class: "card-link" if user_signed_in? %>
 		<%= link_to 'Edit Content',  edit_commentable_content_path(cc.id),"data-turbolinks" => false, class: "card-link" if admin_signed_in? and admin_on? %>
 	  	<%= social_share_button_tag(cc.title,:allow_sites => %w(twitter facebook email reddit )) %>
 	  	<%#= social_share_button_tag(cc.title,:allow_sites => %w(twitter facebook google_plus google_bookmark delicious pinterest email linkedin reddit )) %>

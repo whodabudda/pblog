@@ -1,26 +1,30 @@
 <h2>Edit <%= resource_name.to_s.humanize %></h2>
 
-<%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
-  <%= devise_error_messages! %>
+<%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put, multipart: true}) do |f| %>
+  <%= render "devise/shared/error_messages", resource: resource %>
+ 
+<div class="field">
+    <%#= defined? :avatar ? image_tag(:avatar.url(:thumb)) : image_tag("fallback/thumb_DefaultPerson.png") %>
+    <%= f.label :avatar , :class => "form_label" do %>
+     <%#=f.file_field :avatar %>
+     <%#= image_tag(resource.avatar.url(:thumb), :id =>"preview") %>
+     <%=f.file_field :avatar , :class => 'pictureInput'%>
+    <div id="target" style="width:150px">
+     <%= image_tag(resource.avatar.url(:thumb)) %>
+     <font class="fakelink" color="blue"> Change Avatar </font>
+    </div>
+     <%#= f.file_field :avatar, :class => 'photo_upload', :id => "image_#{resource.id}" %>  
+     <%#= link_to image_tag(resource.avatar.url(:thumb)) if resource.avatar? %>
+     <%#= f.file_field link_to image_tag(resource.avatar.url(:thumb)),controller: "/utils", action: "display_new_img", remote: true, image_name: resource.avatar.url, "data-turbolinks" => false  if resource.avatar? %> 
+    <%end%>
+ </div>
+<%#= image_tag @image, :id=>"preview-photo" %>
+<%#= file_field 'image','photo', :onchange => "preview(this);" %>
 
-   <div class="field">
-      <%#= defined? :avatar ? image_tag(:avatar.url(:thumb)) : image_tag("fallback/thumb_DefaultPerson.png") %>
-      <%= f.label :avatar do %>
-        Avatar: 
-        <%= image_tag(resource.avatar.url(:thumb)) %>
-        <%end%>
-        <br />
-      <%= f.file_field :avatar %>
-   </div>
-
-  <br />
-  <div class="field">
+ <div class="field">
     <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true %>
-  </div>
-  <div class="field">
-    <%= f.label :alias %><br />
-    <%= f.text_field :alias, autofocus: true %>
+    <%#= f.email_field :email, autofocus: true, autocomplete: "email" %>
+    <%= f.email_field :email, autocomplete: "email" %>
   </div>
 
   <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
@@ -28,8 +32,8 @@
   <% end %>
 
   <div class="field">
-    <%= f.label :password %> <i>(leave blank if you don't want to change it)</i><br />
-    <%= f.password_field :password, autocomplete: "off" %>
+    New <%= f.label :password %> <i>(leave blank if you don't want to change it)</i><br />
+    <%= f.password_field :password, autocomplete: "new-password" %>
     <% if @minimum_password_length %>
       <br />
       <em><%= @minimum_password_length %> characters minimum</em>
@@ -37,18 +41,28 @@
   </div>
 
   <div class="field">
-    <%= f.label :password_confirmation %><br />
-    <%= f.password_field :password_confirmation, autocomplete: "off" %>
+    New <%= f.label :password_confirmation %><br />
+    <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
   </div>
-
+  <!--style>
+      hr {
+        border-top: 5px solid black;
+      width: 70%;
+      height: 5px;
+      margin-left: auto;
+      margin-right: auto;
+      }
+    </style-->
+  <hr class="user_edit_hr">
   <div class="field">
     <%= f.label :current_password %> <i>(we need your current password to confirm your changes)</i><br />
-    <%= f.password_field :current_password, autocomplete: "off" %>
+    <%= f.password_field :current_password, autocomplete: "current-password" %>
   </div>
 
   <div class="actions">
     <%= f.submit "Update" %>
   </div>
+  <hr class="user_edit_hr">
 <% end %>
 
 <h3>Cancel my account</h3>
@@ -56,3 +70,23 @@
 <p>Unhappy? <%= button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete %></p>
 
 <%= link_to "Back", :back %>
+
+<script>
+  $(function() {
+  $('.pictureInput').on('change', function(event) {
+    var files = event.target.files;
+    var image = files[0]
+    var reader = new FileReader();
+    reader.onload = function(file) {
+      var img = new Image();
+      console.log(file);
+      img.src = file.target.result;
+      img.width = 100;
+      $('#target').html(img);
+    }
+    reader.readAsDataURL(image);
+    console.log(files);
+  });
+});
+</script>
+

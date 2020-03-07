@@ -10,8 +10,10 @@ class SessionsController < Devise::SessionsController
   # POST /resource/sign_in
    def create
      super
-     Analytics.alias(previous_id: session.id ,user_id: current_user.id )
-     Analytics.identify(user_id: current_user.id )
+     if !session.nil? and (user_signed_in?)
+       Analytics.alias(previous_id: session.id ,user_id: current_user.id )
+      Analytics.identify(user_id: current_user.id )
+    end
      #return redirect_to after_sign_in_path_for(params[:user])
    end
   #sessions_controller.rb
