@@ -4,6 +4,11 @@
 	# show_by_id will show the full text, which is otherwise truncated to 100 char.
 	# A user can add a comment, but only an admin can edit the CC content.
 %>
+ 	<% 
+ 	if cc.publish_dt.nil? and !admin_on?
+ 		return
+ 	end
+ 	%>
 	<div class="container">
   	<div class="row">
   	    <div class="col-sm-3 mx-3">
@@ -17,9 +22,13 @@
 		  	<h3>
 				<%= link_to cc.title , controller: "commentable_contents", action: "show_by_id", id: cc.id %>
 			</h3>
-		  	<span class="author-line"> Created by </span> 
+		  	<% if cc.publish_dt.nil? %>
+		  	<span class="inline-el-attn"> Not Published. Unavailable for other users to view </span>
+		  	<%else%>
+		  	<span class="author-line"> Published by </span> 
 		  	<span class="author"> <%= User.find(cc.created_by_id).alias %> </span>
-		  	<span class="author-line">  on <%= cc.created_at.strftime("%Y-%m-%d %H:%M") %> </span>
+		  	<span class="author-line">  on <%= cc.publish_dt.strftime("%Y-%m-%d %H:%M") %> </span>
+		  	<%end%>
 			<!--p class="d-none d-sm-flex"-->
 		  </div>
 			<br>

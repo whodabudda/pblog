@@ -11,7 +11,7 @@ my_debug("title: #{@title} rants_only: #{@rants_only}  commentable_contents: #{@
 	# the select statement blows up if contents are nil, so check for nil first.
 %>
 <% if ! @commentable_contents.nil? %>
-  <% @commentable_contents.order(created_at: :desc).each do |cc|  %>
+  <% @commentable_contents.order(publish_dt: :desc).each do |cc|  %>
 	<%= render partial: "shared/content/table_content_row", locals: { cc: cc} %>
   <%end #end commentable_contents select%>
  <%end #end if commentable_contents nil%>
