@@ -73,3 +73,17 @@
           <%= f.datetime_select :publish_dt, { :order => [:year,:month, :day, :hour, :minute],:start_year => Date.today.year,:end_year => Date.today.year + 1 } ,readonly: @readonly_publish_dt%>
         </div>
 <%end%>
+
+<script>
+MyClassicEditor
+    .create( document.querySelector( '#editor' ) )
+    .then( editor => {
+      //window.editor = editor;
+      console.log (Array.from( editor.ui.componentFactory.names() ) );
+    } )
+    .catch( err => {
+      console.error( err.stack );
+    } );
+
+//console.log (ClassicEditor.builtinPlugins.map( plugin => plugin.pluginName ));
+</script>
