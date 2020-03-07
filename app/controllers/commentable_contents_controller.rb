@@ -40,9 +40,9 @@ class CommentableContentsController < ApplicationController
     end
     respond_to do |format|
       if @commentable_content.save
+        @rtn_message = "Article was saved."
         cc = @commentable_content
         check_job(cc)
-        @rtn_message = "Article was saved."
         format.html { redirect_to controller: "commentable_contents", title: cc.title, action: "show_by_id", id: cc.id , notice: @rtn_message }
         format.json { render :show, status: :created, location: @commentable_content }
       else
