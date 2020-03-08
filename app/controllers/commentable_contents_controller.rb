@@ -35,7 +35,7 @@ class CommentableContentsController < ApplicationController
 
   def create
     @commentable_content = CommentableContent.new(commentable_content_params)
-    if params[:publish] == "1"
+    if (!params[:publish].nil?) && params[:publish] == "1"
       @commentable_content.publish_dt = new DateTime.current
     end
     respond_to do |format|
@@ -59,7 +59,7 @@ class CommentableContentsController < ApplicationController
     Rails.logger.info " "
     Rails.logger.info "fetched params are: #{commentable_content_params}"
     respond_to do |format|
-        if params[:publish][:publish] == "1"
+        if (!params[:publish].nil?) && params[:publish][:publish] == "1"
           @commentable_content.publish_dt = DateTime.current
         end
       if @commentable_content.update(commentable_content_params)
