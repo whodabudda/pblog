@@ -1,8 +1,8 @@
 
-    	<% if ! ( @comment_reviews.nil? and @comment_reviews.blank?) %>
-		<% @comment_reviews.each do |review| %>
-  <div class="row justify-content-start">
-    <div class="col-12 p-3 ">
+<% if ! ( @comment_reviews.nil? and @comment_reviews.blank?) %>
+	<% @comment_reviews.each do |review| %>
+  	<div class="row justify-content-start">
+    	<div class="col-12 p-3 ">
 		   <figure class="user-icon">
 		   		<% if review.admin_id <= 0 
 		   			theReviewer = @comment.user
@@ -18,8 +18,8 @@
 		       <%#= theReviewer.email.split('@')[0] %>  
 		       <div class="author-line">
 		       <%= theReviewer.alias %> 
-		       <%= theReviewer.created_at %> 
-		   </div>
+		       <%= review.created_at %> 
+		   	   </div>
 		       </figcaption>
 			</figure>
 			<div class="review-text" id="review-text<%=review.comment_id%>">
