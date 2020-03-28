@@ -1,4 +1,4 @@
-window.vapidPublicKey = new Uint8Array(<%= Base64.urlsafe_decode64(ENV['VAPID_PUBLIC_DEV']).bytes %>);
+window.vapidPublicKey = new Uint8Array(<%= Base64.urlsafe_decode64(ENV['VAPID_PUBLIC']).bytes %>);
 //alert('vapidPublicKey: ' + 'added text ' + vapidPublicKey);
 //Your application javascript uses the navigator.serviceWorker.pushManager to subscribe to push //notifications, passing the VAPID public key to the subscription settings.
 

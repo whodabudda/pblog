@@ -21,16 +21,17 @@ module Pblog
 	config.before_configuration do
 	  env_file = File.join(Rails.root, '/config/', 'local_env.yml')
 	  if File.exists?(env_file)
-	  	YAML.load(File.open(env_file)).each do |key, value|
-	    		ENV[key.to_s] = value
+		config_keys = YAML.load(File.read(env_file))[Rails.env]
+	  	config_keys.each do |key, value|
+	    		ENV[key.to_s.upcase] = value
 		end
 #	  else
 #		Rails.logger.info "Did NOT find #{env_file}"
 	  end	
-		# PPK 09/09/2019 These paths will be ignored when redirecting the user to last visited page
-		# Devise routes need to always be here, so that a redirect loop does not occur
-		# after signing in
-		config.ignored_paths = %W(/users/sign_in /users/sign_up /users/password /users/sign_out /users/confirm_password /users/password/edit /users/password/new /admins/sign_in /admins/sign_up /admins/password/edit /admins/password /admins/sign_out /admins/confirm_password)
+	# PPK 09/09/2019 These paths will be ignored when redirecting the user to last visited page
+	# Devise routes need to always be here, so that a redirect loop does not occur
+	# after signing in
+	config.ignored_paths = %W(/users/sign_in /users/sign_up /users/password /users/sign_out /users/confirm_password /users/password/edit /users/password/new /admins/sign_in /admins/sign_up /admins/password/edit /admins/password /admins/sign_out /admins/confirm_password)
 	end
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers

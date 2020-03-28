@@ -99,8 +99,8 @@ private
   def vapid
       rtn = {
         subject: "mailto:whodabudda@gmail.com",
-        public_key: ENV['VAPID_PUBLIC_DEV'],
-        private_key: ENV['VAPID_PRIVATE_DEV']
+        public_key: ENV['VAPID_PUBLIC'],
+        private_key: ENV['VAPID_PRIVATE']
       }
   end
   def notification_message
