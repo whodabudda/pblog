@@ -6,6 +6,9 @@
 ###############
 # from https://git-scm.com/book/en/v2/Git-Basics-Recording-Changes-to-the-Repository#_ignoring
 #
+# ignore a previously committed file
+# git rm --cached <file name>
+#
 # ignore all .a files
 #*.a
 #
