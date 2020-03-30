@@ -1,4 +1,4 @@
 Analytics = Segment::Analytics.new({
-    write_key: 'NWrab8JF5GlNuxs67uXRpbE4OnY8qfXN',
+    write_key: ENV["ANALYTICS_WRITE_KEY"],
     on_error: Proc.new { |status, msg| print msg }
 })
