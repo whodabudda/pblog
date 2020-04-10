@@ -22,6 +22,9 @@
 # role :db,  %w{deploy@example.com}
 
 
+# Default deploy_to directory is /var/www/my_app_name
+set :deploy_to, "/home/whodabudda/pblog"
+
 
 # Configuration
 # =============
@@ -31,7 +34,13 @@
 # http://capistranorb.com/documentation/getting-started/configuration/
 # Feel free to add new variables to customise your setup.
 
+set :rvm_type, :user
+set :rvm_ruby_version, '2.3.1@rails5001'
+set :rvm_custom_path, '/usr/share/rvm'
+set :rvm1_map_bins, %w{rake gem bundle ruby}
 
+# Default value for keep_releases is 5
+# set :keep_releases, 5
 
 # Custom SSH Options
 # ==================

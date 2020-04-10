@@ -28,7 +28,7 @@ gem "mini_magick", ">= 4.9.4"
 
 group :development do
     gem 'capistrano'
-    gem 'capistrano-rvm'
+    gem 'rvm1-capistrano3', require: false
     gem 'capistrano-rails'
     gem 'capistrano3-puma'
     gem 'capistrano-bundler', '>= 1.1.0'

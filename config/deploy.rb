@@ -1,14 +1,12 @@
 # config valid only for current version of Capistrano
 #lock "3.9.0"
-
-set :application, "pblog"
+set :stages, %w(staging production)
+set :default_stage, "staging"
+#set :application, "pblog"
 set :repo_url, "git@github.com:whodabudda/pblog.git"
 
 # Default branch is :master
 # ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
-
-# Default deploy_to directory is /var/www/my_app_name
-set :deploy_to, "/home/whodabudda/pblog"
 
 # Default value for :format is :airbrussh.
 # set :format, :airbrussh
@@ -27,6 +25,7 @@ set :linked_files, fetch(:linked_files, []).push('config/database.yml', 'config/
 # Default value for linked_dirs is []
 # append :linked_dirs, "log", "tmp/pids", "tmp/cache", "tmp/sockets", "public/system"
 set :linked_dirs, fetch(:linked_dirs, []).push('log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'vendor/bundle', 'public/system', 'public/uploads')
+#after :deploy:published, "copy_shared_files"
 
 # Default value for default_env is {}
 # set :default_env, { path: "/opt/ruby/bin:$PATH" }
@@ -34,9 +33,3 @@ set :linked_dirs, fetch(:linked_dirs, []).push('log', 'tmp/pids', 'tmp/cache', '
 # Default value for local_user is ENV['USER']
 # set :local_user, -> { `git config user.name`.chomp }
 
-# Default value for keep_releases is 5
-# set :keep_releases, 5
-set :rvm_type, :user
-set :rvm_ruby_version, '2.3.1@rails5001'
-set :rvm_custom_path, '/usr/share/rvm'
-set :rvm1_map_bins, %w{rake gem bundle ruby}

@@ -88,9 +88,6 @@ GEM
     capistrano-rails (1.4.0)
       capistrano (~> 3.1)
       capistrano-bundler (~> 1.1)
-    capistrano-rvm (0.1.2)
-      capistrano (~> 3.0)
-      sshkit (~> 1.2)
     capistrano3-puma (3.1.1)
       capistrano (~> 3.7)
       capistrano-bundler
@@ -222,6 +219,9 @@ GEM
     ruby-progressbar (1.10.1)
     ruby-vips (2.0.16)
       ffi (~> 1.9)
+    rvm1-capistrano3 (1.4.0)
+      capistrano (~> 3.0)
+      sshkit (>= 1.2)
     sassc (2.2.1)
       ffi (~> 1.9)
     sassc-rails (2.1.2)
@@ -294,7 +294,6 @@ DEPENDENCIES
   capistrano-bundler (>= 1.1.0)
   capistrano-faster-assets
   capistrano-rails
-  capistrano-rvm
   capistrano3-puma
   carrierwave
   devise (>= 4.7.1)
@@ -308,6 +307,7 @@ DEPENDENCIES
   redis
   redis-namespace
   rubocop
+  rvm1-capistrano3
   sassc-rails
   serviceworker-rails
   sidekiq
