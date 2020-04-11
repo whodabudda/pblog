@@ -52,7 +52,7 @@ end
 # Default value for keep_releases is 5
 # set :keep_releases, 5
 set :rvm1_type, :user
-set :rvm1_ruby_version, '2.6.1@r6'
+#set :rvm1_ruby_version, '2.6.1'
 #set :rvm1_custom_path, '/usr/share/rvm'
 #set :rvm1_map_bins, %w{rake gem bundle ruby}
 
