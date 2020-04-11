@@ -7,7 +7,8 @@ gem 'browser'               # get browser name
 #
 #getting the master branch of webpacker because it has fixes not yet packaged
 #
-gem 'webpacker' , :git => "git://github.com/rails/webpacker.git" # new with rails 6.x
+#gem 'webpacker' , :git => "git://github.com/rails/webpacker.git" # new with rails 6.x
+gem 'webpacker' , '~> 5.0'
 gem 'rubocop'               # check code integrity
 gem 'redis'		    #this is the redis ruby client ie: redis.rb on github
 gem 'redis-namespace'	    #needed to namespace the sidekiq instances
