@@ -34,6 +34,7 @@ group :development do
     gem 'capistrano3-puma'
     gem 'capistrano-bundler', '>= 1.1.0'
     gem 'capistrano-faster-assets'
+    gem 'pry', '>= 0.12.2'
 end
 gem 'social-share-button'
 gem 'analytics-ruby', require: "segment"
