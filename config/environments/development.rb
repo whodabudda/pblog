@@ -25,15 +25,6 @@ Rails.application.configure do
     config.cache_store = :null_store
   end
 
-  # ppk added for mailcatcher
-  config.action_mailer.delivery_method = :smtp
-  config.action_mailer.smtp_settings = { :address => "localhost", :port => 1025 }
-  # end ppk mailcatcher
-  # Don't care if the mailer can't send.
-  config.action_mailer.default_url_options = { host: 'localhost.com'}
-  config.action_mailer.raise_delivery_errors = false
-  config.action_mailer.perform_caching = false
-
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
 
@@ -54,16 +45,29 @@ Rails.application.configure do
   # Use an evented file watcher to asynchronously detect changes in source code,
   # routes, locales, etc. This feature depends on the listen gem.
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
+
   #in config/environments/production.rb
-#config.to_prepare { Devise::SessionsController.force_ssl }
-#config.to_prepare { Devise::RegistrationsController.force_ssl }
-#config.to_prepare { Devise::PasswordsController.force_ssl }
-#
-config.log_level = :debug
-ActiveRecord::Base.logger = ActiveSupport::Logger.new(STDOUT)
-#config.force_ssl = true 
-#ppk added for rails 6.x
-config.hosts << "localhost.com"
-config.public_file_server.enabled = true
-config.mail_delivery_queue_option = 'deliver_now'
+  #config.to_prepare { Devise::SessionsController.force_ssl }
+  #config.to_prepare { Devise::RegistrationsController.force_ssl }
+  #config.to_prepare { Devise::PasswordsController.force_ssl }
+  #
+  config.log_level = :debug
+  ActiveRecord::Base.logger = ActiveSupport::Logger.new(STDOUT)
+  #config.force_ssl = true 
+
+  # ppk added for mailcatcher
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = { :address => "localhost", :port => 1025 }
+  # end ppk mailcatcher
+
+  # dev setup for mail
+  config.action_mailer.default_url_options = { host: 'localhost.com'}
+  config.action_mailer.raise_delivery_errors = false
+  config.action_mailer.perform_caching = false
+
+  #ppk added for rails 6.x
+  config.hosts << "localhost.com"
+  config.hosts << "localstage"
+  config.public_file_server.enabled = true
+  config.mail_delivery_queue_option = 'deliver_now'
 end
