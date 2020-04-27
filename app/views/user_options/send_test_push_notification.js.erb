@@ -1,0 +1,11 @@
+<% if ! @webpush_err.nil? %>
+	document.location.reload()
+	var err_msg = " <%= j @webpush_err["message"] %> "
+	//checkBrowserSupport()
+	$('#webpush_test_error').removeClass().addClass('alert alert-danger');
+	$('#webpush_test_error').text("Not able to send push:" + err_msg);
+	//document.getElementById('webpush_test_error').textContent = "Not able to send push:" + err_msg;
+<% else %>
+	$("#webpush_test_error").html("<%= flash.now[:notice] =  "Notification was sent..."  %>").removeClass().addClass('alert alert-success');
+<% end %>
+// document.getElementById("webpush_test_error").value =
