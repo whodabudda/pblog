@@ -4,6 +4,15 @@ class UserOptionsController < ApplicationController
   before_action :set_user_option, only: [:show, :edit, :update, :destroy,:toggle_subscription,:toggle_email,:send_test_push_notification]
   before_action :show_params, only: [:send_test_push_notification]
   before_action :set_delivery_method
+  #
+  #send_test_push_notification is an ajax call, however in the (hopefully rare) event that
+  #Webpush returns an error, the edit view nees to be re-rendered entirely, in order to kick off
+  #the javascript 'checkBrowserSupport' function, which then resets some classes on the user_options
+  #form.  Thereby, it gets a little tricky, needing to return ajax when successful, but do
+  #a full re-render of the view if it errors.  test_push_notification.js.erb does a page refresh to
+  #accomplish this.
+  #
+  rescue_from  Webpush::ResponseError , with: :handle_webpush_error 
   # GET /user_options
   # GET /user_options.json
   def index
@@ -66,14 +75,20 @@ class UserOptionsController < ApplicationController
     #required:  subscription, title, 
     #optional:  article(CommentableContent object)
     #          , action, icon
+    @user_option
+    @webpush_err = nil
     messaging = WebPushNotification.new({
      subscription: params[:subscription],
             title: 'New Content at Whodabudda' ,
             article: CommentableContent.last
       })
     messaging.call
+#    rescue Webpush::ResponseError => e
+#      Rails.logger.info e[:body][:code]
+
     respond_to do |format|
-       format.js
+#       format.js { flash[:notice] =  "Notification was sent..." }
+       format.js {}
      end
 
       #head :ok
@@ -141,6 +156,31 @@ class UserOptionsController < ApplicationController
     def show_params
       Rails.logger.info "Displaying params: #{params} "
 
+    end
+    def handle_webpush_error(e)
+      #regex to get all the characters between brackets {}.
+      #Warning: This could be a problem if Zaru::Webpush ever changes the format of its error string.
+      #Currently, the string error from Webpush has only one set of {}, whith the enclosed content
+      #in a hash format.
+      tmp = e.to_s[/{(.+)}/, 1] 
+      #now parse into hash format, adding enclosing {} back in
+      @webpush_err = JSON.parse("{#{tmp}}") 
+      #
+      #wipe out the subscription, since it failed.
+      #TODO: check return codes; we probably only want to reset the subscription if it is actually 
+      #expired.  If other errors, like too busy or content too long, subscription is actually ok 
+      #and we need to take different action.
+      #
+      @user_option.subscription = ''
+      @user_option.save
+
+      Rails.logger.info "#{controller_name}:#{action_name} webpush code: #{@webpush_err["code"]} message: #{@webpush_err["message"]} "
+     respond_to do |format|
+      #format.js { redirect_to edit_user_option_path(@user_option), notice: @webpush_err["message"] }
+       format.js { render 'send_test_push_notification.js.erb', layout: false }
+     end
+
+#      respond_to do |format| format.html { redirect_to edit_user_option_path, notice: "Unable to send notification #{e.message}" } end
     end
 
     def fetch_subscription

@@ -1,4 +1,6 @@
 <%= form_with model: @user_option, local: true, id: "user_options_form" do |form| %>
+    <div id="webpush_test_error">
+    </div>
   <% if user_option.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(user_option.errors.count, "error") %> prohibited this user_option from being saved:</h2>

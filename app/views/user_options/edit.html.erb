@@ -32,7 +32,9 @@ any html options must be added as the 3rd parameter (array index #2)
 
 <script type="module">
   //checkBrowserSupport is exported and made global with the expose-loader module
-  checkBrowserSupport.checkBrowserSupport();   // to show messages on if push notification is available
+  var vapidPublic = "<%=ENV['VAPID_PUBLIC'] %>";
+  console.log('vapid: ', vapidPublic);
+  checkBrowserSupport.checkBrowserSupport(vapidPublic);   // to show messages on if push notification is available
 </script>
 
 <!-- <script type="text/javascript">

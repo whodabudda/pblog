@@ -111,7 +111,7 @@ else {
 return return_val; 
 };
 
-function setSubscriptionValues () {
+function setSubscriptionValues (vapidPublic) {
 	if (checkNotification()) {
   		var current_db_subscription;
   		current_db_subscription = $('#webpush-subscription').val();
@@ -122,7 +122,7 @@ function setSubscriptionValues () {
 			console.log('[setSubscriptionValues]current_db_subscription ', JSON.stringify(current_db_subscription));
 			console.log('[setSubscriptionValues]current_reg_subscription ', JSON.stringify(current_reg_subscription));
 	  		if(!current_reg_subscription) {
-	  			current_reg_subscription = getNewSubscription();
+	  			current_reg_subscription = getNewSubscription(vapidPublic);
 	  		}
 	  		//if((current_db_subscription.length > 100) && current_reg_subscription ) {
 
@@ -150,16 +150,14 @@ function getRegisteredSubscription() {
 	 console.log('[getRegisteredSubscription]:', err )
 	})
 }
-function getNewSubscription() {
+function getNewSubscription(vapidPublic) {
 	return getRegistration("/sw_push.js","/user_options")
   .then(function(registration) {
 	if(registration) {
 	    const subscribeOptions = {
 	      userVisibleOnly: true,
-	      applicationServerKey: urlBase64ToUint8Array(
-	        'BJHrwn78cnJSfvjoNeBdqAo9PLE21vaYMKaQh2NxQG9MmIx-E_CbSs89XYzZ8PEnbyqtQquC-yKQYqLm4RPHZX4='
-	      )
-	    };
+	      applicationServerKey: urlBase64ToUint8Array(vapidPublic) 
+	  	};
 	    registration.pushManager.subscribe(subscribeOptions)
 	    .then(function(subscription) {
 		   	if(subscription) {
@@ -198,7 +196,7 @@ function urlBase64ToUint8Array(base64String) {
     return outputArray;
 }
 // Let's check if the browser supports notifications
-export function checkBrowserSupport() {
+export function checkBrowserSupport(vapidPublic) {
 	if (!("Notification" in window)) {
 		console.error("This browser does not support desktop notification");
 		$('#webpush-checkbox').prop( "disabled", true );
@@ -207,7 +205,7 @@ export function checkBrowserSupport() {
 	else {
 		if ( $('#webpush-checkbox').prop( "checked"))
 		{
-			setSubscriptionValues()
+			setSubscriptionValues(vapidPublic)
 		}
 	}
 }

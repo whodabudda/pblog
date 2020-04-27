@@ -25,8 +25,9 @@ class WebPushNotification
   end
 
   def call
-    Rails.logger.info "WebPushNotification.call sending: #{notification_message}" 
-    Webpush.payload_send notification_message
+    pushHash = notification_message
+    Rails.logger.info "WebPushNotification.call sending: #{pushHash}" 
+    Webpush.payload_send pushHash
   end
 
   #
