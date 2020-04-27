@@ -46,7 +46,7 @@ production:
   <<: *default
   database: pblog_production
 
-stage:
+staging:
   <<: *default
   database: pblog_stage
   username: pblog  #temporay while testing deploy on localhost
