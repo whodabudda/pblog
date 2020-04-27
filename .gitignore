@@ -34,6 +34,8 @@
 # Ignore bundler config.
 /.bundle
 /vendor/bundle
+#ignore precompiled assets
+/public/assets
 rerun.txt
 .rvmrc
 
