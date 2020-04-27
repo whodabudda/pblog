@@ -9,6 +9,7 @@ Rails.application.configure do
   # and those relying on copy on write to perform better.
   # Rake tasks automatically ignore this option for performance.
   config.eager_load = true
+#  config.eager_load_paths += Rails.root.join('lib')
 
   # Full error reports are disabled and caching is turned on.
   config.consider_all_requests_local       = false
@@ -16,14 +17,15 @@ Rails.application.configure do
 
   # Disable serving static files from the `/public` folder by default since
   # Apache or NGINX already handles this.
-  config.public_file_server.enabled = ENV['RAILS_SERVE_STATIC_FILES'].present?
+ #ppk config.public_file_server.enabled = ENV['RAILS_SERVE_STATIC_FILES'].present?
 
   # Compress JavaScripts and CSS.
-  config.assets.js_compressor = :uglifier
+#ppk config.assets.js_compressor = :uglifier
   # config.assets.css_compressor = :sass
 
   # Do not fallback to assets pipeline if a precompiled asset is missed.
   config.assets.compile = false
+ # config.assets.debug = true
 
   # `config.assets.precompile` and `config.assets.version` have moved to config/initializers/assets.rb
 
@@ -49,6 +51,11 @@ Rails.application.configure do
   # Prepend all log lines with the following tags.
   config.log_tags = [ :request_id ]
 
+  #ppk added to debug asset loss
+  config.action_controller.perform_caching = false
+  config.cache_store = :null_store
+  #end ppk
+  
   # Use a different cache store in production.
   # config.cache_store = :mem_cache_store
 
@@ -86,19 +93,16 @@ Rails.application.configure do
   config.action_mailer.perform_caching = false
   config.action_mailer.perform_deliveries = true
   config.action_mailer.default :charset => "utf-8"
-
-#ppk added for rails 6.x
-  config.hosts << "localhost.com"
-  config.public_file_server.enabled = true
-  config.mail_delivery_queue_option = 'deliver_now'
-
+#  config.action_mailer.default_url_options = { host: 'localhost.com'}
 # ppk added for mailcatcher.  Don't want to send emails from staging to real users
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = { :address => "localhost", :port => 1025 }
-  # end ppk mailcatcher
-  # Don't care if the mailer can't send.
-  config.action_mailer.default_url_options = { host: 'localhost.com'}
-  config.action_mailer.raise_delivery_errors = false
-  config.action_mailer.perform_caching = false
+# end ppk mailcatcher
+
+#ppk added for rails 6.x
+  config.hosts = nil
+  config.public_file_server.enabled = true
+  config.mail_delivery_queue_option = 'deliver_now'
 
 
+end

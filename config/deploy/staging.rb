@@ -24,7 +24,7 @@ if fetch(:deploy_to_localhost)
 	server "localhost", user: "whodabudda", roles: fetch(:my_roles)
 else
 	set :deploy_to, "/home/whodabudda/#{fetch(:application)}"
-	server "whodabudda.com", user: "whodabudda", roles: fetch(:my_roles), port: 7822
+	server "whodabudda", user: "whodabudda", roles: fetch(:my_roles), port: 7822
 end
 
 
@@ -46,13 +46,16 @@ namespace :deploy do
 		end
 		puts "continuing...."
 	end
-	before :finishing, :copy_shared_files
+	after "deploy:new_release_path", :copy_shared_files
+	Rake::Task["publishing"].clear_actions  #will prevent changing the 'current->release' symlink 
+	Rake::Task["puma_restart"].clear_actions  #will prevent puma restart
+#	before :finishing, :copy_shared_files
 end
 
 # Default value for keep_releases is 5
 # set :keep_releases, 5
-#set :rvm1_type, :user
-#set :rvm1_ruby_version, '2.6.1'
+#set :rvm1_type, :system
+set :rvm1_ruby_version, '2.3.1'
 #set :rvm1_custom_path, '/usr/share/rvm'
 #set :rvm1_map_bins, %w{rake gem bundle ruby}
 

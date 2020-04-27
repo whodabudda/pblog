@@ -7,8 +7,13 @@ task :copy_shared_files do
   on roles(:app) do |host|
   	puts fetch(:linked_files)
    	execute "mkdir -p #{fetch(:shared_directory_path)}" 
+    execute "mkdir -p #{fetch(:release_path)}" 
     if test("[ -d #{fetch(:shared_directory_path)} ]")
+     run_locally do
      	execute " cd #{Dir.pwd}; rsync -a --relative #{fetch(:linked_files_as_string)} #{host}:#{fetch(:shared_directory_path)} " 
+      execute " cd #{Dir.pwd}; rsync -a --relative node_modules #{host}:#{fetch(:release_path)} " 
+     end
+
 #      	upload! fetch(:linked_files), fetch(:shared_directory_path)
     else
      	error "#{fetch(:shared_directory_path)} does not exist on #{host}"

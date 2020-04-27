@@ -46,6 +46,27 @@ port        ENV.fetch("PORT") { 3005 }
 # Specifies the `environment` that Puma will run in.
 #
 environment ENV.fetch("RAILS_ENV") { "staging" }
-directory ENV.fetch("STAGE_PUMA_ROOT") { "/home/whodabudda/stage" }
-stdout_redirect '#{directory}/log/puma_access.log', '#{directory}/log/puma_error.log', true
+
+#
+# We sometimes deploy the stage  to localhost machine (currently 'whodabudda-Aspire-E5-575G'),
+# which is linked to dropbox  through the 'sites' path.  
+# Thus, the path on production machine will be different from the path on the localhost machine.
+# If the env variable is set, it overrides the default.
+#
+#if %x[ hostname].include?("Aspire") 
+#	directory ENV.fetch("STAGE_PUMA_ROOT") { "/home/whodabudda/sites/pbstage" }
+#else
+#	directory ENV.fetch("STAGE_PUMA_ROOT") { "/home/whodabudda/pbstage" }
+#end
+
+#
+# from:  https://github.com/puma/puma/blob/master/lib/puma/dsl.rb
+# Redirect STDOUT and STDERR to files specified. The +append+ parameter
+# specifies whether the output is appended, the default is +false+.
+#
+# @example
+#   stdout_redirect '/app/lolcat/log/stdout', '/app/lolcat/log/stderr'
+# @example
+#   stdout_redirect '/app/lolcat/log/stdout', '/app/lolcat/log/stderr', true
+#stdout_redirect '#{directory}/current/log/puma_access.log', '#{directory}/current/log/puma_error.log', true
 
