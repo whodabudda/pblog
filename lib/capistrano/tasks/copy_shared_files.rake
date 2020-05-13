@@ -8,6 +8,7 @@ task :copy_shared_files do
   	puts fetch(:linked_files)
    	execute "mkdir -p #{fetch(:shared_directory_path)}" 
     execute "mkdir -p #{fetch(:release_path)}" 
+    execute "mkdir -p #{fetch(:release_path)}/app/assets/stylesheets" 
     if test("[ -d #{fetch(:shared_directory_path)} ]")
      run_locally do
      	execute " cd #{Dir.pwd}; rsync -a --relative #{fetch(:linked_files_as_string)} #{host}:#{fetch(:shared_directory_path)} " 

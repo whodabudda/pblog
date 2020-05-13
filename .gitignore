@@ -54,6 +54,7 @@ rerun.txt
 /log
 /logs
 /tmp
+mailer.log
 
 # Ignore Byebug command history file.
 .byebug_history
@@ -98,3 +99,9 @@ pblog-prod-puma.conf
 pblog_systemd_env.conf
 puma.service
 scratchpad*
+
+#ignore symlink and deploy directories
+dev
+releases/
+stage
+

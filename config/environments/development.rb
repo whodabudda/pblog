@@ -53,8 +53,13 @@ Rails.application.configure do
   #
   config.log_level = :debug
   ActiveRecord::Base.logger = ActiveSupport::Logger.new(STDOUT)
-  #config.force_ssl = true 
+  #config.action_mailer.logger.level = :warn   #debug produces massive log if an image is in the mail message
+  #debug produces massive log if an image is in the mail message
+  config.action_mailer.logger = ActiveSupport::Logger.new("log/mailer.log")
+  config.action_mailer.logger.level = ActiveSupport::Logger::Severity::INFO
 
+  #ssl controled through the apache proxy server.  This setting for rails seems not to work.
+  #config.force_ssl = true 
   # ppk added for mailcatcher
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = { :address => "localhost", :port => 1025 }
