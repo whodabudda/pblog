@@ -46,6 +46,8 @@ port        ENV.fetch("PORT") { 3000 }
 # Specifies the `environment` that Puma will run in.
 #
 environment ENV.fetch("RAILS_ENV") { "production" }
-directory "/home/whodabudda/sites/pblog"
-stdout_redirect '/home/whodabudda/pblog/log/puma_access.log', '/home/whodabudda/pblog/log/puma_error.log', true
+directory "/home/whodabudda/pblog/prod"
+
+# directories for stdout and stderr. Last param says output is appended
+stdout_redirect '/home/whodabudda/pblog/prod/log/puma_access.log', '/home/whodabudda/pblog/prod/log/puma_error.log', true
 
