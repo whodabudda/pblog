@@ -48,8 +48,13 @@ class CommentsController < ApplicationController
     respond_to do |format|
       if @comment.save
         UserMailer.with(user: @user,comment: @comment).new_comment.public_send(@delivery_method)
-        AdminMailer.with(user: @user,comment: @comment).new_comment.public_send(@delivery_method)
-        #AdminMailer.(with(user: @user,comment: @comment).notify_all_admins("Comment was Saved","New Comment Notification").deliver_later
+        @admins = Admin.select(:email).distinct
+        #        
+        # Need to loop outside of the mailer action.  Delivery methods do not support multiple emails. 
+        #        
+        @admins.each do |admin| 
+         AdminMailer.with(user: @user,comment: @comment, admin: admin).new_comment.public_send(@delivery_method)
+        end
         format.html {redirect_to welcome_home_path, notice: "Comment was successfully saved"}
         format.json { render :show, status: :created, location: @comment}
         format.js

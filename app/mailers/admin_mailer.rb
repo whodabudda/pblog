@@ -2,22 +2,17 @@ class AdminMailer < ApplicationMailer
   default from: 'noreply@whodabudda.com'
 
   def notify_all_admins(email_body, event)
-    @admins = Admin.select(:email).distinct
-    @admins.each do |admin| 
      mail(from: 'mailer@whodabudda.com',
      	 to: admin.email,
          body: email_body,
          content_type: "text/html",
          subject: event)
-     end
   end
   def new_comment
-    @admins = Admin.select(:email).distinct
     @user = params[:user]
     @comment = params[:comment]
-    @admins.each do |admin| 
-        mail(to: admin.email, subject: 'A new Comment on Whodabudda')
-    end
+    @admin = params[:admin]
+    mail(to: @admin.email, subject: 'A new Comment on Whodabudda')
   end
   def comment_reassigned
     @user = params[:user]
