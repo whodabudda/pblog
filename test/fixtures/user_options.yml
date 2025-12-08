@@ -6,6 +6,7 @@ one:
   sms: false
   notification: false
   subscription: MyText
+  browser: firefox
 
 two:
   user: two
@@ -13,3 +14,4 @@ two:
   sms: false
   notification: false
   subscription: MyText
+  browser: chrome

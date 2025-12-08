@@ -4,8 +4,8 @@
 # model remove the '{}' from the fixture names and add the columns immediately
 # below each fixture, per the syntax in the comments below
 #
-one: {}
-# column: value
-#
-two: {}
-# column: value
+one:
+  email: "paul_kneeland@sbcglobal.net"
+  created_at: "2020-03-08 15:26:23.000000000 Z"
+  updated_at: "2020-03-08 15:26:23.000000000 Z"
+  alias: boohoo

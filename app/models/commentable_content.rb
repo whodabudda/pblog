@@ -3,6 +3,7 @@ class CommentableContent < ApplicationRecord
 	mount_uploader :picture, PictureUploader
 	#has_many :comments, as: :commentable
 	has_many :comments, foreign_key: :commentable_id
+	belongs_to :created_by, class_name: "Admin"
 
   def publish_dt_cannot_be_in_the_past
     if publish_dt.present? && publish_dt_will_change! && publish_dt < Date.today - 15.minutes

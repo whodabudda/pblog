@@ -5,7 +5,7 @@
    console.log("toggle_subscription.js.erb - subscription: ", current_subscription )
 
    $('.push_test').attr("hidden" , !checkbox)
-   checkBrowserSupport.checkBrowserSupport()
+   checkBrowserSupport.checkBrowserSupport("<%=ENV['VAPID_PUBLIC'] %>")
    if(!checkbox) {
       $('.subscription_message').text('Save your options to stop receiving notifications').addClass('notifications-problem').removeClass('checked');
    }

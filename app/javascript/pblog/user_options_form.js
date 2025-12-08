@@ -116,7 +116,7 @@ function setSubscriptionValues (vapidPublic) {
   		var current_db_subscription;
   		current_db_subscription = $('#webpush-subscription').val();
   		var current_reg_subscription;
-		getRegisteredSubscription()
+		getRegisteredSubscription(current_db_subscription)
 		.then(function(subscription){
 			current_reg_subscription = subscription;
 			console.log('[setSubscriptionValues]current_db_subscription ', JSON.stringify(current_db_subscription));
@@ -130,14 +130,19 @@ function setSubscriptionValues (vapidPublic) {
 		})
 	}
 }
-function getRegisteredSubscription() {
+function getRegisteredSubscription(current_db_subscription) {
    return getRegistration("/sw_push.js","/user_options")
   .then(function(registration) {
 	if(!registration) {
 		throw new Error ("Failed to register")
 	}
  	console.log('[ getRegisteredSubscription ]  Got registration ')
-    return registration.pushManager.getSubscription()
+ 	if(!current_db_subscription) {
+		return current_reg_subscription = getNewSubscription(vapidPublic);
+	}
+	else {
+	    return registration.pushManager.getSubscription()
+ 	}
    })
   .then (function(subscription){
   	 if (!subscription){
