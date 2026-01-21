@@ -1,4 +1,5 @@
 source 'https://rubygems.org'
+gem "ffi", "< 1.17.0"   #need downgrade for github.com/ffi/ffi/issues/1103
 
 gem 'webpush'               # web notifications
 gem 'serviceworker-rails'   # for serviceworker cacheing.  Not doing this yet.
@@ -19,7 +20,7 @@ gem 'sidekiq-status'	    #separate gem to keep track of sidekiq jobs
 #devise for user login
 #
 gem "devise", ">= 4.7.1"
-gem 'mini_racer'
+gem 'mini_racer', '~> 0.19.1'
 
 #carrierwave and mini_magick for file uploads, as in image files for user profiles
 #ppk 09/09/2019 force minimagic upversion due to security issue
@@ -44,7 +45,7 @@ gem 'analytics-ruby', require: "segment"
 gem 'rails', '~> 6.0'
 # Use sqlite3 as the database for Active Record
 gem 'mysql2'
-gem 'sqlite3'
+#gem 'sqlite3'
 
 # Use Puma as the app server
 # security issue requires > 3.12.2
